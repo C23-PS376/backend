@@ -1,13 +1,14 @@
-import {PrimaryGeneratedColumn, Column, BeforeInsert} from 'typeorm';
+import {Entity, PrimaryGeneratedColumn, Column, BeforeInsert} from 'typeorm';
 import { IsEmail } from 'class-validator';
 import * as argon2 from 'argon2';
 
+@Entity('user')
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  username: string;
+  name: string;
 
   @Column()
   @IsEmail()
