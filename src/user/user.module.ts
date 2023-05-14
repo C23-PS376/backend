@@ -9,10 +9,7 @@ import { AuthGuard } from 'src/auth/auth.guard'
 import { jwtModule } from 'config/jwtModule'
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([User]),
-    jwtModule,
-  ],
+  imports: [TypeOrmModule.forFeature([User]), jwtModule],
   controllers: [UserController],
   providers: [
     UserService,

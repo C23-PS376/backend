@@ -6,10 +6,7 @@ import { UserModule } from 'src/user/user.module'
 import { jwtModule } from 'config/jwtModule'
 
 @Module({
-  imports: [
-    UserModule,
-    jwtModule,
-  ],
+  imports: [UserModule, jwtModule],
   controllers: [AuthController],
   providers: [AuthService],
 })

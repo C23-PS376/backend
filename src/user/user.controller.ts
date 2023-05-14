@@ -23,10 +23,13 @@ export class UserController {
   ) {
     if (+id !== req.user.id) throw new ForbiddenException()
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const {password , ...data} = await this.userService.update(+id, updateUserDto)
+    const { password, ...data } = await this.userService.update(
+      +id,
+      updateUserDto,
+    )
     return {
       statusCode: 200,
-      data: [ data ],
+      data: [data],
     }
   }
 
