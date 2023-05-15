@@ -1,34 +1,42 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import {
+  Controller,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Request,
+  ForbiddenException,
+  HttpCode,
+} from '@nestjs/common'
 
+import { UserService } from './user.service'
+import { UpdateUserDto } from './dto/update-user.dto'
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.userService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
-  }
-
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
+  async update(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+    @Request() req,
+  ) {
+    if (+id !== req.user.id) throw new ForbiddenException()
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password, ...data } = await this.userService.update(
+      +id,
+      updateUserDto,
+    )
+    return {
+      statusCode: 200,
+      data: [data],
+    }
   }
 
+  @HttpCode(204)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
+  async remove(@Param('id') id: string, @Request() req) {
+    if (+id !== req.user.id) throw new ForbiddenException()
+    await this.userService.remove(+id)
   }
 }
