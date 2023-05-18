@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common'
+import { Module, UseGuards } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { APP_GUARD } from '@nestjs/core'
 
@@ -8,6 +8,7 @@ import { User } from './entities/user.entity'
 import { AuthGuard } from 'src/auth/auth.guard'
 import { jwtModule } from 'config/jwtModule'
 
+@UseGuards(AuthGuard)
 @Module({
   imports: [TypeOrmModule.forFeature([User]), jwtModule],
   controllers: [UserController],
