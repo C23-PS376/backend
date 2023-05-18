@@ -11,7 +11,7 @@ steps:
   args:
   - 'run'
   - 'deploy'
-  - 'speak_sure'
+  - 'speak-sure'
   - '--image'
   - 'gcr.io/$PROJECT_ID/speak_sure:$COMMIT_SHA'
   - '--region'
