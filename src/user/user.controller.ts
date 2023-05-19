@@ -21,7 +21,7 @@ export class UserController {
     @Body() updateUserDto: UpdateUserDto,
     @Request() req,
   ) {
-    if (+id !== req.user.id) throw new ForbiddenException()
+    if (+id !== req?.user?.id) throw new ForbiddenException()
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, ...data } = await this.userService.update(
       +id,
@@ -36,7 +36,7 @@ export class UserController {
   @HttpCode(204)
   @Delete(':id')
   async remove(@Param('id') id: string, @Request() req) {
-    if (+id !== req.user.id) throw new ForbiddenException()
+    if (+id !== req?.user?.id) throw new ForbiddenException()
     await this.userService.remove(+id)
   }
 }

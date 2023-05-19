@@ -32,16 +32,18 @@ let UserController = class UserController {
         this.userService = userService;
     }
     async update(id, updateUserDto, req) {
-        if (+id !== req.user.id)
+        var _a;
+        if (+id !== ((_a = req === null || req === void 0 ? void 0 : req.user) === null || _a === void 0 ? void 0 : _a.id))
             throw new common_1.ForbiddenException();
-        const _a = await this.userService.update(+id, updateUserDto), { password } = _a, data = __rest(_a, ["password"]);
+        const _b = await this.userService.update(+id, updateUserDto), { password } = _b, data = __rest(_b, ["password"]);
         return {
             statusCode: 200,
             data: [data],
         };
     }
     async remove(id, req) {
-        if (+id !== req.user.id)
+        var _a;
+        if (+id !== ((_a = req === null || req === void 0 ? void 0 : req.user) === null || _a === void 0 ? void 0 : _a.id))
             throw new common_1.ForbiddenException();
         await this.userService.remove(+id);
     }

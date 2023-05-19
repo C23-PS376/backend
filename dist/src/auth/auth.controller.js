@@ -37,7 +37,8 @@ let AuthController = class AuthController {
         };
     }
     getProfile(req) {
-        return req.user.id;
+        var _a;
+        return (_a = req === null || req === void 0 ? void 0 : req.user) === null || _a === void 0 ? void 0 : _a.id;
     }
 };
 __decorate([
