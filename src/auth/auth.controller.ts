@@ -40,10 +40,4 @@ export class AuthController {
       data: [accessToken],
     }
   }
-
-  @UseGuards(AuthGuard)
-  @Get('login')
-  getProfile(@Request() req) {
-    return req?.user?.id
-  }
 }
