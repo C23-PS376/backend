@@ -11,22 +11,39 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ThreadService = void 0;
 const common_1 = require("@nestjs/common");
 const thread_entity_1 = require("./entities/thread.entity");
 const typeorm_1 = require("typeorm");
 const typeorm_2 = require("@nestjs/typeorm");
-const fs = require("fs");
-const config_1 = require("@nestjs/config");
+const storage_service_1 = require("../storage/storage.service");
 let ThreadService = class ThreadService {
-    constructor(threadRepository, configService) {
+    constructor(threadRepository, storageService) {
         this.threadRepository = threadRepository;
-        this.configService = configService;
+        this.storageService = storageService;
     }
     async create(createUserDto, userId) {
         const thread = new thread_entity_1.Thread();
-        Object.assign(thread, Object.assign({ user: userId }, createUserDto));
+        const { audio, image } = createUserDto, createdData = __rest(createUserDto, ["audio", "image"]);
+        const newImagePath = image
+            ? await this.storageService.save('threads/image-', image)
+            : undefined;
+        const newAudioPath = audio
+            ? await this.storageService.save('threads/audio-', audio)
+            : undefined;
+        Object.assign(thread, Object.assign({ user: userId, image: newImagePath, audio: newAudioPath }, createdData));
         return await this.threadRepository.save(thread);
     }
     async findAll() {
@@ -34,7 +51,6 @@ let ThreadService = class ThreadService {
     }
     async findOneById(id) {
         const thread = await this.threadRepository.findOneBy({ id });
-        console.log(thread);
         if (!thread)
             throw new common_1.HttpException("Thread didn't exists", 400);
         return thread;
@@ -50,9 +66,20 @@ let ThreadService = class ThreadService {
             throw new common_1.HttpException("Thread didn't exists", 400);
         if (existingThread.user.id !== userId)
             throw new common_1.ForbiddenException();
-        Object.assign(existingThread, Object.assign({ user: userId }, updateThreadDto));
-        this.removeFileIfExists(`${this.configService.get('STORAGE')}/${existingThread.audio}`);
-        this.removeFileIfExists(`${this.configService.get('STORAGE')}/${existingThread.image}`);
+        const { audio, image } = updateThreadDto, updatedData = __rest(updateThreadDto, ["audio", "image"]);
+        const oldImagePath = this.storageService.getFilenameFromPath(existingThread.image);
+        const oldAudioPath = this.storageService.getFilenameFromPath(existingThread.audio);
+        const newImagePath = image
+            ? await this.storageService.save('threads/image-', image)
+            : undefined;
+        const newAudioPath = audio
+            ? await this.storageService.save('threads/audio-', audio)
+            : undefined;
+        Object.assign(existingThread, Object.assign({ user: userId, image: newImagePath, audio: newAudioPath }, updatedData));
+        if (image)
+            this.storageService.removeFileIfExists(oldImagePath);
+        if (audio)
+            this.storageService.removeFileIfExists(oldAudioPath);
         return await this.threadRepository.save(existingThread);
     }
     async remove(id, userId) {
@@ -66,27 +93,18 @@ let ThreadService = class ThreadService {
             throw new common_1.HttpException("Thread didn't exists", 400);
         if (existingThread.user.id !== userId)
             throw new common_1.ForbiddenException();
-        this.removeFileIfExists(`${this.configService.get('STORAGE')}/${existingThread.audio}`);
-        this.removeFileIfExists(`${this.configService.get('STORAGE')}/${existingThread.image}`);
+        const oldImagePath = this.storageService.getFilenameFromPath(existingThread.image);
+        const oldAudioPath = this.storageService.getFilenameFromPath(existingThread.audio);
+        this.storageService.removeFileIfExists(oldImagePath);
+        this.storageService.removeFileIfExists(oldAudioPath);
         return this.threadRepository.delete({ id });
-    }
-    removeFileIfExists(path) {
-        return new Promise((resolve, reject) => {
-            if (fs.existsSync(path)) {
-                fs.unlink(path, (err) => {
-                    if (err)
-                        reject(err);
-                    resolve(path);
-                });
-            }
-        });
     }
 };
 ThreadService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_2.InjectRepository)(thread_entity_1.Thread)),
     __metadata("design:paramtypes", [typeorm_1.Repository,
-        config_1.ConfigService])
+        storage_service_1.StorageService])
 ], ThreadService);
 exports.ThreadService = ThreadService;
 //# sourceMappingURL=thread.service.js.map

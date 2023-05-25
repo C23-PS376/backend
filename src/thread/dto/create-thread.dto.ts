@@ -10,6 +10,6 @@ export class CreateThreadDto {
   @IsNotEmpty()
   readonly topic: string
 
-  readonly image: string
-  readonly audio: string
+  readonly image: Express.Multer.File
+  readonly audio: Express.Multer.File
 }

@@ -35,8 +35,8 @@ let ThreadController = class ThreadController {
         this.threadService = threadService;
     }
     async create(req, createThreadDto, files) {
-        var _a, _b, _c, _d, _e;
-        const thread = await this.threadService.create(Object.assign(Object.assign({}, createThreadDto), { image: (_b = (_a = files === null || files === void 0 ? void 0 : files.image) === null || _a === void 0 ? void 0 : _a[0]) === null || _b === void 0 ? void 0 : _b.filename, audio: (_d = (_c = files === null || files === void 0 ? void 0 : files.audio) === null || _c === void 0 ? void 0 : _c[0]) === null || _d === void 0 ? void 0 : _d.filename }), (_e = req === null || req === void 0 ? void 0 : req.user) === null || _e === void 0 ? void 0 : _e.id);
+        var _a, _b, _c;
+        const thread = await this.threadService.create(Object.assign(Object.assign({}, createThreadDto), { image: (_a = files === null || files === void 0 ? void 0 : files.image) === null || _a === void 0 ? void 0 : _a[0], audio: (_b = files === null || files === void 0 ? void 0 : files.audio) === null || _b === void 0 ? void 0 : _b[0] }), (_c = req === null || req === void 0 ? void 0 : req.user) === null || _c === void 0 ? void 0 : _c.id);
         const { id, title, description, topic, image, audio } = thread;
         return {
             statusCode: 201,
@@ -56,8 +56,8 @@ let ThreadController = class ThreadController {
         };
     }
     async update(id, updateThreadDto, req, files) {
-        var _a, _b, _c, _d, _e;
-        const _f = await this.threadService.update(+id, Object.assign(Object.assign({}, updateThreadDto), { image: (_b = (_a = files === null || files === void 0 ? void 0 : files.image) === null || _a === void 0 ? void 0 : _a[0]) === null || _b === void 0 ? void 0 : _b.filename, audio: (_d = (_c = files === null || files === void 0 ? void 0 : files.audio) === null || _c === void 0 ? void 0 : _c[0]) === null || _d === void 0 ? void 0 : _d.filename }), (_e = req === null || req === void 0 ? void 0 : req.user) === null || _e === void 0 ? void 0 : _e.id), { user, comments_count, likes_count, created_at } = _f, data = __rest(_f, ["user", "comments_count", "likes_count", "created_at"]);
+        var _a, _b, _c;
+        const _d = await this.threadService.update(+id, Object.assign(Object.assign({}, updateThreadDto), { image: (_a = files === null || files === void 0 ? void 0 : files.image) === null || _a === void 0 ? void 0 : _a[0], audio: (_b = files === null || files === void 0 ? void 0 : files.audio) === null || _b === void 0 ? void 0 : _b[0] }), (_c = req === null || req === void 0 ? void 0 : req.user) === null || _c === void 0 ? void 0 : _c.id), { user, comments_count, likes_count, created_at } = _d, data = __rest(_d, ["user", "comments_count", "likes_count", "created_at"]);
         return {
             statusCode: 200,
             data,

@@ -8,6 +8,7 @@ import { UserModule } from './user/user.module'
 import { User } from './user/entities/user.entity'
 import { AuthModule } from './auth/auth.module'
 import { ThreadModule } from './thread/thread.module'
+import { StorageModule } from './storage/storage.module'
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { ThreadModule } from './thread/thread.module'
     UserModule,
     AuthModule,
     ThreadModule,
+    StorageModule,
   ],
   controllers: [AppController],
   providers: [AppService],
