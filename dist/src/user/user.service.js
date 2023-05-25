@@ -62,6 +62,21 @@ let UserService = class UserService {
     findOneByEmail(email) {
         return this.userRepository.findOneBy({ email });
     }
+    async getUserProfile(id) {
+        const existingUser = await this.findOneById(id);
+        if (!existingUser) {
+            throw new common_1.HttpException("User doesn't exist", 400);
+        }
+        return existingUser;
+    }
+    async updateUserProfile(id, data) {
+        const user = await this.findOneById(id);
+        if (!user) {
+            throw new common_1.HttpException("User doesn't exist", 400);
+        }
+        Object.assign(user, data);
+        return await this.userRepository.save(user);
+    }
 };
 UserService = __decorate([
     (0, common_1.Injectable)(),

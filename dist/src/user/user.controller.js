@@ -42,6 +42,9 @@ let UserController = class UserController {
             data: [data],
         };
     }
+    async getUserProfile(id) {
+        return this.userService.getUserProfile(id);
+    }
     async remove(id, req) {
         var _a;
         if (+id !== ((_a = req === null || req === void 0 ? void 0 : req.user) === null || _a === void 0 ? void 0 : _a.id))
@@ -58,6 +61,13 @@ __decorate([
     __metadata("design:paramtypes", [String, update_user_dto_1.UpdateUserDto, Object]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "update", null);
+__decorate([
+    (0, common_1.Get)('profile/:id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "getUserProfile", null);
 __decorate([
     (0, common_1.HttpCode)(204),
     (0, common_1.Delete)(':id'),

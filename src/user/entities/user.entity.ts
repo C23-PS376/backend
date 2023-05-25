@@ -22,6 +22,28 @@ export class User {
 
   @Column()
   password: string
+  
+  @Column({ nullable: true })
+  profile_picture: string
+
+  @Column({ nullable: true })
+  profile_audio: string
+  
+  @Column({ nullable: true })
+  status: string
+  
+  @Column({ default: 0 })
+  thread_count: number
+  
+  @Column({ default: 0 })
+  comment_count: number 
+  
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  created_at: Date
+  
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' }) 
+  updated_at: Date
+
 
   @BeforeInsert()
   @BeforeUpdate()

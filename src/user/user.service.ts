@@ -59,4 +59,22 @@ export class UserService {
   findOneByEmail(email: string): Promise<User | null> {
     return this.userRepository.findOneBy({ email })
   }
+
+  async getUserProfile(id: number): Promise<User> {
+    const existingUser = await this.findOneById(id);
+    if (!existingUser) {
+      throw new HttpException("User doesn't exist", 400);
+    }
+    return existingUser;
+  }
+
+  async updateUserProfile(id: number, data: Partial<User>): Promise<User> {
+    const user = await this.findOneById(id);
+    if (!user) {
+      throw new HttpException("User doesn't exist", 400);
+    }
+    Object.assign(user, data);
+    return await this.userRepository.save(user);
+  }
+  
 }

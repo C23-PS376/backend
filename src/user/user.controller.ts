@@ -1,5 +1,6 @@
 import {
   Controller,
+  Get,
   Body,
   Patch,
   Param,
@@ -13,6 +14,7 @@ import {
 import { UserService } from './user.service'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { AuthGuard } from 'src/auth/auth.guard'
+import { User } from './entities/user.entity';
 @UseGuards(AuthGuard)
 @Controller('user')
 export class UserController {
@@ -34,6 +36,11 @@ export class UserController {
       statusCode: 200,
       data: [data],
     }
+  }
+
+  @Get('profile/:id')
+  async getUserProfile(@Param('id') id:number): Promise<User>{
+    return this.userService.getUserProfile(id);
   }
 
   @HttpCode(204)
