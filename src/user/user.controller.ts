@@ -7,7 +7,7 @@ import {
   Request,
   ForbiddenException,
   HttpCode,
-  UseGuards
+  UseGuards,
 } from '@nestjs/common'
 
 import { UserService } from './user.service'

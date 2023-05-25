@@ -16,5 +16,4 @@ export declare class AuthController {
             access_token: string;
         }[];
     }>;
-    getProfile(req: any): any;
 }
