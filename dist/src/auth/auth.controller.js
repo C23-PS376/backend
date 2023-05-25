@@ -22,17 +22,17 @@ let AuthController = class AuthController {
         this.authService = authService;
     }
     async validate(loginAuthDto) {
-        const accessToken = await this.authService.signIn(loginAuthDto);
+        const data = await this.authService.signIn(loginAuthDto);
         return {
             statusCode: 200,
-            data: [accessToken],
+            data: [data],
         };
     }
     async create(registerAuthDto) {
-        const accessToken = await this.authService.register(registerAuthDto);
+        const data = await this.authService.register(registerAuthDto);
         return {
             statusCode: 201,
-            data: [accessToken],
+            data: [data],
         };
     }
 };

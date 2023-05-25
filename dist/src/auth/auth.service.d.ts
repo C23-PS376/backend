@@ -7,9 +7,11 @@ export declare class AuthService {
     private jwtService;
     constructor(usersService: UserService, jwtService: JwtService);
     signIn(loginAuthDto: LoginAuthDto): Promise<{
+        id: number;
         access_token: string;
     }>;
     register(registerAuthDto: RegisterAuthDto): Promise<{
+        id: number;
         access_token: string;
     }>;
 }
