@@ -15,10 +15,7 @@ export class Thread {
   @PrimaryGeneratedColumn()
   id: number
 
-  @ManyToOne(() => User, (user) => user.id, {
-    nullable: false,
-    onDelete: 'CASCADE',
-  })
+  @ManyToOne(() => User, (user) => user.id)
   user: User
 
   @Column({ nullable: false })

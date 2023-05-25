@@ -12,17 +12,16 @@ import {
   ValidationPipe,
   Request,
   UseGuards,
+  HttpCode,
 } from '@nestjs/common'
 import { FileFieldsInterceptor } from '@nestjs/platform-express'
-import { fileFilter } from './thread.decorator'
-import { diskStorage } from 'multer'
 
 import { AuthGuard } from 'src/auth/auth.guard'
 import { ThreadService } from './thread.service'
 import { CreateThreadDto } from './dto/create-thread.dto'
 import { UpdateThreadDto } from './dto/update-thread.dto'
 
-@Controller('thread')
+@Controller('threads')
 export class ThreadController {
   constructor(private readonly threadService: ThreadService) {}
 
@@ -30,19 +29,7 @@ export class ThreadController {
   @UsePipes(new ValidationPipe())
   @UseGuards(AuthGuard)
   @UseInterceptors(
-    FileFieldsInterceptor([{ name: 'image' }, { name: 'audio' }], {
-      fileFilter: fileFilter,
-      storage: diskStorage({
-        destination: './uploads',
-        filename: (req, file, callback) => {
-          const randomName = Array(32)
-            .fill(null)
-            .map(() => Math.round(Math.random() * 16).toString(16))
-            .join('')
-          callback(null, `${randomName}.${file.mimetype.split('/')[1]}`)
-        },
-      }),
-    }),
+    FileFieldsInterceptor([{ name: 'image' }, { name: 'audio' }]),
   )
   async create(
     @Request() req,
@@ -50,11 +37,14 @@ export class ThreadController {
     @UploadedFiles()
     files: { image?: Express.Multer.File[]; audio?: Express.Multer.File[] },
   ) {
-    const thread = await this.threadService.create({
-      ...createThreadDto,
-      image: files.image?.[0]?.filename,
-      audio: files.audio?.[0]?.filename,
-    }, req?.user?.id)
+    const thread = await this.threadService.create(
+      {
+        ...createThreadDto,
+        image: files?.image?.[0]?.filename,
+        audio: files?.audio?.[0]?.filename,
+      },
+      req?.user?.id,
+    )
     const { id, title, description, topic, image, audio } = thread
     return {
       statusCode: 201,
@@ -63,22 +53,56 @@ export class ThreadController {
   }
 
   @Get()
-  findAll() {
-    return this.threadService.findAll()
+  async findAll() {
+    return {
+      statusCode: 200,
+      data: await this.threadService.findAll(),
+    }
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.threadService.findOne(+id)
+  async findOne(@Param('id') id: string) {
+    return {
+      statusCode: 200,
+      data: await this.threadService.findOneById(+id),
+    }
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateThreadDto: UpdateThreadDto) {
-    return this.threadService.update(+id, updateThreadDto)
+  @UsePipes(new ValidationPipe())
+  @UseGuards(AuthGuard)
+  @UseInterceptors(
+    FileFieldsInterceptor([{ name: 'image' }, { name: 'audio' }]),
+  )
+  async update(
+    @Param('id') id: string,
+    @Body() updateThreadDto: UpdateThreadDto,
+    @Request() req,
+    @UploadedFiles()
+    files: { image?: Express.Multer.File[]; audio?: Express.Multer.File[] },
+  ) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { user, comments_count, likes_count, created_at, ...data } =
+      await this.threadService.update(
+        +id,
+        {
+          ...updateThreadDto,
+          image: files?.image?.[0]?.filename,
+          audio: files?.audio?.[0]?.filename,
+        },
+        req?.user?.id,
+      )
+
+    return {
+      statusCode: 200,
+      data,
+    }
   }
 
+  @HttpCode(204)
+  @UseGuards(AuthGuard)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.threadService.remove(+id)
+  async remove(@Param('id') id: string, @Request() req) {
+    await this.threadService.remove(+id, req?.user?.id)
   }
 }
