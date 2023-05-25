@@ -13,14 +13,15 @@ const thread_controller_1 = require("./thread.controller");
 const jwtModule_1 = require("../../config/jwtModule");
 const thread_entity_1 = require("./entities/thread.entity");
 const typeorm_1 = require("@nestjs/typeorm");
-const diskStorage_1 = require("../../config/diskStorage");
+const multer_config_1 = require("../../config/multer.config");
+const storage_service_1 = require("../storage/storage.service");
 let ThreadModule = class ThreadModule {
 };
 ThreadModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([thread_entity_1.Thread]), jwtModule_1.jwtModule, diskStorage_1.threadMulterModule],
+        imports: [typeorm_1.TypeOrmModule.forFeature([thread_entity_1.Thread]), jwtModule_1.jwtModule, multer_config_1.multerModule],
         controllers: [thread_controller_1.ThreadController],
-        providers: [thread_service_1.ThreadService],
+        providers: [thread_service_1.ThreadService, storage_service_1.StorageService],
     })
 ], ThreadModule);
 exports.ThreadModule = ThreadModule;

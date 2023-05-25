@@ -4,15 +4,14 @@ import { UpdateThreadDto } from './dto/update-thread.dto'
 import { Thread } from './entities/thread.entity'
 import { Repository } from 'typeorm'
 import { InjectRepository } from '@nestjs/typeorm'
-import * as fs from 'fs'
-import { ConfigService } from '@nestjs/config'
+import { StorageService } from 'src/storage/storage.service'
 
 @Injectable()
 export class ThreadService {
   constructor(
     @InjectRepository(Thread)
     private readonly threadRepository: Repository<Thread>,
-    private readonly configService: ConfigService,
+    private readonly storageService: StorageService,
   ) {}
 
   async create(
@@ -20,7 +19,21 @@ export class ThreadService {
     userId: string,
   ): Promise<Thread> {
     const thread = new Thread()
-    Object.assign(thread, { user: userId, ...createUserDto })
+    const { audio, image, ...createdData } = createUserDto
+
+    const newImagePath = image
+      ? await this.storageService.save('threads/image-', image)
+      : undefined
+    const newAudioPath = audio
+      ? await this.storageService.save('threads/audio-', audio)
+      : undefined
+
+    Object.assign(thread, {
+      user: userId,
+      image: newImagePath,
+      audio: newAudioPath,
+      ...createdData,
+    })
     return await this.threadRepository.save(thread)
   }
 
@@ -30,7 +43,6 @@ export class ThreadService {
 
   async findOneById(id: number): Promise<Thread> {
     const thread = await this.threadRepository.findOneBy({ id })
-    console.log(thread)
     if (!thread) throw new HttpException("Thread didn't exists", 400)
     return thread
   }
@@ -49,14 +61,31 @@ export class ThreadService {
     if (!existingThread) throw new HttpException("Thread didn't exists", 400)
     if (existingThread.user.id !== userId) throw new ForbiddenException()
 
-    Object.assign(existingThread, { user: userId, ...updateThreadDto })
+    const { audio, image, ...updatedData } = updateThreadDto
+    const oldImagePath = this.storageService.getFilenameFromPath(
+      existingThread.image,
+    )
+    const oldAudioPath = this.storageService.getFilenameFromPath(
+      existingThread.audio,
+    )
 
-    this.removeFileIfExists(
-      `${this.configService.get<string>('STORAGE')}/${existingThread.audio}`,
-    )
-    this.removeFileIfExists(
-      `${this.configService.get<string>('STORAGE')}/${existingThread.image}`,
-    )
+    const newImagePath = image
+      ? await this.storageService.save('threads/image-', image)
+      : undefined
+    const newAudioPath = audio
+      ? await this.storageService.save('threads/audio-', audio)
+      : undefined
+
+    Object.assign(existingThread, {
+      user: userId,
+      image: newImagePath,
+      audio: newAudioPath,
+      ...updatedData,
+    })
+
+    if (image) this.storageService.removeFileIfExists(oldImagePath)
+    if (audio) this.storageService.removeFileIfExists(oldAudioPath)
+
     return await this.threadRepository.save(existingThread)
   }
 
@@ -70,24 +99,16 @@ export class ThreadService {
     if (!existingThread) throw new HttpException("Thread didn't exists", 400)
     if (existingThread.user.id !== userId) throw new ForbiddenException()
 
-    this.removeFileIfExists(
-      `${this.configService.get<string>('STORAGE')}/${existingThread.audio}`,
+    const oldImagePath = this.storageService.getFilenameFromPath(
+      existingThread.image,
     )
-    this.removeFileIfExists(
-      `${this.configService.get<string>('STORAGE')}/${existingThread.image}`,
+    const oldAudioPath = this.storageService.getFilenameFromPath(
+      existingThread.audio,
     )
+
+    this.storageService.removeFileIfExists(oldImagePath)
+    this.storageService.removeFileIfExists(oldAudioPath)
 
     return this.threadRepository.delete({ id })
-  }
-
-  removeFileIfExists(path: string) {
-    return new Promise((resolve, reject) => {
-      if (fs.existsSync(path)) {
-        fs.unlink(path, (err) => {
-          if (err) reject(err)
-          resolve(path)
-        })
-      }
-    })
   }
 }

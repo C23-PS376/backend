@@ -40,8 +40,8 @@ export class ThreadController {
     const thread = await this.threadService.create(
       {
         ...createThreadDto,
-        image: files?.image?.[0]?.filename,
-        audio: files?.audio?.[0]?.filename,
+        image: files?.image?.[0],
+        audio: files?.audio?.[0],
       },
       req?.user?.id,
     )
@@ -87,8 +87,8 @@ export class ThreadController {
         +id,
         {
           ...updateThreadDto,
-          image: files?.image?.[0]?.filename,
-          audio: files?.audio?.[0]?.filename,
+          image: files?.image?.[0],
+          audio: files?.audio?.[0],
         },
         req?.user?.id,
       )
