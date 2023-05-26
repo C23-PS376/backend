@@ -383,7 +383,7 @@
 
 #### Response
 ##### Successful response
-> Successfully delete the user  (204)
+> Successfully delete the thread  (204)
 ##### Failed response
 
 > Id from the token does not match with the creator of thread  (403)
