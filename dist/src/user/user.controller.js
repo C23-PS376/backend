@@ -42,8 +42,8 @@ let UserController = class UserController {
             data: [data],
         };
     }
-    async getUserProfile(id) {
-        return this.userService.getUserProfile(id);
+    async getProfile(email) {
+        return this.userService.getUserByEmail(email);
     }
     async remove(id, req) {
         var _a;
@@ -62,12 +62,12 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "update", null);
 __decorate([
-    (0, common_1.Get)('profile/:id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Get)(':email'),
+    __param(0, (0, common_1.Param)('email')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
-], UserController.prototype, "getUserProfile", null);
+], UserController.prototype, "getProfile", null);
 __decorate([
     (0, common_1.HttpCode)(204),
     (0, common_1.Delete)(':id'),

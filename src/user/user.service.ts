@@ -68,6 +68,14 @@ export class UserService {
     return existingUser;
   }
 
+  async getUserByEmail(email: string): Promise<User> {
+    const existingUser = await this.findOneByEmail(email);
+    if (!existingUser) {
+      throw new HttpException("User doesn't exist", 400);
+    }
+    return existingUser;
+  }
+
   async updateUserProfile(id: number, data: Partial<User>): Promise<User> {
     const user = await this.findOneById(id);
     if (!user) {

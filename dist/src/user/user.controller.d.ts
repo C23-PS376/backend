@@ -13,12 +13,12 @@ export declare class UserController {
             profile_picture: string;
             profile_audio: string;
             status: string;
-            thread_count: number;
-            comment_count: number;
-            created_at: Date;
-            updated_at: Date;
+            thread_count: string;
+            comment_count: string;
+            created_at: string;
+            updated_at: string;
         }[];
     }>;
-    getUserProfile(id: number): Promise<User>;
+    getProfile(email: string): Promise<User>;
     remove(id: string, req: any): Promise<void>;
 }

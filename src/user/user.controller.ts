@@ -38,11 +38,11 @@ export class UserController {
     }
   }
 
-  @Get('profile/:id')
-  async getUserProfile(@Param('id') id:number): Promise<User>{
-    return this.userService.getUserProfile(id);
+  @Get(':email')
+  async getProfile(@Param('email') email: string): Promise<User> {
+    return this.userService.getUserByEmail(email);
   }
-
+    
   @HttpCode(204)
   @Delete(':id')
   async remove(@Param('id') id: string, @Request() req) {

@@ -69,6 +69,13 @@ let UserService = class UserService {
         }
         return existingUser;
     }
+    async getUserByEmail(email) {
+        const existingUser = await this.findOneByEmail(email);
+        if (!existingUser) {
+            throw new common_1.HttpException("User doesn't exist", 400);
+        }
+        return existingUser;
+    }
     async updateUserProfile(id, data) {
         const user = await this.findOneById(id);
         if (!user) {
