@@ -6,8 +6,8 @@ import { Repository } from 'typeorm'
 import { InjectRepository } from '@nestjs/typeorm'
 import { StorageService } from 'src/storage/storage.service'
 import getAudioDurationInSeconds from 'get-audio-duration'
-import * as fs from "fs"
-import * as tmp from "tmp"
+import * as fs from 'fs'
+import * as tmp from 'tmp'
 
 @Injectable()
 export class ThreadService {
@@ -85,7 +85,7 @@ export class ThreadService {
     const newAudioLength = audio
       ? await this.getAudioDuration(audio.buffer)
       : undefined
-    
+
     Object.assign(existingThread, {
       user: userId,
       image: newImagePath,
@@ -123,18 +123,18 @@ export class ThreadService {
     return this.threadRepository.delete({ id })
   }
 
-  getAudioDuration(audioBuffer: Buffer){
-    return new Promise ((resolve, reject) => {
+  getAudioDuration(audioBuffer: Buffer) {
+    return new Promise((resolve, reject) => {
       tmp.file(function (err, path, fd, cleanup) {
-        if (err) throw err;
+        if (err) throw err
         fs.appendFile(path, audioBuffer, function (err) {
           if (err) reject(err)
           getAudioDurationInSeconds(path).then((duration) => {
             cleanup()
             resolve(duration)
           })
-        });
-      });
-    } )
+        })
+      })
+    })
   }
 }

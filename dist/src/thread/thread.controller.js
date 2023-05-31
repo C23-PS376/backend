@@ -36,7 +36,7 @@ let ThreadController = class ThreadController {
                 image: data.image,
                 audio: data.audio,
                 audio_length: Number(data.audio_length),
-                created_at: data.created_at
+                created_at: data.created_at,
             },
         };
     }
@@ -65,8 +65,8 @@ let ThreadController = class ThreadController {
                 image: data.image,
                 audio: data.audio,
                 audio_length: data.audio ? Number(data.audio_length) : undefined,
-                created_at: data.created_at
-            }
+                created_at: data.created_at,
+            },
         };
     }
     async remove(id, req) {

@@ -1,6 +1,16 @@
-import { Controller, Post, Param, Delete, UsePipes, ValidationPipe, UseGuards, Request, HttpCode } from '@nestjs/common';
-import { LikeThreadsService } from './thread-like.service';
-import { AuthGuard } from 'src/auth/auth.guard';
+import {
+  Controller,
+  Post,
+  Param,
+  Delete,
+  UsePipes,
+  ValidationPipe,
+  UseGuards,
+  Request,
+  HttpCode,
+} from '@nestjs/common'
+import { LikeThreadsService } from './thread-like.service'
+import { AuthGuard } from 'src/auth/auth.guard'
 
 @UseGuards(AuthGuard)
 @Controller('threads/:id/likes')
@@ -13,7 +23,8 @@ export class LikeThreadsController {
     return {
       statusCode: 201,
       data: {
-        thread_id: (await this.likeThreadsService.create(+id, req?.user?.id)).thread
+        thread_id: (await this.likeThreadsService.create(+id, req?.user?.id))
+          .thread,
       },
     }
   }

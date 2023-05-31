@@ -1,4 +1,4 @@
-import { Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
+import { Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 
 import { User } from '../../user/entities/user.entity'
 import { Thread } from 'src/thread/entities/thread.entity'

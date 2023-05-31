@@ -55,7 +55,7 @@ export class ThreadController {
         image: data.image,
         audio: data.audio,
         audio_length: Number(data.audio_length),
-        created_at: data.created_at
+        created_at: data.created_at,
       },
     }
   }
@@ -90,16 +90,15 @@ export class ThreadController {
     files: { image?: Express.Multer.File[]; audio?: Express.Multer.File[] },
   ) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const data =
-      await this.threadService.update(
-        +id,
-        {
-          ...updateThreadDto,
-          image: files?.image?.[0],
-          audio: files?.audio?.[0],
-        },
-        req?.user?.id,
-      )
+    const data = await this.threadService.update(
+      +id,
+      {
+        ...updateThreadDto,
+        image: files?.image?.[0],
+        audio: files?.audio?.[0],
+      },
+      req?.user?.id,
+    )
 
     return {
       statusCode: 200,
@@ -111,8 +110,8 @@ export class ThreadController {
         image: data.image,
         audio: data.audio,
         audio_length: data.audio ? Number(data.audio_length) : undefined,
-        created_at: data.created_at
-      }
+        created_at: data.created_at,
+      },
     }
   }
 

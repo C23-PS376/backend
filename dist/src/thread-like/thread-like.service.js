@@ -24,20 +24,29 @@ let LikeThreadsService = class LikeThreadsService {
         this.threadRepository = threadRepository;
     }
     async create(threadId, userId) {
-        if (!await this.threadRepository.findOneBy({ id: +threadId }))
+        if (!(await this.threadRepository.findOneBy({ id: +threadId })))
             throw new common_1.HttpException("Thread didn't exists", 400);
-        if (await this.likeThreadsRepository.findOneBy({ thread: { id: threadId }, user: { id: userId } }))
-            throw new common_1.HttpException("Already liked", 400);
+        if (await this.likeThreadsRepository.findOneBy({
+            thread: { id: threadId },
+            user: { id: userId },
+        }))
+            throw new common_1.HttpException('Already liked', 400);
         const likeThread = new thread_like_entity_1.LikeThread();
         Object.assign(likeThread, { user: userId, thread: +threadId });
         return await this.likeThreadsRepository.save(likeThread);
     }
     async remove(threadId, userId) {
-        if (!await this.threadRepository.findOneBy({ id: +threadId }))
+        if (!(await this.threadRepository.findOneBy({ id: +threadId })))
             throw new common_1.HttpException("Thread didn't exists", 400);
-        if (!await this.likeThreadsRepository.findOneBy({ thread: { id: threadId }, user: { id: userId } }))
-            throw new common_1.HttpException("Not liked yet", 400);
-        return await this.likeThreadsRepository.delete({ thread: { id: threadId }, user: { id: userId } });
+        if (!(await this.likeThreadsRepository.findOneBy({
+            thread: { id: threadId },
+            user: { id: userId },
+        })))
+            throw new common_1.HttpException('Not liked yet', 400);
+        return await this.likeThreadsRepository.delete({
+            thread: { id: threadId },
+            user: { id: userId },
+        });
     }
 };
 LikeThreadsService = __decorate([

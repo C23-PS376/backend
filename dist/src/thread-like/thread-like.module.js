@@ -19,10 +19,12 @@ let LikeThreadsModule = class LikeThreadsModule {
 LikeThreadsModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            typeorm_1.TypeOrmModule.forFeature([thread_like_entity_1.LikeThread]), jwtModule_1.jwtModule, typeorm_1.TypeOrmModule.forFeature([thread_entity_1.Thread])
+            typeorm_1.TypeOrmModule.forFeature([thread_like_entity_1.LikeThread]),
+            jwtModule_1.jwtModule,
+            typeorm_1.TypeOrmModule.forFeature([thread_entity_1.Thread]),
         ],
         controllers: [thread_like_controller_1.LikeThreadsController],
-        providers: [thread_like_service_1.LikeThreadsService]
+        providers: [thread_like_service_1.LikeThreadsService],
     })
 ], LikeThreadsModule);
 exports.LikeThreadsModule = LikeThreadsModule;

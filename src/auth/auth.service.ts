@@ -22,7 +22,10 @@ export class AuthService {
     if (!user) throw new UnauthorizedException()
 
     const payload = { id: user.id }
-    return { id: user.id, access_token: await this.jwtService.signAsync(payload) }
+    return {
+      id: user.id,
+      access_token: await this.jwtService.signAsync(payload),
+    }
   }
 
   async register(registerAuthDto: RegisterAuthDto) {
@@ -30,6 +33,9 @@ export class AuthService {
     if (!user) throw new HttpException('User gagal ditambahkan', 500)
 
     const payload = { id: user.id }
-    return { id: user.id, access_token: await this.jwtService.signAsync(payload) }
+    return {
+      id: user.id,
+      access_token: await this.jwtService.signAsync(payload),
+    }
   }
 }
