@@ -9,6 +9,7 @@ import { User } from './user/entities/user.entity'
 import { AuthModule } from './auth/auth.module'
 import { ThreadModule } from './thread/thread.module'
 import { StorageModule } from './storage/storage.module'
+import { LikeThreadsModule } from './thread-like/thread-like.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { StorageModule } from './storage/storage.module'
     AuthModule,
     ThreadModule,
     StorageModule,
+    LikeThreadsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -407,6 +407,90 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 
 </details>
 
+<details>
+<summary>POST /threads/{thread_id}/likes</summary>
+
+### POST /threads/{thread_id}/likes
+
+#### Header
+| Name         	| Type    	| Default 	| Required 	| Value                            	|
+|--------------	| --------- | ---------	|----------	|---------------------------------	|
+| Authorization | Bearer  	|         	| Yes      	| Auth token from register or login |
+
+#### Params
+| Name         	| Type    	| In      	| Default 	| Required 	| Description                     	|
+|--------------	| --------- |---------	| ---------	|----------	|---------------------------------	|
+| thread_id     | Integer  	| Uri     	|         	| Yes      	| The ID of thread                  |
+
+#### Response
+##### Successful response
+> Successfully like the thread (201)
+```JSON
+{
+  "statusCode": 201,
+  "data": {
+    "thread_id": 1
+  }
+}
+```
+##### Failed response
+
+> Thread didn't exists (400)
+> ```JSON
+> {
+>   "statusCode": 400,
+>   "message": "Thread didn't exists"
+> }
+> ```
+
+> Already liked the Thread (400)
+> ```JSON
+> {
+>   "statusCode": 400,
+>   "message": "Thread already liked"
+> }
+> ```
+
+</details>
+
+<details>
+<summary>DELETE /threads/{thread_id}/likes</summary>
+
+### DELETE /threads/{thread_id}/likes
+
+#### Header
+| Name         	| Type    	| Default 	| Required 	| Value                            	|
+|--------------	| --------- | ---------	|----------	|---------------------------------	|
+| Authorization | Bearer  	|         	| Yes      	| Auth token from register or login |
+
+#### Params
+| Name         	| Type    	| In      	| Default 	| Required 	| Description                     	|
+|--------------	| --------- |---------	| ---------	|----------	|---------------------------------	|
+| thread_id     | Integer  	| Uri     	|         	| Yes      	| The ID of thread                  |
+
+#### Response
+##### Successful response
+> Successfully unlike the thread  (204)
+##### Failed response
+
+> Thread didn't exists (400)
+> ```JSON
+> {
+>   "statusCode": 400,
+>   "message": "Thread didn't exists"
+> }
+> ```
+
+> Thread didn't liked yet (400)
+> ```JSON
+> {
+>   "statusCode": 400,
+>   "message": "Thread didn't liked yet"
+> }
+> ```
+
+</details>
+
 ## Infrastructure Documentation
 
 ![Speak Sure Cloud Architecture](img/cloud-architecture.png)
