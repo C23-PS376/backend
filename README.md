@@ -443,11 +443,11 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > }
 > ```
 
-> Thread didn't liked yet (400)
+> Already liked the Thread (400)
 > ```JSON
 > {
 >   "statusCode": 400,
->   "message": "Thread didn't liked yet"
+>   "message": "Thread already liked"
 > }
 > ```
 
