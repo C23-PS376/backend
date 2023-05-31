@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import { CreateThreadDto } from './dto/create-thread.dto';
 import { UpdateThreadDto } from './dto/update-thread.dto';
 import { Thread } from './entities/thread.entity';
@@ -12,4 +13,5 @@ export declare class ThreadService {
     findOneById(id: number): Promise<Thread>;
     update(threadId: number, updateThreadDto: UpdateThreadDto, userId: number): Promise<Thread>;
     remove(id: number, userId: number): Promise<import("typeorm").DeleteResult>;
+    getAudioDuration(audioBuffer: Buffer): Promise<unknown>;
 }

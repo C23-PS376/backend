@@ -59,6 +59,10 @@ __decorate([
     __metadata("design:type", String)
 ], Thread.prototype, "audio", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ default: '' }),
+    __metadata("design:type", String)
+], Thread.prototype, "audio_length", void 0);
+__decorate([
     (0, typeorm_1.Column)({ nullable: false }),
     __metadata("design:type", String)
 ], Thread.prototype, "created_at", void 0);

@@ -17,7 +17,9 @@ export declare class ThreadController {
             topic: string;
             image: string;
             audio: string;
-        }[];
+            audio_length: number;
+            created_at: string;
+        };
     }>;
     findAll(): Promise<{
         statusCode: number;
@@ -39,7 +41,8 @@ export declare class ThreadController {
             topic: string;
             image: string;
             audio: string;
-            updated_at: string;
+            audio_length: number;
+            created_at: string;
         };
     }>;
     remove(id: string, req: any): Promise<void>;

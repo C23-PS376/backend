@@ -5,6 +5,9 @@ import { Thread } from './entities/thread.entity'
 import { Repository } from 'typeorm'
 import { InjectRepository } from '@nestjs/typeorm'
 import { StorageService } from 'src/storage/storage.service'
+import getAudioDurationInSeconds from 'get-audio-duration'
+import * as fs from "fs"
+import * as tmp from "tmp"
 
 @Injectable()
 export class ThreadService {
@@ -27,11 +30,15 @@ export class ThreadService {
     const newAudioPath = audio
       ? await this.storageService.save('threads/audio-', audio)
       : undefined
+    const newAudioLength = audio
+      ? await this.getAudioDuration(audio.buffer)
+      : undefined
 
     Object.assign(thread, {
       user: userId,
       image: newImagePath,
       audio: newAudioPath,
+      audio_length: newAudioLength,
       ...createdData,
     })
     return await this.threadRepository.save(thread)
@@ -75,11 +82,15 @@ export class ThreadService {
     const newAudioPath = audio
       ? await this.storageService.save('threads/audio-', audio)
       : undefined
-
+    const newAudioLength = audio
+      ? await this.getAudioDuration(audio.buffer)
+      : undefined
+    
     Object.assign(existingThread, {
       user: userId,
       image: newImagePath,
       audio: newAudioPath,
+      audio_length: newAudioLength,
       ...updatedData,
     })
 
@@ -110,5 +121,20 @@ export class ThreadService {
     this.storageService.removeFileIfExists(oldAudioPath)
 
     return this.threadRepository.delete({ id })
+  }
+
+  getAudioDuration(audioBuffer: Buffer){
+    return new Promise ((resolve, reject) => {
+      tmp.file(function (err, path, fd, cleanup) {
+        if (err) throw err;
+        fs.appendFile(path, audioBuffer, function (err) {
+          if (err) reject(err)
+          getAudioDurationInSeconds(path).then((duration) => {
+            cleanup()
+            resolve(duration)
+          })
+        });
+      });
+    } )
   }
 }

@@ -39,6 +39,9 @@ export class Thread {
   @Column({ default: '' })
   audio: string
 
+  @Column({ default: '' })
+  audio_length: string
+
   @Column({ nullable: false })
   created_at: string
 
