@@ -37,7 +37,7 @@ export class ThreadController {
     @UploadedFiles()
     files: { image?: Express.Multer.File[]; audio?: Express.Multer.File[] },
   ) {
-    const thread = await this.threadService.create(
+    const data = await this.threadService.create(
       {
         ...createThreadDto,
         image: files?.image?.[0],
@@ -45,10 +45,18 @@ export class ThreadController {
       },
       req?.user?.id,
     )
-    const { id, title, description, topic, image, audio } = thread
     return {
       statusCode: 201,
-      data: [{ id, title, description, topic, image, audio }],
+      data: {
+        id: data.id,
+        title: data.title,
+        description: data.description,
+        topic: data.topic,
+        image: data.image,
+        audio: data.audio,
+        audio_length: Number(data.audio_length),
+        created_at: data.created_at
+      },
     }
   }
 
@@ -82,7 +90,7 @@ export class ThreadController {
     files: { image?: Express.Multer.File[]; audio?: Express.Multer.File[] },
   ) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { user, comments_count, likes_count, created_at, ...data } =
+    const data =
       await this.threadService.update(
         +id,
         {
@@ -95,7 +103,16 @@ export class ThreadController {
 
     return {
       statusCode: 200,
-      data,
+      data: {
+        id: data.id,
+        title: data.title,
+        description: data.description,
+        topic: data.topic,
+        image: data.image,
+        audio: data.audio,
+        audio_length: data.audio ? Number(data.audio_length) : undefined,
+        created_at: data.created_at
+      }
     }
   }
 

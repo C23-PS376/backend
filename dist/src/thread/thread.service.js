@@ -29,6 +29,9 @@ const thread_entity_1 = require("./entities/thread.entity");
 const typeorm_1 = require("typeorm");
 const typeorm_2 = require("@nestjs/typeorm");
 const storage_service_1 = require("../storage/storage.service");
+const get_audio_duration_1 = require("get-audio-duration");
+const fs = require("fs");
+const tmp = require("tmp");
 let ThreadService = class ThreadService {
     constructor(threadRepository, storageService) {
         this.threadRepository = threadRepository;
@@ -43,7 +46,10 @@ let ThreadService = class ThreadService {
         const newAudioPath = audio
             ? await this.storageService.save('threads/audio-', audio)
             : undefined;
-        Object.assign(thread, Object.assign({ user: userId, image: newImagePath, audio: newAudioPath }, createdData));
+        const newAudioLength = audio
+            ? await this.getAudioDuration(audio.buffer)
+            : undefined;
+        Object.assign(thread, Object.assign({ user: userId, image: newImagePath, audio: newAudioPath, audio_length: newAudioLength }, createdData));
         return await this.threadRepository.save(thread);
     }
     async findAll() {
@@ -75,7 +81,10 @@ let ThreadService = class ThreadService {
         const newAudioPath = audio
             ? await this.storageService.save('threads/audio-', audio)
             : undefined;
-        Object.assign(existingThread, Object.assign({ user: userId, image: newImagePath, audio: newAudioPath }, updatedData));
+        const newAudioLength = audio
+            ? await this.getAudioDuration(audio.buffer)
+            : undefined;
+        Object.assign(existingThread, Object.assign({ user: userId, image: newImagePath, audio: newAudioPath, audio_length: newAudioLength }, updatedData));
         if (image)
             this.storageService.removeFileIfExists(oldImagePath);
         if (audio)
@@ -98,6 +107,22 @@ let ThreadService = class ThreadService {
         this.storageService.removeFileIfExists(oldImagePath);
         this.storageService.removeFileIfExists(oldAudioPath);
         return this.threadRepository.delete({ id });
+    }
+    getAudioDuration(audioBuffer) {
+        return new Promise((resolve, reject) => {
+            tmp.file(function (err, path, fd, cleanup) {
+                if (err)
+                    throw err;
+                fs.appendFile(path, audioBuffer, function (err) {
+                    if (err)
+                        reject(err);
+                    (0, get_audio_duration_1.default)(path).then((duration) => {
+                        cleanup();
+                        resolve(duration);
+                    });
+                });
+            });
+        });
     }
 };
 ThreadService = __decorate([

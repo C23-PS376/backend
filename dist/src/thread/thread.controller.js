@@ -11,17 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ThreadController = void 0;
 const common_1 = require("@nestjs/common");
@@ -36,11 +25,19 @@ let ThreadController = class ThreadController {
     }
     async create(req, createThreadDto, files) {
         var _a, _b, _c;
-        const thread = await this.threadService.create(Object.assign(Object.assign({}, createThreadDto), { image: (_a = files === null || files === void 0 ? void 0 : files.image) === null || _a === void 0 ? void 0 : _a[0], audio: (_b = files === null || files === void 0 ? void 0 : files.audio) === null || _b === void 0 ? void 0 : _b[0] }), (_c = req === null || req === void 0 ? void 0 : req.user) === null || _c === void 0 ? void 0 : _c.id);
-        const { id, title, description, topic, image, audio } = thread;
+        const data = await this.threadService.create(Object.assign(Object.assign({}, createThreadDto), { image: (_a = files === null || files === void 0 ? void 0 : files.image) === null || _a === void 0 ? void 0 : _a[0], audio: (_b = files === null || files === void 0 ? void 0 : files.audio) === null || _b === void 0 ? void 0 : _b[0] }), (_c = req === null || req === void 0 ? void 0 : req.user) === null || _c === void 0 ? void 0 : _c.id);
         return {
             statusCode: 201,
-            data: [{ id, title, description, topic, image, audio }],
+            data: {
+                id: data.id,
+                title: data.title,
+                description: data.description,
+                topic: data.topic,
+                image: data.image,
+                audio: data.audio,
+                audio_length: Number(data.audio_length),
+                created_at: data.created_at
+            },
         };
     }
     async findAll() {
@@ -57,10 +54,19 @@ let ThreadController = class ThreadController {
     }
     async update(id, updateThreadDto, req, files) {
         var _a, _b, _c;
-        const _d = await this.threadService.update(+id, Object.assign(Object.assign({}, updateThreadDto), { image: (_a = files === null || files === void 0 ? void 0 : files.image) === null || _a === void 0 ? void 0 : _a[0], audio: (_b = files === null || files === void 0 ? void 0 : files.audio) === null || _b === void 0 ? void 0 : _b[0] }), (_c = req === null || req === void 0 ? void 0 : req.user) === null || _c === void 0 ? void 0 : _c.id), { user, comments_count, likes_count, created_at } = _d, data = __rest(_d, ["user", "comments_count", "likes_count", "created_at"]);
+        const data = await this.threadService.update(+id, Object.assign(Object.assign({}, updateThreadDto), { image: (_a = files === null || files === void 0 ? void 0 : files.image) === null || _a === void 0 ? void 0 : _a[0], audio: (_b = files === null || files === void 0 ? void 0 : files.audio) === null || _b === void 0 ? void 0 : _b[0] }), (_c = req === null || req === void 0 ? void 0 : req.user) === null || _c === void 0 ? void 0 : _c.id);
         return {
             statusCode: 200,
-            data,
+            data: {
+                id: data.id,
+                title: data.title,
+                description: data.description,
+                topic: data.topic,
+                image: data.image,
+                audio: data.audio,
+                audio_length: data.audio ? Number(data.audio_length) : undefined,
+                created_at: data.created_at
+            }
         };
     }
     async remove(id, req) {

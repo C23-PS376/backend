@@ -9,6 +9,7 @@ export declare class Thread {
     topic: string;
     image: string;
     audio: string;
+    audio_length: string;
     created_at: string;
     updated_at: string;
     insertTime(): Promise<void>;

@@ -212,11 +212,14 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 >       "description": "xxx",
 >       "topic": "xxx",
 >       "image": "xxx",
->       "audio": "xxx"
+>       "audio": "xxx",
+>       "audio_length": 12.3
 >     }
 >   ]
 > }
 > ```
+
+> audio_length is provided in seconds
 
 ##### Failed response
 > Invalid Token (401)
@@ -287,10 +290,13 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 >     "description": "xxx",
 >     "topic": "xxx",
 >     "image": "xxx",
->     "audio": "xxx"
+>     "audio": "xxx",
+>     "audio_length": 12.3
 >   }
 > }
 > ```
+
+> audio_length is provided in seconds
 
 ##### Failed response
 
@@ -321,17 +327,17 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 >       "id": 1,
 >       "title": "xxx",
 >       "description": "xxx",
->       "comments_count": "xxx",
->       "likes_count": "xxx",
 >       "topic": "xxx",
 >       "image": "xxx",
 >       "audio": "xxx",
+>       "audio_length": 12.3,
 >       "created_at": "xxx",
->       "updated_at": "xxx"
 >     },
 >   ]
 > }
 > ```
+
+> audio_length is provided in seconds
 
 </details>
 
@@ -360,11 +366,14 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 >     "topic": "xxx",
 >     "image": "xxx",
 >     "audio": "xxx",
+>     "audio_length": 12.3,
 >     "created_at": "xxx",
 >     "updated_at": "xxx"
 >   }
 > }
 > ```
+
+> audio_length is provided in seconds
 
 </details>
 
