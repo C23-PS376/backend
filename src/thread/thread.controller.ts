@@ -13,6 +13,7 @@ import {
   Request,
   UseGuards,
   HttpCode,
+  Query,
 } from '@nestjs/common'
 import { FileFieldsInterceptor } from '@nestjs/platform-express'
 
@@ -61,10 +62,15 @@ export class ThreadController {
   }
 
   @Get()
-  async findAll() {
+  async findAll(
+    @Query('page') page: string,
+    @Query('size') size: string,
+  ) {
+    if(!page) page = '0'
+    if(!page) size = '5'
     return {
       statusCode: 200,
-      data: await this.threadService.findAll(),
+      data: await this.threadService.findAll(page, size),
     }
   }
 

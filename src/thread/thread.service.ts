@@ -44,8 +44,13 @@ export class ThreadService {
     return await this.threadRepository.save(thread)
   }
 
-  async findAll() {
-    return await this.threadRepository.find()
+  async findAll(page: string, size: string) {
+    return await this.threadRepository.find({
+      order: {
+        updated_at: 'DESC'
+      },
+      skip: +page,
+      take: +size})
   }
 
   async findOneById(id: number): Promise<Thread> {

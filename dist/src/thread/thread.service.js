@@ -52,8 +52,14 @@ let ThreadService = class ThreadService {
         Object.assign(thread, Object.assign({ user: userId, image: newImagePath, audio: newAudioPath, audio_length: newAudioLength }, createdData));
         return await this.threadRepository.save(thread);
     }
-    async findAll() {
-        return await this.threadRepository.find();
+    async findAll(page, size) {
+        return await this.threadRepository.find({
+            order: {
+                updated_at: 'DESC'
+            },
+            skip: +page,
+            take: +size
+        });
     }
     async findOneById(id) {
         const thread = await this.threadRepository.findOneBy({ id });

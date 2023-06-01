@@ -40,10 +40,14 @@ let ThreadController = class ThreadController {
             },
         };
     }
-    async findAll() {
+    async findAll(page, size) {
+        if (!page)
+            page = '0';
+        if (!page)
+            size = '5';
         return {
             statusCode: 200,
-            data: await this.threadService.findAll(),
+            data: await this.threadService.findAll(page, size),
         };
     }
     async findOne(id) {
@@ -88,8 +92,10 @@ __decorate([
 ], ThreadController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
+    __param(0, (0, common_1.Query)('page')),
+    __param(1, (0, common_1.Query)('size')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], ThreadController.prototype, "findAll", null);
 __decorate([

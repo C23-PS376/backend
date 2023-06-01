@@ -21,7 +21,7 @@ export declare class ThreadController {
             created_at: string;
         };
     }>;
-    findAll(): Promise<{
+    findAll(page: string, size: string): Promise<{
         statusCode: number;
         data: import("./entities/thread.entity").Thread[];
     }>;
