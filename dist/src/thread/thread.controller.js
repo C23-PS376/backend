@@ -43,7 +43,7 @@ let ThreadController = class ThreadController {
     async findAll(page, size) {
         if (!page)
             page = '0';
-        if (!page)
+        if (!size)
             size = '5';
         return {
             statusCode: 200,

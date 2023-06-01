@@ -67,7 +67,7 @@ export class ThreadController {
     @Query('size') size: string,
   ) {
     if(!page) page = '0'
-    if(!page) size = '5'
+    if(!size) size = '5'
     return {
       statusCode: 200,
       data: await this.threadService.findAll(page, size),
