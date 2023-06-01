@@ -65,12 +65,14 @@ export class ThreadController {
   async findAll(
     @Query('page') page: string,
     @Query('size') size: string,
+    @Query('keyword') keyword: string,
+    @Query('topic') topic: string,
   ) {
     if(!page) page = '0'
     if(!size) size = '5'
     return {
       statusCode: 200,
-      data: await this.threadService.findAll(page, size),
+      data: await this.threadService.findAll(page, size, keyword, topic),
     }
   }
 

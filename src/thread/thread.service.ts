@@ -2,13 +2,18 @@ import { Injectable, HttpException, ForbiddenException } from '@nestjs/common'
 import { CreateThreadDto } from './dto/create-thread.dto'
 import { UpdateThreadDto } from './dto/update-thread.dto'
 import { Thread } from './entities/thread.entity'
-import { Repository } from 'typeorm'
+import { ILike, Repository } from 'typeorm'
 import { InjectRepository } from '@nestjs/typeorm'
 import { StorageService } from 'src/storage/storage.service'
 import getAudioDurationInSeconds from 'get-audio-duration'
 import * as fs from 'fs'
 import * as tmp from 'tmp'
 
+interface CustomQuery{
+  topic: string
+  title?: string
+  description?: string
+}
 @Injectable()
 export class ThreadService {
   constructor(
@@ -44,13 +49,21 @@ export class ThreadService {
     return await this.threadRepository.save(thread)
   }
 
-  async findAll(page: string, size: string) {
-    return await this.threadRepository.find({
+  async findAll(page: string, size: string, keyword: string, topic: string) {
+    const query = []
+    if (keyword) query.push({title: ILike(`%${keyword}%`)}, {description: ILike(`%${keyword}%`)})
+    if (topic && keyword) query.forEach((it: CustomQuery) => it.topic = topic)
+    if (topic && !keyword) query.push({ topic })
+
+    return await this.threadRepository
+    .find({
+      where: query,
       order: {
-        updated_at: 'DESC'
+        created_at: 'DESC'
       },
       skip: +page,
-      take: +size})
+      take: +size
+    })
   }
 
   async findOneById(id: number): Promise<Thread> {

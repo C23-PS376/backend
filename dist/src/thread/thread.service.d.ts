@@ -9,7 +9,7 @@ export declare class ThreadService {
     private readonly storageService;
     constructor(threadRepository: Repository<Thread>, storageService: StorageService);
     create(createUserDto: CreateThreadDto, userId: string): Promise<Thread>;
-    findAll(page: string, size: string): Promise<Thread[]>;
+    findAll(page: string, size: string, keyword: string, topic: string): Promise<Thread[]>;
     findOneById(id: number): Promise<Thread>;
     update(threadId: number, updateThreadDto: UpdateThreadDto, userId: number): Promise<Thread>;
     remove(id: number, userId: number): Promise<import("typeorm").DeleteResult>;

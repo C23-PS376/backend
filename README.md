@@ -273,7 +273,7 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 |--------------	|---------	| ---------	|----------	|---------------------------------	|
 | title        	| String  	|         	| No      	| Name of thread                    |
 | description 	| String    |          	| No      	| Description of thread             |
-| topic        	| String  	|          	| No       | Topic of thread                   |
+| topic        	| String  	|          	| No        | Topic of thread                   |
 | image        	| File    	|          	| No        | Image of thread                   |
 | audio        	| File    	|          	| No        | Audio of thread                   |
 
@@ -349,7 +349,10 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 #### Params
 | Name         	| Type    	| In      	| Default 	| Required 	| Description                     	|
 |--------------	| --------- |---------	| ---------	|----------	|---------------------------------	|
-| thread_id     | Integer  	| Uri     	|         	| Yes      	| The ID of thread                  |
+| page          | string   	| Query   	| 0        	| No      	| The index of page of list thread  |
+| size          | string   	| Query   	| 5        	| No      	| Max thread in one page            |
+| keyword       | string   	| Query   	|         	| No      	| Keyword for search the thread     |
+| topic         | string   	| Query   	|           | No      	| The topic of the thread           |
 #### Response
 ##### Successful response
 
@@ -357,7 +360,7 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > ```JSON
 > {
 >   "statusCode": 200,
->   "data": {
+>   "data": [ {
 >     "id": 1,
 >     "title": "xxx",
 >     "description": "xxx",
@@ -369,7 +372,7 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 >     "audio_length": 12.3,
 >     "created_at": "xxx",
 >     "updated_at": "xxx"
->   }
+>   } ]
 > }
 > ```
 

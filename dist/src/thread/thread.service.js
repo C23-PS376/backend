@@ -52,10 +52,19 @@ let ThreadService = class ThreadService {
         Object.assign(thread, Object.assign({ user: userId, image: newImagePath, audio: newAudioPath, audio_length: newAudioLength }, createdData));
         return await this.threadRepository.save(thread);
     }
-    async findAll(page, size) {
-        return await this.threadRepository.find({
+    async findAll(page, size, keyword, topic) {
+        const query = [];
+        if (keyword)
+            query.push({ title: (0, typeorm_1.ILike)(`%${keyword}%`) }, { description: (0, typeorm_1.ILike)(`%${keyword}%`) });
+        if (topic && keyword)
+            query.forEach((it) => it.topic = topic);
+        if (topic && !keyword)
+            query.push({ topic });
+        return await this.threadRepository
+            .find({
+            where: query,
             order: {
-                updated_at: 'DESC'
+                created_at: 'DESC'
             },
             skip: +page,
             take: +size

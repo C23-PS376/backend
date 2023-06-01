@@ -14,8 +14,8 @@ export class LikeThreadsService {
   ) {}
 
   async create(threadId: number, userId: number) {
-    if (!(await this.threadRepository.findOneBy({ id: +threadId })))
-      throw new HttpException("Thread didn't exists", 400)
+    const thread = await this.threadRepository.findOneBy({ id: +threadId })
+    if (!thread) throw new HttpException("Thread didn't exists", 400)
     if (
       await this.likeThreadsRepository.findOneBy({
         thread: { id: threadId },
@@ -24,14 +24,16 @@ export class LikeThreadsService {
     )
       throw new HttpException('Already liked', 400)
 
+    thread.likes_count = (+thread.likes_count + 1).toString()
     const likeThread = new LikeThread()
     Object.assign(likeThread, { user: userId, thread: +threadId })
+    await this.threadRepository.save(thread)
     return await this.likeThreadsRepository.save(likeThread)
   }
 
   async remove(threadId: number, userId: number) {
-    if (!(await this.threadRepository.findOneBy({ id: +threadId })))
-      throw new HttpException("Thread didn't exists", 400)
+    const thread = await this.threadRepository.findOneBy({ id: +threadId })
+    if (!thread) throw new HttpException("Thread didn't exists", 400)
     if (
       !(await this.likeThreadsRepository.findOneBy({
         thread: { id: threadId },
@@ -40,6 +42,8 @@ export class LikeThreadsService {
     )
       throw new HttpException('Not liked yet', 400)
 
+    thread.likes_count = (+thread.likes_count - 1).toString()
+    await this.threadRepository.save(thread)
     return await this.likeThreadsRepository.delete({
       thread: { id: threadId },
       user: { id: userId },
