@@ -24,14 +24,20 @@ let AuthService = class AuthService {
         if (!user)
             throw new common_1.UnauthorizedException();
         const payload = { id: user.id };
-        return { access_token: await this.jwtService.signAsync(payload) };
+        return {
+            id: user.id,
+            access_token: await this.jwtService.signAsync(payload),
+        };
     }
     async register(registerAuthDto) {
         const user = await this.usersService.create(registerAuthDto);
         if (!user)
             throw new common_1.HttpException('User gagal ditambahkan', 500);
         const payload = { id: user.id };
-        return { access_token: await this.jwtService.signAsync(payload) };
+        return {
+            id: user.id,
+            access_token: await this.jwtService.signAsync(payload),
+        };
     }
 };
 AuthService = __decorate([
