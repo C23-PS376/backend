@@ -12,6 +12,5 @@ export declare class User {
     created_at: string;
     updated_at: string;
     hashPassword(): Promise<void>;
-    insertTime(): Promise<void>;
     updateTime(): Promise<void>;
 }

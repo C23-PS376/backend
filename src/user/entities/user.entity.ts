@@ -5,7 +5,6 @@ import {
   BeforeInsert,
   BeforeUpdate,
 } from 'typeorm'
-import { IsEmail } from 'class-validator'
 import * as argon2 from 'argon2'
 
 const current_time = new Date();
@@ -42,22 +41,16 @@ export class User {
   @Column({ default: 0 })
   comments_count: string 
   
-  @Column({ nullable: false })
+  @Column({ nullable: false, default: () => current_time.getTime().toString() })
   created_at: string
   
-  @Column({ nullable: false })
+  @Column({ nullable: false, default: () => current_time.getTime().toString() })
   updated_at: string
 
   @BeforeInsert()
   @BeforeUpdate()
   async hashPassword() {
     this.password = await argon2.hash(this.password)
-  }
-
-  @BeforeInsert()
-  async insertTime() {
-    this.created_at = current_time.getTime().toString()
-    this.updated_at = this.created_at
   }
 
   @BeforeUpdate()

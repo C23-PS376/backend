@@ -12,6 +12,5 @@ export declare class Thread {
     audio_length: string;
     created_at: string;
     updated_at: string;
-    insertTime(): Promise<void>;
     updateTime(): Promise<void>;
 }
