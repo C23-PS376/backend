@@ -19,32 +19,33 @@ export class User {
   name: string
 
   @Column()
-  @IsEmail()
   email: string
 
-  // @Column({ select: false })
   @Column()
   password: string
-  
-  @Column({ nullable: true })
-  profile_picture: string
 
   @Column({ nullable: true })
-  profile_audio: string
+  audio: string
+
+  @Column({ nullable: true })
+  audio_length: string
+
+  @Column({ nullable: true })
+  image: string
   
   @Column({ nullable: true })
   status: string
   
-  @Column({ nullable : true })
-  thread_count: string
+  @Column({ default: 0 })
+  threads_count: string
   
-  @Column({ nullable : true })
-  comment_count: string 
+  @Column({ default: 0 })
+  comments_count: string 
   
-  @Column({ nullable: false, default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ nullable: false })
   created_at: string
   
-  @Column({ nullable: false, default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ nullable: false })
   updated_at: string
 
   @BeforeInsert()

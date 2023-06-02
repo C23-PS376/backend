@@ -10,6 +10,8 @@ import { AuthModule } from './auth/auth.module'
 import { ThreadModule } from './thread/thread.module'
 import { StorageModule } from './storage/storage.module'
 import { LikeThreadsModule } from './thread-like/thread-like.module'
+import { Thread } from './thread/entities/thread.entity'
+import { LikeThread } from './thread-like/entities/thread-like.entity'
 
 @Module({
   imports: [
@@ -25,7 +27,7 @@ import { LikeThreadsModule } from './thread-like/thread-like.module'
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [User],
+        entities: [User, Thread, LikeThread],
         synchronize: true,
         autoLoadEntities: true,
       }),

@@ -3,11 +3,12 @@ export declare class User {
     name: string;
     email: string;
     password: string;
-    profile_picture: string;
-    profile_audio: string;
+    audio: string;
+    audio_length: string;
+    image: string;
     status: string;
-    thread_count: string;
-    comment_count: string;
+    threads_count: string;
+    comments_count: string;
     created_at: string;
     updated_at: string;
     hashPassword(): Promise<void>;

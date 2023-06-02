@@ -51,15 +51,15 @@ __decorate([
     __metadata("design:type", String)
 ], Thread.prototype, "topic", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ default: '' }),
+    (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
 ], Thread.prototype, "image", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ default: '' }),
+    (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
 ], Thread.prototype, "audio", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ default: '' }),
+    (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
 ], Thread.prototype, "audio_length", void 0);
 __decorate([

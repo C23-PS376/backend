@@ -67,11 +67,31 @@ let ThreadService = class ThreadService {
                 created_at: 'DESC'
             },
             skip: +page,
-            take: +size
+            take: +size,
+            relations: {
+                user: true,
+            },
+            select: {
+                user: {
+                    name: true,
+                    image: true
+                }
+            }
         });
     }
     async findOneById(id) {
-        const thread = await this.threadRepository.findOneBy({ id });
+        const thread = await this.threadRepository.findOne({
+            where: { id },
+            relations: {
+                user: true,
+            },
+            select: {
+                user: {
+                    name: true,
+                    image: true
+                }
+            }
+        });
         if (!thread)
             throw new common_1.HttpException("Thread didn't exists", 400);
         return thread;
@@ -99,7 +119,7 @@ let ThreadService = class ThreadService {
         const newAudioLength = audio
             ? await this.getAudioDuration(audio.buffer)
             : undefined;
-        Object.assign(existingThread, Object.assign({ user: userId, image: newImagePath, audio: newAudioPath, audio_length: newAudioLength }, updatedData));
+        Object.assign(existingThread, Object.assign({ image: newImagePath, audio: newAudioPath, audio_length: newAudioLength }, updatedData));
         if (image)
             this.storageService.removeFileIfExists(oldImagePath);
         if (audio)

@@ -33,13 +33,13 @@ export class Thread {
   @Column({ nullable: false })
   topic: string
 
-  @Column({ default: '' })
+  @Column({ nullable: true })
   image: string
 
-  @Column({ default: '' })
+  @Column({ nullable: true })
   audio: string
 
-  @Column({ default: '' })
+  @Column({ nullable: true })
   audio_length: string
 
   @Column({ nullable: false })

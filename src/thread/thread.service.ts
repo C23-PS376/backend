@@ -62,12 +62,32 @@ export class ThreadService {
         created_at: 'DESC'
       },
       skip: +page,
-      take: +size
+      take: +size,
+      relations: {
+        user: true,
+      },
+      select: {
+        user: {
+          name: true,
+          image: true
+        }
+      }
     })
   }
 
   async findOneById(id: number): Promise<Thread> {
-    const thread = await this.threadRepository.findOneBy({ id })
+    const thread = await this.threadRepository.findOne({
+      where: { id },
+      relations: {
+        user: true,
+      },
+      select: {
+        user: {
+          name: true,
+          image: true
+        }
+      }
+    })
     if (!thread) throw new HttpException("Thread didn't exists", 400)
     return thread
   }
@@ -105,7 +125,6 @@ export class ThreadService {
       : undefined
 
     Object.assign(existingThread, {
-      user: userId,
       image: newImagePath,
       audio: newAudioPath,
       audio_length: newAudioLength,
