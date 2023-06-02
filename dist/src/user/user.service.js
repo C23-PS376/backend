@@ -11,16 +11,32 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const argon2 = require("argon2");
+const get_audio_duration_1 = require("get-audio-duration");
+const fs = require("fs");
+const tmp = require("tmp");
+const storage_service_1 = require("../storage/storage.service");
 const user_entity_1 = require("./entities/user.entity");
 let UserService = class UserService {
-    constructor(userRepository) {
+    constructor(userRepository, storageService) {
         this.userRepository = userRepository;
+        this.storageService = storageService;
     }
     async create(createUserDto) {
         const { email, password, name } = createUserDto;
@@ -35,11 +51,26 @@ let UserService = class UserService {
         const existingUser = await this.findOneById(id);
         if (!existingUser)
             throw new common_1.HttpException("User didn't exists", 400);
-        const { email } = updateUserDto;
+        const { email, image, audio } = updateUserDto, updatedData = __rest(updateUserDto, ["email", "image", "audio"]);
         const userExists = await this.findOneByEmail(email);
         if (email && userExists && userExists.id !== id)
             throw new common_1.HttpException('Email already exists', 400);
-        Object.assign(existingUser, updateUserDto);
+        const oldImagePath = this.storageService.getFilenameFromPath(existingUser.image);
+        const oldAudioPath = this.storageService.getFilenameFromPath(existingUser.audio);
+        const newProfilePicturePath = image
+            ? await this.storageService.save('profile/image-', image)
+            : undefined;
+        const newProfileAudioPath = audio
+            ? await this.storageService.save('profile/audio-', audio)
+            : undefined;
+        const newProfileAudioLength = audio
+            ? await this.getAudioDuration(audio.buffer)
+            : undefined;
+        Object.assign(existingUser, Object.assign({ image: newProfilePicturePath, audio: newProfileAudioPath, audio_length: newProfileAudioLength }, updatedData));
+        if (image)
+            this.storageService.removeFileIfExists(oldImagePath);
+        if (audio)
+            this.storageService.removeFileIfExists(oldAudioPath);
         return await this.userRepository.save(existingUser);
     }
     async remove(id) {
@@ -62,11 +93,28 @@ let UserService = class UserService {
     findOneByEmail(email) {
         return this.userRepository.findOneBy({ email });
     }
+    getAudioDuration(audioBuffer) {
+        return new Promise((resolve, reject) => {
+            tmp.file(function (err, path, fd, cleanup) {
+                if (err)
+                    throw err;
+                fs.appendFile(path, audioBuffer, function (err) {
+                    if (err)
+                        reject(err);
+                    (0, get_audio_duration_1.default)(path).then((duration) => {
+                        cleanup();
+                        resolve(duration);
+                    });
+                });
+            });
+        });
+    }
 };
 UserService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(user_entity_1.User)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        storage_service_1.StorageService])
 ], UserService);
 exports.UserService = UserService;
 //# sourceMappingURL=user.service.js.map

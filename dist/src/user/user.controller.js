@@ -28,19 +28,26 @@ const common_1 = require("@nestjs/common");
 const user_service_1 = require("./user.service");
 const update_user_dto_1 = require("./dto/update-user.dto");
 const auth_guard_1 = require("../auth/auth.guard");
+const platform_express_1 = require("@nestjs/platform-express");
 let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
     }
-    async update(id, updateUserDto, req) {
-        var _a;
+    async update(id, updateUserDto, req, files) {
+        var _a, _b, _c;
         if (+id !== ((_a = req === null || req === void 0 ? void 0 : req.user) === null || _a === void 0 ? void 0 : _a.id))
             throw new common_1.ForbiddenException();
-        const _b = await this.userService.update(+id, updateUserDto), { password } = _b, data = __rest(_b, ["password"]);
+        const _d = await this.userService.update(+id, Object.assign(Object.assign({}, updateUserDto), { image: (_b = files === null || files === void 0 ? void 0 : files.image) === null || _b === void 0 ? void 0 : _b[0], audio: (_c = files === null || files === void 0 ? void 0 : files.audio) === null || _c === void 0 ? void 0 : _c[0] })), { password, threads_count, comments_count } = _d, data = __rest(_d, ["password", "threads_count", "comments_count"]);
         return {
             statusCode: 200,
             data: [data],
         };
+    }
+    async getProfile(id, req) {
+        var _a;
+        if (+id !== ((_a = req === null || req === void 0 ? void 0 : req.user) === null || _a === void 0 ? void 0 : _a.id))
+            throw new common_1.ForbiddenException();
+        return this.userService.findOneById(+id);
     }
     async remove(id, req) {
         var _a;
@@ -51,13 +58,24 @@ let UserController = class UserController {
 };
 __decorate([
     (0, common_1.Patch)(':id'),
+    (0, common_1.UsePipes)(new common_1.ValidationPipe()),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileFieldsInterceptor)([{ name: 'image' }, { name: 'audio' }])),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __param(2, (0, common_1.Request)()),
+    __param(3, (0, common_1.UploadedFiles)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, update_user_dto_1.UpdateUserDto, Object]),
+    __metadata("design:paramtypes", [String, update_user_dto_1.UpdateUserDto, Object, Object]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "update", null);
+__decorate([
+    (0, common_1.Get)(':id'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "getProfile", null);
 __decorate([
     (0, common_1.HttpCode)(204),
     (0, common_1.Delete)(':id'),

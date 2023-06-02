@@ -114,6 +114,15 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 |--------------	| --------- |---------	| ---------	|----------	|---------------------------------	|
 | user_id       | Integer  	| Uri     	|         	| Yes      	| The ID of user                    |
 
+#### Body
+| Name         	| Type    	| Default 	| Required 	| Description                     	|
+|--------------	| --------- | ---------	|----------	|---------------------------------	|
+| name        	| String  	|          	| No        | Name of user                      |
+| email        	| String  	|          	| No        | Email of user                     |
+| password     	| String  	|          	| No        | Password of user                  |
+| image        	| File    	|          	| No        | Profile picture of user           |
+| audio        	| File    	|          	| No        | Profile audio of user             |
+
 #### Response
 ##### Successful response
 > Successfully change user data  (200)
@@ -124,9 +133,61 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 >     {
 >       "id": 1,
 >       "name": "xxx",
->       "email": "xxx"
+>       "email": "xxx@xxx.xxx",
+>       "audio": "xxx",
+>       "audio_length": 12.3,
+>       "image": "xxx",
+>       "status": "xxx",
+>       "created_at": "123",
+>       "updated_at": "123"
 >     }
 >   ]
+> }
+> ```
+##### Failed response
+> Id from token does not match user_id  (403)
+> ```JSON
+> {
+>   "statusCode": 403,
+>   "message": "Forbidden"
+> }
+> ```
+
+</details>
+
+<details>
+<summary>GET /user/{user_id}</summary>
+
+### GET /user/{user_id}
+
+#### Header
+| Name         	| Type    	| Default 	| Required 	| Value                            	|
+|--------------	| --------- | ---------	|----------	|---------------------------------	|
+| Authorization | Bearer  	|         	| Yes      	| Auth token from register or login |
+
+
+#### Params
+| Name         	| Type    	| In      	| Default 	| Required 	| Description                     	|
+|--------------	| --------- |---------	| ---------	|----------	|---------------------------------	|
+| user_id       | Integer  	| Uri     	|         	| Yes      	| The ID of user                    |
+
+#### Response
+##### Successful response
+> Successfully get user data  (200)
+> ```JSON
+> {
+>   "id": 1,
+>   "name": "xxx",
+>   "email": "xxx@xxx.xxx",
+>   "password": "xxx",
+>   "audio": "xxx",
+>   "audio_length": "xxx",
+>   "image": "xxx",
+>   "status": "xxx",
+>   "threads_count": "123",
+>   "comments_count": "123",
+>   "created_at": "123",
+>   "updated_at": "123"
 > }
 > ```
 ##### Failed response
@@ -321,18 +382,25 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > Successfully get the thread  (200)
 > ```JSON
 > {
->   "statusCode": 200,
+> "statusCode": 200,
 >   "data": [
 >     {
 >       "id": 1,
 >       "title": "xxx",
 >       "description": "xxx",
+>       "comments_count": "123",
+>       "likes_count": "123",
 >       "topic": "xxx",
 >       "image": "xxx",
 >       "audio": "xxx",
->       "audio_length": 12.3,
->       "created_at": "xxx",
->     },
+>       "audio_length": "123",
+>       "created_at": "123",
+>       "updated_at": "123",
+>       "user": {
+>           "name": "xxx",
+>           "image": "xxx"
+>       }
+>     }
 >   ]
 > }
 > ```
@@ -359,22 +427,26 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > Successfully get the thread  (200)
 > ```JSON
 > {
->   "statusCode": 200,
->   "data": [ {
+> "statusCode": 200,
+>   "data": {
 >     "id": 1,
 >     "title": "xxx",
 >     "description": "xxx",
->     "comments_count": "xxx",
->     "likes_count": "xxx",
+>     "comments_count": "123",
+>     "likes_count": "123",
 >     "topic": "xxx",
 >     "image": "xxx",
 >     "audio": "xxx",
->     "audio_length": 12.3,
->     "created_at": "xxx",
->     "updated_at": "xxx"
->   } ]
+>     "audio_length": "123",
+>     "created_at": "123",
+>     "updated_at": "123",
+>     "user": {
+>         "name": "xxx",
+>         "image": "xxx"
+>     }
+>   }
 > }
-> ```
+```
 
 > audio_length is provided in seconds
 

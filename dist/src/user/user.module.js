@@ -13,13 +13,15 @@ const user_service_1 = require("./user.service");
 const user_controller_1 = require("./user.controller");
 const user_entity_1 = require("./entities/user.entity");
 const jwtModule_1 = require("../../config/jwtModule");
+const storage_service_1 = require("../storage/storage.service");
+const multer_config_1 = require("../../config/multer.config");
 let UserModule = class UserModule {
 };
 UserModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([user_entity_1.User]), jwtModule_1.jwtModule],
+        imports: [typeorm_1.TypeOrmModule.forFeature([user_entity_1.User]), jwtModule_1.jwtModule, multer_config_1.multerModule],
         controllers: [user_controller_1.UserController],
-        providers: [user_service_1.UserService],
+        providers: [user_service_1.UserService, storage_service_1.StorageService],
         exports: [user_service_1.UserService],
     })
 ], UserModule);
