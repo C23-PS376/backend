@@ -32,14 +32,18 @@ const storage_service_1 = require("../storage/storage.service");
 const get_audio_duration_1 = require("get-audio-duration");
 const fs = require("fs");
 const tmp = require("tmp");
+const topics_service_1 = require("../topics/topics.service");
 let ThreadService = class ThreadService {
-    constructor(threadRepository, storageService) {
+    constructor(threadRepository, storageService, topicService) {
         this.threadRepository = threadRepository;
         this.storageService = storageService;
+        this.topicService = topicService;
     }
     async create(createUserDto, userId) {
         const thread = new thread_entity_1.Thread();
-        const { audio, image } = createUserDto, createdData = __rest(createUserDto, ["audio", "image"]);
+        const { audio, image, topic } = createUserDto, createdData = __rest(createUserDto, ["audio", "image", "topic"]);
+        if (Number.isNaN(+topic) || !await this.topicService.findOne(+topic))
+            throw new common_1.HttpException("Topic doesn't exists", 400);
         const newImagePath = image
             ? await this.storageService.save('threads/image-', image)
             : undefined;
@@ -49,7 +53,7 @@ let ThreadService = class ThreadService {
         const newAudioLength = audio
             ? await this.getAudioDuration(audio.buffer)
             : undefined;
-        Object.assign(thread, Object.assign({ user: userId, image: newImagePath, audio: newAudioPath, audio_length: newAudioLength }, createdData));
+        Object.assign(thread, Object.assign({ topic, user: userId, image: newImagePath, audio: newAudioPath, audio_length: newAudioLength }, createdData));
         return await this.threadRepository.save(thread);
     }
     async findAll(page, size, keyword, topic) {
@@ -70,6 +74,7 @@ let ThreadService = class ThreadService {
             take: +size,
             relations: {
                 user: true,
+                topic: true,
             },
             select: {
                 user: {
@@ -97,6 +102,7 @@ let ThreadService = class ThreadService {
         return thread;
     }
     async update(threadId, updateThreadDto, userId) {
+        var _a;
         const existingThread = await this.threadRepository.findOne({
             where: { id: threadId },
             relations: {
@@ -105,11 +111,13 @@ let ThreadService = class ThreadService {
         });
         if (!existingThread)
             throw new common_1.HttpException("Thread didn't exists", 400);
-        if (existingThread.user.id !== userId)
+        if (((_a = existingThread === null || existingThread === void 0 ? void 0 : existingThread.user) === null || _a === void 0 ? void 0 : _a.id) !== userId)
             throw new common_1.ForbiddenException();
         const { audio, image } = updateThreadDto, updatedData = __rest(updateThreadDto, ["audio", "image"]);
-        const oldImagePath = this.storageService.getFilenameFromPath(existingThread.image);
-        const oldAudioPath = this.storageService.getFilenameFromPath(existingThread.audio);
+        if (updateThreadDto.topic && (Number.isNaN(+updateThreadDto.topic) || !await this.topicService.findOne(+updateThreadDto.topic)))
+            throw new common_1.HttpException("Topic doesn't exists", 400);
+        const oldImagePath = this.storageService.getFilenameFromPath(existingThread === null || existingThread === void 0 ? void 0 : existingThread.image);
+        const oldAudioPath = this.storageService.getFilenameFromPath(existingThread === null || existingThread === void 0 ? void 0 : existingThread.audio);
         const newImagePath = image
             ? await this.storageService.save('threads/image-', image)
             : undefined;
@@ -127,6 +135,7 @@ let ThreadService = class ThreadService {
         return await this.threadRepository.save(existingThread);
     }
     async remove(id, userId) {
+        var _a;
         const existingThread = await this.threadRepository.findOne({
             where: { id },
             relations: {
@@ -135,10 +144,10 @@ let ThreadService = class ThreadService {
         });
         if (!existingThread)
             throw new common_1.HttpException("Thread didn't exists", 400);
-        if (existingThread.user.id !== userId)
+        if (((_a = existingThread === null || existingThread === void 0 ? void 0 : existingThread.user) === null || _a === void 0 ? void 0 : _a.id) !== userId)
             throw new common_1.ForbiddenException();
-        const oldImagePath = this.storageService.getFilenameFromPath(existingThread.image);
-        const oldAudioPath = this.storageService.getFilenameFromPath(existingThread.audio);
+        const oldImagePath = this.storageService.getFilenameFromPath(existingThread === null || existingThread === void 0 ? void 0 : existingThread.image);
+        const oldAudioPath = this.storageService.getFilenameFromPath(existingThread === null || existingThread === void 0 ? void 0 : existingThread.audio);
         this.storageService.removeFileIfExists(oldImagePath);
         this.storageService.removeFileIfExists(oldAudioPath);
         return this.threadRepository.delete({ id });
@@ -164,7 +173,8 @@ ThreadService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_2.InjectRepository)(thread_entity_1.Thread)),
     __metadata("design:paramtypes", [typeorm_1.Repository,
-        storage_service_1.StorageService])
+        storage_service_1.StorageService,
+        topics_service_1.TopicsService])
 ], ThreadService);
 exports.ThreadService = ThreadService;
 //# sourceMappingURL=thread.service.js.map

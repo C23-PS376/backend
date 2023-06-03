@@ -8,6 +8,7 @@ import { StorageService } from 'src/storage/storage.service'
 import getAudioDurationInSeconds from 'get-audio-duration'
 import * as fs from 'fs'
 import * as tmp from 'tmp'
+import { TopicsService } from 'src/topics/topics.service'
 
 interface CustomQuery{
   topic: string
@@ -20,6 +21,7 @@ export class ThreadService {
     @InjectRepository(Thread)
     private readonly threadRepository: Repository<Thread>,
     private readonly storageService: StorageService,
+    private readonly topicService: TopicsService,
   ) {}
 
   async create(
@@ -27,7 +29,9 @@ export class ThreadService {
     userId: string,
   ): Promise<Thread> {
     const thread = new Thread()
-    const { audio, image, ...createdData } = createUserDto
+    const { audio, image, topic, ...createdData } = createUserDto
+
+    if (Number.isNaN(+topic) || !await this.topicService.findOne(+topic)) throw new HttpException("Topic doesn't exists", 400)
 
     const newImagePath = image
       ? await this.storageService.save('threads/image-', image)
@@ -40,6 +44,7 @@ export class ThreadService {
       : undefined
 
     Object.assign(thread, {
+      topic,
       user: userId,
       image: newImagePath,
       audio: newAudioPath,
@@ -65,6 +70,7 @@ export class ThreadService {
       take: +size,
       relations: {
         user: true,
+        topic: true,
       },
       select: {
         user: {
@@ -104,14 +110,16 @@ export class ThreadService {
       },
     })
     if (!existingThread) throw new HttpException("Thread didn't exists", 400)
-    if (existingThread.user.id !== userId) throw new ForbiddenException()
+    if (existingThread?.user?.id !== userId) throw new ForbiddenException()
 
     const { audio, image, ...updatedData } = updateThreadDto
+    if (updateThreadDto.topic && (Number.isNaN(+updateThreadDto.topic) || !await this.topicService.findOne(+updateThreadDto.topic))) throw new HttpException("Topic doesn't exists", 400)
+    
     const oldImagePath = this.storageService.getFilenameFromPath(
-      existingThread.image,
+      existingThread?.image,
     )
     const oldAudioPath = this.storageService.getFilenameFromPath(
-      existingThread.audio,
+      existingThread?.audio,
     )
 
     const newImagePath = image
@@ -145,13 +153,13 @@ export class ThreadService {
       },
     })
     if (!existingThread) throw new HttpException("Thread didn't exists", 400)
-    if (existingThread.user.id !== userId) throw new ForbiddenException()
+    if (existingThread?.user?.id !== userId) throw new ForbiddenException()
 
     const oldImagePath = this.storageService.getFilenameFromPath(
-      existingThread.image,
+      existingThread?.image,
     )
     const oldAudioPath = this.storageService.getFilenameFromPath(
-      existingThread.audio,
+      existingThread?.audio,
     )
 
     this.storageService.removeFileIfExists(oldImagePath)

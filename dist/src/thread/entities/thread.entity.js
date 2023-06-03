@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Thread = void 0;
 const typeorm_1 = require("typeorm");
 const user_entity_1 = require("../../../src/user/entities/user.entity");
+const topic_entity_1 = require("../../topics/entities/topic.entity");
 const current_time = new Date();
 let Thread = class Thread {
     async updateTime() {
@@ -43,8 +44,8 @@ __decorate([
     __metadata("design:type", String)
 ], Thread.prototype, "likes_count", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: false, default: '' }),
-    __metadata("design:type", String)
+    (0, typeorm_1.ManyToOne)(() => topic_entity_1.Topic, (topic) => topic.id),
+    __metadata("design:type", user_entity_1.User)
 ], Thread.prototype, "topic", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),

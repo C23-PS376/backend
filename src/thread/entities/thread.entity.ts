@@ -6,6 +6,7 @@ import {
   BeforeUpdate,
 } from 'typeorm'
 import { User } from '../../../src/user/entities/user.entity'
+import { Topic } from 'src/topics/entities/topic.entity'
 
 const current_time = new Date()
 
@@ -28,9 +29,9 @@ export class Thread {
 
   @Column({ default: 0 })
   likes_count: string
-
-  @Column({ nullable: false, default: '' })
-  topic: string
+  
+  @ManyToOne(() => Topic, (topic) => topic.id)
+  topic: User
 
   @Column({ nullable: true })
   image: string

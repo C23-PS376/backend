@@ -118,7 +118,7 @@ export class ThreadController {
         image: data.image,
         audio: data.audio,
         audio_length: data.audio ? Number(data.audio_length) : undefined,
-        created_at: data.created_at,
+        updated_at: data.updated_at,
       },
     }
   }
