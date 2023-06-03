@@ -16,12 +16,13 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 | password     	| String  	|          	| Yes       | User password                   	|
 
 #### Successful response
-> Register successfully (200)
+> Register successfully (201)
 > ```JSON
 > {
->   "statusCode": 200,
+>   "statusCode": 201,
 >   "data": [
 >     {
+>       "id": 123,
 >       "access_token": "xxx"
 >     }
 >   ]
@@ -69,6 +70,7 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 >   "statusCode": 200,
 >   "data": [
 >     {
+>       "id": 123,
 >       "access_token": "xxx"
 >     }
 >   ]
