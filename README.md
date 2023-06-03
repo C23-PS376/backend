@@ -173,7 +173,7 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 
 #### Response
 ##### Successful response
-> Successfully get user data  (200)
+> Successfully get user data (200)
 > ```JSON
 > {
 >   "id": 1,
@@ -570,6 +570,130 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > {
 >   "statusCode": 400,
 >   "message": "Thread didn't liked yet"
+> }
+> ```
+
+</details>
+
+<details>
+<summary>POST /topics</summary>
+
+### POST /topics
+
+#### Body
+| Key         	| Type    	| Default 	| Required 	| Description                     	|
+|--------------	|---------	| ---------	|----------	|---------------------------------	|
+| name        	| String  	|         	| Yes      	| Name of the topic                  |
+
+#### Successful response
+> Topic created successfully (201)
+> ```JSON
+> {
+>   "statusCode": 201,
+>   "data": {
+>     "name": "xxx",
+>     "id": 1
+>   }
+> }
+> ```
+
+#### Failed response
+> Required field didn't filled properly (400)
+> ```JSON
+> {
+>   "statusCode": 400,
+>   "message": [
+>       "xxx",
+>   ],
+>   "error": "Bad Request"
+> }
+> ```
+
+> Topic already exists (400)
+> ```JSON
+> {
+>   "statusCode": 400,
+>   "message": "The topic already exists"
+> }
+> ```
+
+</details>
+
+<details>
+<summary>PATCH /topics</summary>
+
+### PATCH /topics
+
+#### Body
+| Key         	| Type    	| Default 	| Required 	| Description                     	|
+|--------------	|---------	| ---------	|----------	|---------------------------------	|
+| name        	| String  	|         	| No      	| Name of the topic                 |
+
+#### Successful response
+> Topic updated successfully (200)
+> ```JSON
+> {
+>   "statusCode": 200,
+>   "data": {
+>     "name": "xxx",
+>     "id": 1
+>   }
+> }
+> ```
+
+#### Failed response
+> Topic doesn't exists (400)
+> ```JSON
+> {
+>   "statusCode": 400,
+>   "message": "The topic doesn't exists"
+> }
+> ```
+
+</details>
+
+
+<details>
+<summary>GET /topics</summary>
+
+### GET /topics
+
+#### Successful response
+> Successfully get topic data (200)
+> ```JSON
+> {
+>   "statusCode": 200,
+>   "data": [
+>      {
+>        "name": "xxx",
+>        "id": 1
+>      }
+>   ]
+> }
+> ```
+
+</details>
+
+<details>
+<summary>DELETE /topics/{topic_id}</summary>
+
+### DELETE /topics
+
+#### Body
+| Key         	| Type    	| Default 	| Required 	| Description                     	|
+|--------------	|---------	| ---------	|----------	|---------------------------------	|
+| topic_id     	| String  	|         	| Yes      	| Id of the topic                   |
+
+#### Successful response
+> Topic updated successfully (204)
+
+#### Failed response
+
+> Topic doesn't exists (400)
+> ```JSON
+> {
+>   "statusCode": 400,
+>   "message": "The topic doesn't exists"
 > }
 > ```
 

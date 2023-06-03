@@ -12,6 +12,7 @@ import { StorageModule } from './storage/storage.module'
 import { LikeThreadsModule } from './thread-like/thread-like.module'
 import { Thread } from './thread/entities/thread.entity'
 import { LikeThread } from './thread-like/entities/thread-like.entity'
+import { TopicsModule } from './topics/topics.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { LikeThread } from './thread-like/entities/thread-like.entity'
     ThreadModule,
     StorageModule,
     LikeThreadsModule,
+    TopicsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
