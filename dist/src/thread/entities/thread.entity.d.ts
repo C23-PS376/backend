@@ -6,7 +6,7 @@ export declare class Thread {
     description: string;
     comments_count: string;
     likes_count: string;
-    topic: string;
+    topic: User;
     image: string;
     audio: string;
     audio_length: string;

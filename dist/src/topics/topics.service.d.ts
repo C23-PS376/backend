@@ -7,6 +7,7 @@ export declare class TopicsService {
     constructor(topicRepository: Repository<Topic>);
     create(createTopicDto: CreateTopicDto): Promise<Topic>;
     findAll(): Promise<Topic[]>;
+    findOne(id: number): Promise<Topic>;
     update(id: number, updateTopicDto: UpdateTopicDto): Promise<Topic>;
     remove(id: number): Promise<import("typeorm").DeleteResult>;
 }

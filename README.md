@@ -344,15 +344,16 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > Successfully updated the thread  (200)
 > ```JSON
 > {
->   "statusCode": 200,
+>   "statusCode": 201,
 >   "data": {
->     "id": ,
+>     "id": 1,
 >     "title": "xxx",
 >     "description": "xxx",
->     "topic": "xxx",
+>     "topic": "123",
 >     "image": "xxx",
 >     "audio": "xxx",
->     "audio_length": 12.3
+>     "audio_length": 12.3,
+>     "updated_at": "123"
 >   }
 > }
 > ```
@@ -382,7 +383,7 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > Successfully get the thread  (200)
 > ```JSON
 > {
-> "statusCode": 200,
+>   "statusCode": 200,
 >   "data": [
 >     {
 >       "id": 1,
@@ -390,20 +391,23 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 >       "description": "xxx",
 >       "comments_count": "123",
 >       "likes_count": "123",
->       "topic": "xxx",
 >       "image": "xxx",
 >       "audio": "xxx",
->       "audio_length": "123",
+>       "audio_length": 12.3,
 >       "created_at": "123",
 >       "updated_at": "123",
 >       "user": {
 >           "name": "xxx",
 >           "image": "xxx"
+>       },
+>       "topic": {
+>           "id": 1,
+>           "name": "xxx"
 >       }
 >     }
 >   ]
 > }
-> ```
+```
 
 > audio_length is provided in seconds
 

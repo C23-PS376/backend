@@ -27,6 +27,10 @@ export class TopicsService {
     return await this.topicRepository.find();
   }
 
+  async findOne(id: number) {
+    return this.topicRepository.findOneBy({ id });
+  }
+
   async update(id: number, updateTopicDto: UpdateTopicDto) {
     const topic = await this.topicRepository.findOneBy({ id })
     if (!topic) throw new HttpException("Topic doesn't exists", 400)

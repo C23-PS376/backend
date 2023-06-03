@@ -33,6 +33,9 @@ let TopicsService = class TopicsService {
     async findAll() {
         return await this.topicRepository.find();
     }
+    async findOne(id) {
+        return this.topicRepository.findOneBy({ id });
+    }
     async update(id, updateTopicDto) {
         const topic = await this.topicRepository.findOneBy({ id });
         if (!topic)

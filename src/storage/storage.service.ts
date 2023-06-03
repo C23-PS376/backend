@@ -44,6 +44,7 @@ export class StorageService {
   }
 
   getFilenameFromPath(path: string): string {
-    return path.split(`https://storage.googleapis.com/${this.bucket}/`)[1]
+    if(path) return path.split(`https://storage.googleapis.com/${this.bucket}/`)[1]
+    return ''
   }
 }

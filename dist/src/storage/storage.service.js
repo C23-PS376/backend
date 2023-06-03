@@ -47,7 +47,9 @@ let StorageService = class StorageService {
         return `${directory}${randomName}.${file.mimetype.split('/')[1]}`;
     }
     getFilenameFromPath(path) {
-        return path.split(`https://storage.googleapis.com/${this.bucket}/`)[1];
+        if (path)
+            return path.split(`https://storage.googleapis.com/${this.bucket}/`)[1];
+        return '';
     }
 };
 StorageService = __decorate([
