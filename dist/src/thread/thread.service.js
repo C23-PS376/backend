@@ -33,11 +33,15 @@ const get_audio_duration_1 = require("get-audio-duration");
 const fs = require("fs");
 const tmp = require("tmp");
 const topics_service_1 = require("../topics/topics.service");
+const user_service_1 = require("../user/user.service");
+const user_entity_1 = require("../user/entities/user.entity");
 let ThreadService = class ThreadService {
-    constructor(threadRepository, storageService, topicService) {
+    constructor(threadRepository, userRepository, storageService, topicService, userService) {
         this.threadRepository = threadRepository;
+        this.userRepository = userRepository;
         this.storageService = storageService;
         this.topicService = topicService;
+        this.userService = userService;
     }
     async create(createUserDto, userId) {
         const thread = new thread_entity_1.Thread();
@@ -54,6 +58,9 @@ let ThreadService = class ThreadService {
             ? await this.getAudioDuration(audio.buffer)
             : undefined;
         Object.assign(thread, Object.assign({ topic, user: userId, image: newImagePath, audio: newAudioPath, audio_length: newAudioLength }, createdData));
+        const user = await this.userService.findOneById(+userId);
+        user.threads_count = (+user.threads_count + 1).toString();
+        await this.userRepository.save(user);
         return await this.threadRepository.save(thread);
     }
     async findAll(page, size, keyword, topic) {
@@ -98,7 +105,7 @@ let ThreadService = class ThreadService {
             }
         });
         if (!thread)
-            throw new common_1.HttpException("Thread didn't exists", 400);
+            throw new common_1.HttpException("Thread doesn't exists", 400);
         return thread;
     }
     async update(threadId, updateThreadDto, userId) {
@@ -110,7 +117,7 @@ let ThreadService = class ThreadService {
             },
         });
         if (!existingThread)
-            throw new common_1.HttpException("Thread didn't exists", 400);
+            throw new common_1.HttpException("Thread doesn't exists", 400);
         if (((_a = existingThread === null || existingThread === void 0 ? void 0 : existingThread.user) === null || _a === void 0 ? void 0 : _a.id) !== userId)
             throw new common_1.ForbiddenException();
         const { audio, image } = updateThreadDto, updatedData = __rest(updateThreadDto, ["audio", "image"]);
@@ -143,13 +150,16 @@ let ThreadService = class ThreadService {
             },
         });
         if (!existingThread)
-            throw new common_1.HttpException("Thread didn't exists", 400);
+            throw new common_1.HttpException("Thread doesn't exists", 400);
         if (((_a = existingThread === null || existingThread === void 0 ? void 0 : existingThread.user) === null || _a === void 0 ? void 0 : _a.id) !== userId)
             throw new common_1.ForbiddenException();
         const oldImagePath = this.storageService.getFilenameFromPath(existingThread === null || existingThread === void 0 ? void 0 : existingThread.image);
         const oldAudioPath = this.storageService.getFilenameFromPath(existingThread === null || existingThread === void 0 ? void 0 : existingThread.audio);
         this.storageService.removeFileIfExists(oldImagePath);
         this.storageService.removeFileIfExists(oldAudioPath);
+        const user = await this.userService.findOneById(+userId);
+        user.threads_count = (+user.threads_count - 1).toString();
+        await this.userRepository.save(user);
         return this.threadRepository.delete({ id });
     }
     getAudioDuration(audioBuffer) {
@@ -172,9 +182,12 @@ let ThreadService = class ThreadService {
 ThreadService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_2.InjectRepository)(thread_entity_1.Thread)),
+    __param(1, (0, typeorm_2.InjectRepository)(user_entity_1.User)),
     __metadata("design:paramtypes", [typeorm_1.Repository,
+        typeorm_1.Repository,
         storage_service_1.StorageService,
-        topics_service_1.TopicsService])
+        topics_service_1.TopicsService,
+        user_service_1.UserService])
 ], ThreadService);
 exports.ThreadService = ThreadService;
 //# sourceMappingURL=thread.service.js.map

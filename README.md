@@ -229,11 +229,11 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > }
 > ```
 
-> User didn't exists (400)
+> User doesn't exists (400)
 > ```JSON
 > {
 >     "statusCode": 400,
->     "message": "User didn't exists"
+>     "message": "User doesn't exists"
 > }
 > ```
 
@@ -370,11 +370,11 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 
 ##### Failed response
 
-> Thread didn't exists (400)
+> Thread doesn't exists (400)
 > ```JSON
 > {
 >     "statusCode": 400,
->     "message": "Thread didn't exists"
+>     "message": "Thread doesn't exists"
 > }
 > ```
 
@@ -500,11 +500,11 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > }
 > ```
 
-> Thread didn't exists (400)
+> Thread doesn't exists (400)
 > ```JSON
 > {
 >     "statusCode": 400,
->     "message": "Thread didn't exists"
+>     "message": "Thread doesn't exists"
 > }
 > ```
 
@@ -539,11 +539,11 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 ```
 ##### Failed response
 
-> Thread didn't exists (400)
+> Thread doesn't exists (400)
 > ```JSON
 > {
 >   "statusCode": 400,
->   "message": "Thread didn't exists"
+>   "message": "Thread doesn't exists"
 > }
 > ```
 
@@ -577,11 +577,11 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > Successfully unlike the thread  (204)
 ##### Failed response
 
-> Thread didn't exists (400)
+> Thread doesn't exists (400)
 > ```JSON
 > {
 >   "statusCode": 400,
->   "message": "Thread didn't exists"
+>   "message": "Thread doesn't exists"
 > }
 > ```
 

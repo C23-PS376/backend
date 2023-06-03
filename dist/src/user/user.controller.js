@@ -47,7 +47,11 @@ let UserController = class UserController {
         var _a;
         if (+id !== ((_a = req === null || req === void 0 ? void 0 : req.user) === null || _a === void 0 ? void 0 : _a.id))
             throw new common_1.ForbiddenException();
-        return this.userService.findOneById(+id);
+        const _b = await this.userService.findOneById(+id), { password } = _b, data = __rest(_b, ["password"]);
+        return {
+            statusCode: 200,
+            data,
+        };
     }
     async remove(id, req) {
         var _a;

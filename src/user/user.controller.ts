@@ -18,7 +18,6 @@ import {
 import { UserService } from './user.service'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { AuthGuard } from 'src/auth/auth.guard'
-import { User } from './entities/user.entity';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 @UseGuards(AuthGuard)
 @Controller('user')
@@ -54,9 +53,15 @@ export class UserController {
   }
 
   @Get(':id')
-  async getProfile(@Param('id') id: string, @Request() req): Promise<User> {
+  async getProfile(@Param('id') id: string, @Request() req) {
     if (+id !== req?.user?.id) throw new ForbiddenException()
-    return this.userService.findOneById(+id);
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password, ...data } = await this.userService.findOneById(+id)
+    return {
+      statusCode: 200,
+      data,
+    }
   }
     
   @HttpCode(204)

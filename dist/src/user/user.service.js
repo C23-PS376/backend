@@ -50,7 +50,7 @@ let UserService = class UserService {
     async update(id, updateUserDto) {
         const existingUser = await this.findOneById(id);
         if (!existingUser)
-            throw new common_1.HttpException("User didn't exists", 400);
+            throw new common_1.HttpException("User doesn't exists", 400);
         const { email, image, audio } = updateUserDto, updatedData = __rest(updateUserDto, ["email", "image", "audio"]);
         const userExists = await this.findOneByEmail(email);
         if (email && userExists && userExists.id !== id)
@@ -76,19 +76,22 @@ let UserService = class UserService {
     async remove(id) {
         const existingUser = await this.findOneById(id);
         if (!existingUser)
-            throw new common_1.HttpException("User didn't exists", 400);
+            throw new common_1.HttpException("User doesn't exists", 400);
         return this.userRepository.delete({ id });
     }
     async validate(email, password) {
         const user = await this.findOneByEmail(email);
         if (!user)
-            throw new common_1.HttpException("User didn't exists", 400);
+            throw new common_1.HttpException("User doesn't exists", 400);
         if (await argon2.verify(user.password, password))
             return user;
         return null;
     }
-    findOneById(id) {
-        return this.userRepository.findOneBy({ id });
+    async findOneById(id) {
+        const user = await this.userRepository.findOneBy({ id });
+        if (!user)
+            throw new common_1.HttpException("User doesn't exists", 400);
+        return user;
     }
     findOneByEmail(email) {
         return this.userRepository.findOneBy({ email });

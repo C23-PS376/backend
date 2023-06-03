@@ -30,7 +30,7 @@ export class UserService {
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
     const existingUser = await this.findOneById(id)
-    if (!existingUser) throw new HttpException("User didn't exists", 400)
+    if (!existingUser) throw new HttpException("User doesn't exists", 400)
 
     const { email, image, audio, ...updatedData } = updateUserDto
     const userExists = await this.findOneByEmail(email)
@@ -68,21 +68,23 @@ export class UserService {
 
   async remove(id: number): Promise<DeleteResult> {
     const existingUser = await this.findOneById(id)
-    if (!existingUser) throw new HttpException("User didn't exists", 400)
+    if (!existingUser) throw new HttpException("User doesn't exists", 400)
 
     return this.userRepository.delete({ id })
   }
 
   async validate(email: string, password: string): Promise<User | null> {
     const user = await this.findOneByEmail(email)
-    if (!user) throw new HttpException("User didn't exists", 400)
+    if (!user) throw new HttpException("User doesn't exists", 400)
 
     if (await argon2.verify(user.password, password)) return user
     return null
   }
 
-  findOneById(id: number): Promise<User | null> {
-    return this.userRepository.findOneBy({ id })
+  async findOneById(id: number): Promise<User | null> {
+    const user = await this.userRepository.findOneBy({ id })
+    if (!user) throw new HttpException("User doesn't exists", 400)
+    return user
   }
 
   findOneByEmail(email: string): Promise<User | null> {

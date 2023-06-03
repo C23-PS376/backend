@@ -9,6 +9,8 @@ import getAudioDurationInSeconds from 'get-audio-duration'
 import * as fs from 'fs'
 import * as tmp from 'tmp'
 import { TopicsService } from 'src/topics/topics.service'
+import { UserService } from 'src/user/user.service'
+import { User } from 'src/user/entities/user.entity'
 
 interface CustomQuery{
   topic: string
@@ -20,8 +22,11 @@ export class ThreadService {
   constructor(
     @InjectRepository(Thread)
     private readonly threadRepository: Repository<Thread>,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
     private readonly storageService: StorageService,
     private readonly topicService: TopicsService,
+    private readonly userService: UserService,
   ) {}
 
   async create(
@@ -51,6 +56,11 @@ export class ThreadService {
       audio_length: newAudioLength,
       ...createdData,
     })
+
+    const user = await this.userService.findOneById(+userId)
+    user.threads_count = (+user.threads_count + 1).toString()
+
+    await this.userRepository.save(user)
     return await this.threadRepository.save(thread)
   }
 
@@ -94,7 +104,7 @@ export class ThreadService {
         }
       }
     })
-    if (!thread) throw new HttpException("Thread didn't exists", 400)
+    if (!thread) throw new HttpException("Thread doesn't exists", 400)
     return thread
   }
 
@@ -109,7 +119,7 @@ export class ThreadService {
         user: true,
       },
     })
-    if (!existingThread) throw new HttpException("Thread didn't exists", 400)
+    if (!existingThread) throw new HttpException("Thread doesn't exists", 400)
     if (existingThread?.user?.id !== userId) throw new ForbiddenException()
 
     const { audio, image, ...updatedData } = updateThreadDto
@@ -152,7 +162,7 @@ export class ThreadService {
         user: true,
       },
     })
-    if (!existingThread) throw new HttpException("Thread didn't exists", 400)
+    if (!existingThread) throw new HttpException("Thread doesn't exists", 400)
     if (existingThread?.user?.id !== userId) throw new ForbiddenException()
 
     const oldImagePath = this.storageService.getFilenameFromPath(
@@ -164,6 +174,11 @@ export class ThreadService {
 
     this.storageService.removeFileIfExists(oldImagePath)
     this.storageService.removeFileIfExists(oldAudioPath)
+
+    const user = await this.userService.findOneById(+userId)
+    user.threads_count = (+user.threads_count - 1).toString()
+
+    await this.userRepository.save(user)
 
     return this.threadRepository.delete({ id })
   }
