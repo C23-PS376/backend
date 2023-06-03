@@ -304,6 +304,14 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > }
 > ```
 
+> Topic doesn't exists (400)
+> ```JSON
+> {
+>   "statusCode": 400,
+>   "message": "The topic doesn't exists"
+> }
+> ```
+
 > Incompatible Files (422)
 > ```JSON
 > {
@@ -367,6 +375,14 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > {
 >     "statusCode": 400,
 >     "message": "Thread didn't exists"
+> }
+> ```
+
+> Topic doesn't exists (400)
+> ```JSON
+> {
+>   "statusCode": 400,
+>   "message": "The topic doesn't exists"
 > }
 > ```
 
@@ -624,10 +640,14 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 </details>
 
 <details>
-<summary>PATCH /topics</summary>
+<summary>PATCH /topics/{topic_id}</summary>
 
-### PATCH /topics
+### PATCH /topics/{topic_id}
 
+#### Params
+| Name         	| Type    	| In      	| Default 	| Required 	| Description                     	|
+|--------------	| --------- |---------	| ---------	|----------	|---------------------------------	|
+| topic_id      | Integer  	| Uri     	|         	| Yes      	| The ID of topic                   |
 #### Body
 | Key         	| Type    	| Default 	| Required 	| Description                     	|
 |--------------	|---------	| ---------	|----------	|---------------------------------	|
@@ -683,10 +703,10 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 
 ### DELETE /topics
 
-#### Body
-| Key         	| Type    	| Default 	| Required 	| Description                     	|
-|--------------	|---------	| ---------	|----------	|---------------------------------	|
-| topic_id     	| String  	|         	| Yes      	| Id of the topic                   |
+#### Params
+| Name         	| Type    	| In      	| Default 	| Required 	| Description                     	|
+|--------------	| --------- |---------	| ---------	|----------	|---------------------------------	|
+| topic_id      | Integer  	| Uri     	|         	| Yes      	| The ID of topic                   |
 
 #### Successful response
 > Topic updated successfully (204)
