@@ -395,6 +395,14 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 
 ### GET /threads
 
+#### Params
+| Name         	| Type    	| In      	| Default 	| Required 	| Description                     	|
+|--------------	| --------- |---------	| ---------	|----------	|---------------------------------	|
+| page          | string   	| Query   	| 0        	| No      	| The index of page of list thread  |
+| size          | string   	| Query   	| 5        	| No      	| Max thread in one page            |
+| keyword       | string   	| Query   	|         	| No      	| Keyword for search the thread     |
+| topic         | string   	| Query   	|           | No      	| The topic of the thread           |
+
 #### Response
 ##### Successful response
 
@@ -439,11 +447,7 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 #### Params
 | Name         	| Type    	| In      	| Default 	| Required 	| Description                     	|
 |--------------	| --------- |---------	| ---------	|----------	|---------------------------------	|
-| page          | string   	| Query   	| 0        	| No      	| The index of page of list thread  |
-| size          | string   	| Query   	| 5        	| No      	| Max thread in one page            |
-| keyword       | string   	| Query   	|         	| No      	| Keyword for search the thread     |
-| topic         | string   	| Query   	|           | No      	| The topic of the thread           |
-
+| thread_id     | string   	| Uri     	|         	| Yes      	| The id of the thread              |
 #### Response
 
 ##### Successful response
@@ -473,6 +477,16 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > ```
 
 > audio_length is provided in seconds
+
+##### Failed response
+
+> Thread doesn't exists (400)
+> ```JSON
+> {
+>   "statusCode": 400,
+>   "message": "Thread doesn't exists"
+> }
+> ```
 
 </details>
 
