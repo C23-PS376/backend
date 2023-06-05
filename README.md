@@ -425,7 +425,7 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 >     }
 >   ]
 > }
-```
+> ```
 
 > audio_length is provided in seconds
 
@@ -443,7 +443,9 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 | size          | string   	| Query   	| 5        	| No      	| Max thread in one page            |
 | keyword       | string   	| Query   	|         	| No      	| Keyword for search the thread     |
 | topic         | string   	| Query   	|           | No      	| The topic of the thread           |
+
 #### Response
+
 ##### Successful response
 
 > Successfully get the thread  (200)
@@ -468,7 +470,7 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 >     }
 >   }
 > }
-```
+> ```
 
 > audio_length is provided in seconds
 
