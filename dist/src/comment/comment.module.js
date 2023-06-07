@@ -15,13 +15,15 @@ const typeorm_1 = require("@nestjs/typeorm");
 const multer_config_1 = require("../../config/multer.config");
 const storage_service_1 = require("../storage/storage.service");
 const jwtModule_1 = require("../../config/jwtModule");
+const thread_service_1 = require("../thread/thread.service");
+const thread_entity_1 = require("../thread/entities/thread.entity");
 let CommentModule = class CommentModule {
 };
 CommentModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([comment_entity_1.Comment]), jwtModule_1.jwtModule, multer_config_1.multerModule],
+        imports: [typeorm_1.TypeOrmModule.forFeature([comment_entity_1.Comment, thread_entity_1.Thread]), jwtModule_1.jwtModule, multer_config_1.multerModule],
         controllers: [comment_controller_1.CommentController],
-        providers: [comment_service_1.CommentService, storage_service_1.StorageService],
+        providers: [comment_service_1.CommentService, storage_service_1.StorageService, thread_service_1.ThreadService],
     })
 ], CommentModule);
 exports.CommentModule = CommentModule;

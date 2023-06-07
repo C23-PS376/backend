@@ -18,17 +18,27 @@ const comment_service_1 = require("./comment.service");
 const auth_guard_1 = require("../auth/auth.guard");
 const platform_express_1 = require("@nestjs/platform-express");
 const create_comment_dto_1 = require("./dto/create-comment.dto");
+const thread_service_1 = require("../thread/thread.service");
 let CommentController = class CommentController {
-    constructor(commentService) {
+    constructor(commentService, threadService) {
         this.commentService = commentService;
+        this.threadService = threadService;
     }
     async create(req, threadId, createCommentDto, files) {
-        var _a, _b, _c;
-        const comment = await this.commentService.create(Object.assign(Object.assign({}, createCommentDto), { audio: (_a = files === null || files === void 0 ? void 0 : files.audio) === null || _a === void 0 ? void 0 : _a[0] }), (_b = req === null || req === void 0 ? void 0 : req.user) === null || _b === void 0 ? void 0 : _b.id, (_c = req === null || req === void 0 ? void 0 : req.thread) === null || _c === void 0 ? void 0 : _c.id);
-        const { text, audio } = comment;
+        var _a, _b;
+        const existingThread = await this.threadService.findOneById(+threadId);
+        const comment = await this.commentService.create(Object.assign(Object.assign({}, createCommentDto), { audio: (_a = files === null || files === void 0 ? void 0 : files.audio) === null || _a === void 0 ? void 0 : _a[0] }), (_b = req === null || req === void 0 ? void 0 : req.user) === null || _b === void 0 ? void 0 : _b.id, threadId);
+        const { id, text, audio } = comment;
         return {
             statusCode: 201,
-            data: [{ text, audio }],
+            data: [
+                {
+                    id,
+                    threadId: existingThread.id,
+                    text,
+                    audio,
+                }
+            ],
         };
     }
 };
@@ -47,7 +57,8 @@ __decorate([
 ], CommentController.prototype, "create", null);
 CommentController = __decorate([
     (0, common_1.Controller)('threads/:threadId/comment'),
-    __metadata("design:paramtypes", [comment_service_1.CommentService])
+    __metadata("design:paramtypes", [comment_service_1.CommentService,
+        thread_service_1.ThreadService])
 ], CommentController);
 exports.CommentController = CommentController;
 //# sourceMappingURL=comment.controller.js.map
