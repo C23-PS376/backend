@@ -66,7 +66,7 @@ export class ThreadController {
     @Query('page') page: string,
     @Query('size') size: string,
     @Query('keyword') keyword: string,
-    @Query('topic') topic: string,
+    @Query('topic') topic: number,
   ) {
     if(!page) page = '0'
     if(!size) size = '5'

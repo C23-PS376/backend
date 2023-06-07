@@ -97,7 +97,7 @@ __decorate([
     __param(2, (0, common_1.Query)('keyword')),
     __param(3, (0, common_1.Query)('topic')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String, String, String]),
+    __metadata("design:paramtypes", [String, String, String, Number]),
     __metadata("design:returntype", Promise)
 ], ThreadController.prototype, "findAll", null);
 __decorate([

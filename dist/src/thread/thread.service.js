@@ -68,9 +68,9 @@ let ThreadService = class ThreadService {
         if (keyword)
             query.push({ title: (0, typeorm_1.ILike)(`%${keyword}%`) }, { description: (0, typeorm_1.ILike)(`%${keyword}%`) });
         if (topic && keyword)
-            query.forEach((it) => it.topic = topic);
+            query.forEach((it) => it.topic = { id: topic });
         if (topic && !keyword)
-            query.push({ topic });
+            query.push({ topic: { id: topic } });
         return await this.threadRepository
             .find({
             where: query,

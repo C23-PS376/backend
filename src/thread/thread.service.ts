@@ -11,12 +11,6 @@ import * as tmp from 'tmp'
 import { TopicsService } from 'src/topics/topics.service'
 import { UserService } from 'src/user/user.service'
 import { User } from 'src/user/entities/user.entity'
-
-interface CustomQuery{
-  topic: string
-  title?: string
-  description?: string
-}
 @Injectable()
 export class ThreadService {
   constructor(
@@ -64,11 +58,11 @@ export class ThreadService {
     return await this.threadRepository.save(thread)
   }
 
-  async findAll(page: string, size: string, keyword: string, topic: string) {
+  async findAll(page: string, size: string, keyword: string, topic: number) {
     const query = []
     if (keyword) query.push({title: ILike(`%${keyword}%`)}, {description: ILike(`%${keyword}%`)})
-    if (topic && keyword) query.forEach((it: CustomQuery) => it.topic = topic)
-    if (topic && !keyword) query.push({ topic })
+    if (topic && keyword) query.forEach((it: any) => it.topic = {id: topic} )
+    if (topic && !keyword) query.push({ topic: {id: topic} })
 
     return await this.threadRepository
     .find({
