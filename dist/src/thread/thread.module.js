@@ -19,13 +19,15 @@ const topics_service_1 = require("../topics/topics.service");
 const topic_entity_1 = require("../topics/entities/topic.entity");
 const user_entity_1 = require("../user/entities/user.entity");
 const user_service_1 = require("../user/user.service");
+const badge_service_1 = require("../badge/badge.service");
+const badge_entity_1 = require("../badge/entities/badge.entity");
 let ThreadModule = class ThreadModule {
 };
 ThreadModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([thread_entity_1.Thread, topic_entity_1.Topic, user_entity_1.User]), jwtModule_1.jwtModule, multer_config_1.multerModule],
+        imports: [typeorm_1.TypeOrmModule.forFeature([thread_entity_1.Thread, topic_entity_1.Topic, user_entity_1.User, badge_entity_1.Badge]), jwtModule_1.jwtModule, multer_config_1.multerModule],
         controllers: [thread_controller_1.ThreadController],
-        providers: [thread_service_1.ThreadService, storage_service_1.StorageService, topics_service_1.TopicsService, user_service_1.UserService],
+        providers: [thread_service_1.ThreadService, storage_service_1.StorageService, topics_service_1.TopicsService, user_service_1.UserService, badge_service_1.BadgeService],
     })
 ], ThreadModule);
 exports.ThreadModule = ThreadModule;

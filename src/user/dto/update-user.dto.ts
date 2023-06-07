@@ -5,4 +5,5 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   readonly image: Express.Multer.File
   readonly audio: Express.Multer.File
   readonly status: string
+  readonly badge: string
 }

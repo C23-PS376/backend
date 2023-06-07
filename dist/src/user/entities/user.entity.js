@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 const typeorm_1 = require("typeorm");
 const argon2 = require("argon2");
+const badge_entity_1 = require("../../badge/entities/badge.entity");
 const current_time = new Date();
 let User = class User {
     async hashPassword() {
@@ -53,6 +54,10 @@ __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
 ], User.prototype, "status", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => badge_entity_1.Badge, (badge) => badge.id),
+    __metadata("design:type", badge_entity_1.Badge)
+], User.prototype, "badge", void 0);
 __decorate([
     (0, typeorm_1.Column)({ default: 0 }),
     __metadata("design:type", String)

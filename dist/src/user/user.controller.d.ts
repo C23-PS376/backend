@@ -17,6 +17,7 @@ export declare class UserController {
             audio_length: string;
             image: string;
             status: string;
+            badge: import("../badge/entities/badge.entity").Badge;
             created_at: string;
             updated_at: string;
         }[];
@@ -31,6 +32,7 @@ export declare class UserController {
             audio_length: string;
             image: string;
             status: string;
+            badge: import("../badge/entities/badge.entity").Badge;
             threads_count: string;
             comments_count: string;
             created_at: string;

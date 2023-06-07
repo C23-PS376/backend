@@ -21,6 +21,7 @@ const thread_like_module_1 = require("./thread-like/thread-like.module");
 const thread_entity_1 = require("./thread/entities/thread.entity");
 const thread_like_entity_1 = require("./thread-like/entities/thread-like.entity");
 const topics_module_1 = require("./topics/topics.module");
+const badge_module_1 = require("./badge/badge.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -50,6 +51,7 @@ AppModule = __decorate([
             storage_module_1.StorageModule,
             thread_like_module_1.LikeThreadsModule,
             topics_module_1.TopicsModule,
+            badge_module_1.BadgeModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

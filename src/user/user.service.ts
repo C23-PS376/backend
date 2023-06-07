@@ -10,12 +10,14 @@ import { StorageService } from 'src/storage/storage.service'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { User } from './entities/user.entity'
+import { BadgeService } from 'src/badge/badge.service'
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private readonly storageService: StorageService,
+    private readonly badgeService: BadgeService,
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
@@ -31,6 +33,12 @@ export class UserService {
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
     const existingUser = await this.findOneById(id)
     if (!existingUser) throw new HttpException("User doesn't exists", 400)
+
+    if(updateUserDto.badge){
+      if(isNaN(+updateUserDto.badge)) throw new HttpException("Badge must be a number", 400)
+      const badgeExists = await this.badgeService.findOne(+updateUserDto.badge)
+      if (!badgeExists) throw new HttpException("Badge doesn't exists", 400)
+    }
 
     const { email, image, audio, ...updatedData } = updateUserDto
     const userExists = await this.findOneByEmail(email)
@@ -82,7 +90,12 @@ export class UserService {
   }
 
   async findOneById(id: number): Promise<User | null> {
-    const user = await this.userRepository.findOneBy({ id })
+    const user = await this.userRepository.findOne({
+      where: { id },
+      relations: {
+        badge: true
+      }
+    })
     if (!user) throw new HttpException("User doesn't exists", 400)
     return user
   }
