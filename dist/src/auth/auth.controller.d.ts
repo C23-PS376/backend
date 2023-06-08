@@ -7,12 +7,14 @@ export declare class AuthController {
     validate(loginAuthDto: LoginAuthDto): Promise<{
         statusCode: number;
         data: {
+            id: number;
             access_token: string;
         }[];
     }>;
     create(registerAuthDto: RegisterAuthDto): Promise<{
         statusCode: number;
         data: {
+            id: number;
             access_token: string;
         }[];
     }>;

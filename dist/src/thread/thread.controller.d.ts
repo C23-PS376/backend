@@ -14,12 +14,14 @@ export declare class ThreadController {
             id: number;
             title: string;
             description: string;
-            topic: string;
+            topic: import("../user/entities/user.entity").User;
             image: string;
             audio: string;
-        }[];
+            audio_length: number;
+            created_at: string;
+        };
     }>;
-    findAll(): Promise<{
+    findAll(page: string, size: string, keyword: string, topic: number): Promise<{
         statusCode: number;
         data: import("./entities/thread.entity").Thread[];
     }>;
@@ -36,9 +38,10 @@ export declare class ThreadController {
             id: number;
             title: string;
             description: string;
-            topic: string;
+            topic: import("../user/entities/user.entity").User;
             image: string;
             audio: string;
+            audio_length: number;
             updated_at: string;
         };
     }>;

@@ -18,10 +18,6 @@ let StorageService = class StorageService {
         this.configService = configService;
         this.storage = new storage_1.Storage({
             projectId: this.configService.get('PROJECT_ID'),
-            credentials: {
-                client_email: this.configService.get('CLIENT_EMAIL'),
-                private_key: this.configService.get('PRIVATE_KEY'),
-            },
         });
         this.bucket = this.configService.get('STORAGE_MEDIA_BUCKET');
     }
@@ -51,7 +47,9 @@ let StorageService = class StorageService {
         return `${directory}${randomName}.${file.mimetype.split('/')[1]}`;
     }
     getFilenameFromPath(path) {
-        return path.split(`https://storage.googleapis.com/${this.bucket}/`)[1];
+        if (path)
+            return path.split(`https://storage.googleapis.com/${this.bucket}/`)[1];
+        return '';
     }
 };
 StorageService = __decorate([

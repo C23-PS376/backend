@@ -3,10 +3,10 @@ import {
   PrimaryGeneratedColumn,
   Column,
   ManyToOne,
-  BeforeInsert,
   BeforeUpdate,
 } from 'typeorm'
 import { User } from '../../../src/user/entities/user.entity'
+import { Topic } from 'src/topics/entities/topic.entity'
 
 const current_time = new Date()
 
@@ -18,10 +18,10 @@ export class Thread {
   @ManyToOne(() => User, (user) => user.id)
   user: User
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, default: '' })
   title: string
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, default: '' })
   description: string
 
   @Column({ default: 0 })
@@ -29,27 +29,24 @@ export class Thread {
 
   @Column({ default: 0 })
   likes_count: string
+  
+  @ManyToOne(() => Topic, (topic) => topic.id)
+  topic: User
 
-  @Column({ nullable: false })
-  topic: string
-
-  @Column({ default: '' })
+  @Column({ nullable: true })
   image: string
 
-  @Column({ default: '' })
+  @Column({ nullable: true })
   audio: string
 
-  @Column({ nullable: false })
+  @Column({ nullable: true })
+  audio_length: string
+
+  @Column({ nullable: false, default: () => current_time.getTime().toString() })
   created_at: string
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, default: () => current_time.getTime().toString() })
   updated_at: string
-
-  @BeforeInsert()
-  async insertTime() {
-    this.created_at = current_time.getTime().toString()
-    this.updated_at = this.created_at
-  }
 
   @BeforeUpdate()
   async updateTime() {

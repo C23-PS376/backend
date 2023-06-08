@@ -6,11 +6,11 @@ export declare class Thread {
     description: string;
     comments_count: string;
     likes_count: string;
-    topic: string;
+    topic: User;
     image: string;
     audio: string;
+    audio_length: string;
     created_at: string;
     updated_at: string;
-    insertTime(): Promise<void>;
     updateTime(): Promise<void>;
 }

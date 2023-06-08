@@ -18,6 +18,11 @@ const auth_module_1 = require("./auth/auth.module");
 const thread_module_1 = require("./thread/thread.module");
 const storage_module_1 = require("./storage/storage.module");
 const comment_module_1 = require("./comment/comment.module");
+const thread_like_module_1 = require("./thread-like/thread-like.module");
+const thread_entity_1 = require("./thread/entities/thread.entity");
+const thread_like_entity_1 = require("./thread-like/entities/thread-like.entity");
+const topics_module_1 = require("./topics/topics.module");
+const badge_module_1 = require("./badge/badge.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -35,7 +40,7 @@ AppModule = __decorate([
                     username: configService.get('DB_USERNAME'),
                     password: configService.get('DB_PASSWORD'),
                     database: configService.get('DB_NAME'),
-                    entities: [user_entity_1.User],
+                    entities: [user_entity_1.User, thread_entity_1.Thread, thread_like_entity_1.LikeThread],
                     synchronize: true,
                     autoLoadEntities: true,
                 }),
@@ -46,6 +51,9 @@ AppModule = __decorate([
             thread_module_1.ThreadModule,
             storage_module_1.StorageModule,
             comment_module_1.CommentModule,
+            thread_like_module_1.LikeThreadsModule,
+            topics_module_1.TopicsModule,
+            badge_module_1.BadgeModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

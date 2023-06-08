@@ -10,6 +10,11 @@ import { AuthModule } from './auth/auth.module'
 import { ThreadModule } from './thread/thread.module'
 import { StorageModule } from './storage/storage.module'
 import { CommentModule } from './comment/comment.module';
+import { LikeThreadsModule } from './thread-like/thread-like.module'
+import { Thread } from './thread/entities/thread.entity'
+import { LikeThread } from './thread-like/entities/thread-like.entity'
+import { TopicsModule } from './topics/topics.module';
+import { BadgeModule } from './badge/badge.module';
 
 @Module({
   imports: [
@@ -25,7 +30,7 @@ import { CommentModule } from './comment/comment.module';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [User],
+        entities: [User, Thread, LikeThread],
         synchronize: true,
         autoLoadEntities: true,
       }),
@@ -36,6 +41,9 @@ import { CommentModule } from './comment/comment.module';
     ThreadModule,
     StorageModule,
     CommentModule,
+    LikeThreadsModule,
+    TopicsModule,
+    BadgeModule,
   ],
   controllers: [AppController],
   providers: [AppService],

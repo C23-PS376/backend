@@ -13,6 +13,7 @@ import {
   Request,
   UseGuards,
   HttpCode,
+  Query,
 } from '@nestjs/common'
 import { FileFieldsInterceptor } from '@nestjs/platform-express'
 
@@ -37,7 +38,7 @@ export class ThreadController {
     @UploadedFiles()
     files: { image?: Express.Multer.File[]; audio?: Express.Multer.File[] },
   ) {
-    const thread = await this.threadService.create(
+    const data = await this.threadService.create(
       {
         ...createThreadDto,
         image: files?.image?.[0],
@@ -45,18 +46,33 @@ export class ThreadController {
       },
       req?.user?.id,
     )
-    const { id, title, description, topic, image, audio } = thread
     return {
       statusCode: 201,
-      data: [{ id, title, description, topic, image, audio }],
+      data: {
+        id: data.id,
+        title: data.title,
+        description: data.description,
+        topic: data.topic,
+        image: data.image,
+        audio: data.audio,
+        audio_length: Number(data.audio_length),
+        created_at: data.created_at,
+      },
     }
   }
 
   @Get()
-  async findAll() {
+  async findAll(
+    @Query('page') page: string,
+    @Query('size') size: string,
+    @Query('keyword') keyword: string,
+    @Query('topic') topic: number,
+  ) {
+    if(!page) page = '0'
+    if(!size) size = '5'
     return {
       statusCode: 200,
-      data: await this.threadService.findAll(),
+      data: await this.threadService.findAll(page, size, keyword, topic),
     }
   }
 
@@ -82,20 +98,28 @@ export class ThreadController {
     files: { image?: Express.Multer.File[]; audio?: Express.Multer.File[] },
   ) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { user, comments_count, likes_count, created_at, ...data } =
-      await this.threadService.update(
-        +id,
-        {
-          ...updateThreadDto,
-          image: files?.image?.[0],
-          audio: files?.audio?.[0],
-        },
-        req?.user?.id,
-      )
+    const data = await this.threadService.update(
+      +id,
+      {
+        ...updateThreadDto,
+        image: files?.image?.[0],
+        audio: files?.audio?.[0],
+      },
+      req?.user?.id,
+    )
 
     return {
       statusCode: 200,
-      data,
+      data: {
+        id: data.id,
+        title: data.title,
+        description: data.description,
+        topic: data.topic,
+        image: data.image,
+        audio: data.audio,
+        audio_length: data.audio ? Number(data.audio_length) : undefined,
+        updated_at: data.updated_at,
+      },
     }
   }
 

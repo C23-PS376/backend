@@ -10,10 +10,6 @@ export class StorageService {
   constructor(private readonly configService: ConfigService) {
     this.storage = new Storage({
       projectId: this.configService.get<string>('PROJECT_ID'),
-      credentials: {
-        client_email: this.configService.get<string>('CLIENT_EMAIL'),
-        private_key: this.configService.get<string>('PRIVATE_KEY'),
-      },
     })
 
     this.bucket = this.configService.get<string>('STORAGE_MEDIA_BUCKET')
@@ -48,6 +44,7 @@ export class StorageService {
   }
 
   getFilenameFromPath(path: string): string {
-    return path.split(`https://storage.googleapis.com/${this.bucket}/`)[1]
+    if(path) return path.split(`https://storage.googleapis.com/${this.bucket}/`)[1]
+    return ''
   }
 }

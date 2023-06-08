@@ -8,7 +8,7 @@ export const fileFilter = (
   const fileExtension = file.mimetype.split('/')[1]
   const validFiles = []
   const imageValidFiles = ['jpg', 'jpeg', 'png']
-  const audioValidFiles = ['mp3', 'wav', 'mpeg']
+  const audioValidFiles = ['mp3', 'wav', 'mpeg', 'ogg']
 
   switch (file.fieldname) {
     case 'image':
