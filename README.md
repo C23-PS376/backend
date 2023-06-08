@@ -124,6 +124,7 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 | password     	| String  	|          	| No        | Password of user                  |
 | image        	| File    	|          	| No        | Profile picture of user           |
 | audio        	| File    	|          	| No        | Profile audio of user             |
+| badge        	| Number   	|          	| No        | Id of the badge                   |
 
 #### Response
 ##### Successful response
@@ -140,6 +141,7 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 >       "audio_length": 12.3,
 >       "image": "xxx",
 >       "status": "xxx",
+>       "badge": "123",
 >       "created_at": "123",
 >       "updated_at": "123"
 >     }
@@ -178,18 +180,25 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > Successfully get user data (200)
 > ```JSON
 > {
->   "id": 1,
->   "name": "xxx",
->   "email": "xxx@xxx.xxx",
->   "password": "xxx",
->   "audio": "xxx",
->   "audio_length": "xxx",
->   "image": "xxx",
->   "status": "xxx",
->   "threads_count": "123",
->   "comments_count": "123",
->   "created_at": "123",
->   "updated_at": "123"
+>   "statusCode": 200,
+>   "data": {
+>     "id": 1,
+>     "name": "xxx",
+>     "email": "xxx@xxx.xxx",
+>     "audio": "xxx",
+>     "audio_length": "xxx",
+>     "image": "xxx",
+>     "status": "xxx",
+>     "threads_count": "123",
+>     "comments_count": "123",
+>     "created_at": "123",
+>     "updated_at": "123",
+>     "badge": {
+>         "id": 1,
+>         "title": "xxx",
+>         "image": "xxx"
+>     }
+>   }
 > }
 > ```
 ##### Failed response

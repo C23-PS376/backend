@@ -4,8 +4,10 @@ import {
   Column,
   BeforeInsert,
   BeforeUpdate,
+  ManyToOne,
 } from 'typeorm'
 import * as argon2 from 'argon2'
+import { Badge } from 'src/badge/entities/badge.entity';
 
 const current_time = new Date();
 
@@ -34,6 +36,9 @@ export class User {
   
   @Column({ nullable: true })
   status: string
+  
+  @ManyToOne(() => Badge, (badge) => badge.id)
+  badge: Badge
   
   @Column({ default: 0 })
   threads_count: string

@@ -13,6 +13,7 @@ import { LikeThreadsModule } from './thread-like/thread-like.module'
 import { Thread } from './thread/entities/thread.entity'
 import { LikeThread } from './thread-like/entities/thread-like.entity'
 import { TopicsModule } from './topics/topics.module';
+import { BadgeModule } from './badge/badge.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { TopicsModule } from './topics/topics.module';
     StorageModule,
     LikeThreadsModule,
     TopicsModule,
+    BadgeModule,
   ],
   controllers: [AppController],
   providers: [AppService],

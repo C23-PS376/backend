@@ -33,10 +33,12 @@ const fs = require("fs");
 const tmp = require("tmp");
 const storage_service_1 = require("../storage/storage.service");
 const user_entity_1 = require("./entities/user.entity");
+const badge_service_1 = require("../badge/badge.service");
 let UserService = class UserService {
-    constructor(userRepository, storageService) {
+    constructor(userRepository, storageService, badgeService) {
         this.userRepository = userRepository;
         this.storageService = storageService;
+        this.badgeService = badgeService;
     }
     async create(createUserDto) {
         const { email, password, name } = createUserDto;
@@ -51,6 +53,13 @@ let UserService = class UserService {
         const existingUser = await this.findOneById(id);
         if (!existingUser)
             throw new common_1.HttpException("User doesn't exists", 400);
+        if (updateUserDto.badge) {
+            if (isNaN(+updateUserDto.badge))
+                throw new common_1.HttpException("Badge must be a number", 400);
+            const badgeExists = await this.badgeService.findOne(+updateUserDto.badge);
+            if (!badgeExists)
+                throw new common_1.HttpException("Badge doesn't exists", 400);
+        }
         const { email, image, audio } = updateUserDto, updatedData = __rest(updateUserDto, ["email", "image", "audio"]);
         const userExists = await this.findOneByEmail(email);
         if (email && userExists && userExists.id !== id)
@@ -88,7 +97,12 @@ let UserService = class UserService {
         return null;
     }
     async findOneById(id) {
-        const user = await this.userRepository.findOneBy({ id });
+        const user = await this.userRepository.findOne({
+            where: { id },
+            relations: {
+                badge: true
+            }
+        });
         if (!user)
             throw new common_1.HttpException("User doesn't exists", 400);
         return user;
@@ -117,7 +131,8 @@ UserService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(user_entity_1.User)),
     __metadata("design:paramtypes", [typeorm_2.Repository,
-        storage_service_1.StorageService])
+        storage_service_1.StorageService,
+        badge_service_1.BadgeService])
 ], UserService);
 exports.UserService = UserService;
 //# sourceMappingURL=user.service.js.map
