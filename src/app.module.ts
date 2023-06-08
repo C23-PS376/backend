@@ -9,6 +9,7 @@ import { User } from './user/entities/user.entity'
 import { AuthModule } from './auth/auth.module'
 import { ThreadModule } from './thread/thread.module'
 import { StorageModule } from './storage/storage.module'
+import { CommentModule } from './comment/comment.module';
 import { LikeThreadsModule } from './thread-like/thread-like.module'
 import { Thread } from './thread/entities/thread.entity'
 import { LikeThread } from './thread-like/entities/thread-like.entity'
@@ -39,6 +40,7 @@ import { BadgeModule } from './badge/badge.module';
     AuthModule,
     ThreadModule,
     StorageModule,
+    CommentModule,
     LikeThreadsModule,
     TopicsModule,
     BadgeModule,

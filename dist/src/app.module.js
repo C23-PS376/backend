@@ -17,6 +17,7 @@ const user_entity_1 = require("./user/entities/user.entity");
 const auth_module_1 = require("./auth/auth.module");
 const thread_module_1 = require("./thread/thread.module");
 const storage_module_1 = require("./storage/storage.module");
+const comment_module_1 = require("./comment/comment.module");
 const thread_like_module_1 = require("./thread-like/thread-like.module");
 const thread_entity_1 = require("./thread/entities/thread.entity");
 const thread_like_entity_1 = require("./thread-like/entities/thread-like.entity");
@@ -49,6 +50,7 @@ AppModule = __decorate([
             auth_module_1.AuthModule,
             thread_module_1.ThreadModule,
             storage_module_1.StorageModule,
+            comment_module_1.CommentModule,
             thread_like_module_1.LikeThreadsModule,
             topics_module_1.TopicsModule,
             badge_module_1.BadgeModule,
