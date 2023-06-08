@@ -763,11 +763,11 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 
 #### Params
 
-| Name     | Type    | In  | Default | Required | Description              |
-| -------- | ------- | --- | ------- | -------- | ------------------------ |
-| threadId | Integer | Uri |         | Yes      | Thread ID of the comment |
-| text     | String  | Uri |         | Yes      | Message                  |
-| audio    | File    |     | No      |          | Audio of the comment                         |
+| Name     | Type    | Default | Required | Description              |
+| -------- | ------- | ------- | -------- | ------------------------ |
+| threadId | Integer |         | Yes      | Thread ID of the comment |
+| text     | String  |         | Yes      | Message                  |
+| audio    | File    |         | No       | Audio of the comment                         |
 
 #### Successful response
 > Successfully created new thread  (201)
