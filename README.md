@@ -750,6 +750,73 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 
 </details>
 
+<details>
+<summary>POST /threads/{threadId}/comment</summary>
+
+### POST /threads/:threadId/comment
+
+#### Header
+| Name         	| Type    	| Default 	| Required 	| Value                            	|
+|--------------	| --------- | ---------	|----------	|---------------------------------	|
+| Authorization | Bearer  	|         	| Yes      	| Auth token from register or login |
+
+
+#### Params
+
+| Name     | Type    | In  | Default | Required | Description              |
+| -------- | ------- | --- | ------- | -------- | ------------------------ |
+| threadId | Integer | Uri |         | Yes      | Thread ID of the comment |
+| text     | String  | Uri |         | Yes      | Message                  |
+| audio    | File    |     | No      |          | Audio of the comment                         |
+
+#### Successful response
+> Successfully created new thread  (201)
+> ```JSON
+> {
+>   "statusCode": 201,
+>   "data": [
+>     {
+>       "id": ,
+>       "threadId": "xxx",
+>       "text": "xxx",
+>       "audio": "xxx",
+>     }
+>   ]
+> }
+> ```
+
+##### Failed response
+> Invalid Token (401)
+> ```JSON
+> {
+>   "statusCode": 401,
+>   "message": "Unauthorized"
+> }
+> ```
+
+> Required field didn't filled properly (400)
+> ```JSON
+> {
+>   "statusCode": 400,
+>   "message": [
+>     "text should not be empty"
+>   ],
+>   "error": "Bad Request"
+> }
+> ```
+
+> Thread doesn't exists -> Stuck :\
+
+> Incompatible Files (422)
+> ```JSON
+> {
+>   "statusCode": 422,
+>   "message": "audio is not a valid document. Accepted file format [mp3,wav,mpeg]"
+> }
+> ```
+
+</details>
+
 ## Infrastructure Documentation
 
 ![Speak Sure Cloud Architecture](img/cloud-architecture.png)
