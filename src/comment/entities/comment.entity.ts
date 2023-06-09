@@ -3,7 +3,6 @@ import {
     PrimaryGeneratedColumn,
     Column,
     ManyToOne,
-    BeforeInsert,
     BeforeUpdate,
   } from 'typeorm'
   import { User } from '../../../src/user/entities/user.entity'
@@ -22,24 +21,21 @@ import {
     @ManyToOne(() => Thread, (thread) => thread.id)
     thread: Thread 
    
-    @Column({ nullable: false })
+    @Column({ nullable: false, default: '' })
     text: string
   
-    @Column({ default: '' })
+    @Column({ nullable: true })
     audio: string
   
-    @Column({ nullable: false })
+    @Column({ nullable: true })
+    audio_length: string
+
+    @Column({ nullable: false, default: () => current_time.getTime().toString() })
     created_at: string
   
-    @Column({ nullable: false })
+    @Column({ nullable: false, default: () => current_time.getTime().toString() })
     updated_at: string
-  
-    @BeforeInsert()
-    async insertTime() {
-      this.created_at = current_time.getTime().toString()
-      this.updated_at = this.created_at
-    }
-  
+    
     @BeforeUpdate()
     async updateTime() {
       this.updated_at = current_time.getTime().toString()

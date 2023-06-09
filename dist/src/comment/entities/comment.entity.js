@@ -15,10 +15,6 @@ const user_entity_1 = require("../../../src/user/entities/user.entity");
 const thread_entity_1 = require("../../thread/entities/thread.entity");
 const current_time = new Date();
 let Comment = class Comment {
-    async insertTime() {
-        this.created_at = current_time.getTime().toString();
-        this.updated_at = this.created_at;
-    }
     async updateTime() {
         this.updated_at = current_time.getTime().toString();
     }
@@ -36,27 +32,25 @@ __decorate([
     __metadata("design:type", thread_entity_1.Thread)
 ], Comment.prototype, "thread", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: false }),
+    (0, typeorm_1.Column)({ nullable: false, default: '' }),
     __metadata("design:type", String)
 ], Comment.prototype, "text", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ default: '' }),
+    (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
 ], Comment.prototype, "audio", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: false }),
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], Comment.prototype, "audio_length", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: false, default: () => current_time.getTime().toString() }),
     __metadata("design:type", String)
 ], Comment.prototype, "created_at", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: false }),
+    (0, typeorm_1.Column)({ nullable: false, default: () => current_time.getTime().toString() }),
     __metadata("design:type", String)
 ], Comment.prototype, "updated_at", void 0);
-__decorate([
-    (0, typeorm_1.BeforeInsert)(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
-], Comment.prototype, "insertTime", null);
 __decorate([
     (0, typeorm_1.BeforeUpdate)(),
     __metadata("design:type", Function),
