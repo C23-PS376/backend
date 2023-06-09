@@ -6,8 +6,8 @@ export declare class Comment {
     thread: Thread;
     text: string;
     audio: string;
+    audio_length: string;
     created_at: string;
     updated_at: string;
-    insertTime(): Promise<void>;
     updateTime(): Promise<void>;
 }
