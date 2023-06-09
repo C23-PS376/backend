@@ -17,13 +17,36 @@ const storage_service_1 = require("../storage/storage.service");
 const jwtModule_1 = require("../../config/jwtModule");
 const thread_service_1 = require("../thread/thread.service");
 const thread_entity_1 = require("../thread/entities/thread.entity");
+const user_entity_1 = require("../user/entities/user.entity");
+const user_service_1 = require("../user/user.service");
+const topics_service_1 = require("../topics/topics.service");
+const topic_entity_1 = require("../topics/entities/topic.entity");
+const badge_service_1 = require("../badge/badge.service");
+const badge_entity_1 = require("../badge/entities/badge.entity");
 let CommentModule = class CommentModule {
 };
 CommentModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([comment_entity_1.Comment, thread_entity_1.Thread]), jwtModule_1.jwtModule, multer_config_1.multerModule],
+        imports: [
+            typeorm_1.TypeOrmModule.forFeature([
+                comment_entity_1.Comment,
+                thread_entity_1.Thread,
+                topic_entity_1.Topic,
+                user_entity_1.User,
+                badge_entity_1.Badge,
+            ]),
+            jwtModule_1.jwtModule,
+            multer_config_1.multerModule,
+        ],
         controllers: [comment_controller_1.CommentController],
-        providers: [comment_service_1.CommentService, storage_service_1.StorageService, thread_service_1.ThreadService],
+        providers: [
+            comment_service_1.CommentService,
+            storage_service_1.StorageService,
+            topics_service_1.TopicsService,
+            thread_service_1.ThreadService,
+            user_service_1.UserService,
+            badge_service_1.BadgeService,
+        ],
     })
 ], CommentModule);
 exports.CommentModule = CommentModule;
