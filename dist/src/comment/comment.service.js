@@ -29,18 +29,14 @@ const typeorm_1 = require("@nestjs/typeorm");
 const storage_service_1 = require("../storage/storage.service");
 const typeorm_2 = require("typeorm");
 const comment_entity_1 = require("./entities/comment.entity");
-const user_entity_1 = require("../user/entities/user.entity");
-const thread_entity_1 = require("../thread/entities/thread.entity");
 const user_service_1 = require("../user/user.service");
 const thread_service_1 = require("../thread/thread.service");
 const fs = require("fs");
 const tmp = require("tmp");
 const get_audio_duration_1 = require("get-audio-duration");
 let CommentService = class CommentService {
-    constructor(commentRepository, userRepository, threadRepository, userService, threadService, storageService) {
+    constructor(commentRepository, userService, threadService, storageService) {
         this.commentRepository = commentRepository;
-        this.userRepository = userRepository;
-        this.threadRepository = threadRepository;
         this.userService = userService;
         this.threadService = threadService;
         this.storageService = storageService;
@@ -145,9 +141,7 @@ let CommentService = class CommentService {
             audio_length: comment.audio_length,
             created_at: comment.created_at,
             updated_at: comment.updated_at,
-            user: {
-                name: comment.user.name,
-            },
+            username: comment.user.name,
         }));
         return data;
     }
@@ -171,11 +165,7 @@ let CommentService = class CommentService {
 CommentService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(comment_entity_1.Comment)),
-    __param(1, (0, typeorm_1.InjectRepository)(user_entity_1.User)),
-    __param(2, (0, typeorm_1.InjectRepository)(thread_entity_1.Thread)),
     __metadata("design:paramtypes", [typeorm_2.Repository,
-        typeorm_2.Repository,
-        typeorm_2.Repository,
         user_service_1.UserService,
         thread_service_1.ThreadService,
         storage_service_1.StorageService])

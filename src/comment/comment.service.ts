@@ -5,8 +5,6 @@ import { Repository } from 'typeorm';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { Comment } from './entities/comment.entity';
 import { UpdateCommentDto } from './dto/update-comment.dto';
-import { User } from 'src/user/entities/user.entity';
-import { Thread } from 'src/thread/entities/thread.entity';
 import { UserService } from 'src/user/user.service';
 import { ThreadService } from 'src/thread/thread.service';
 import * as fs from 'fs'
@@ -19,10 +17,6 @@ export class CommentService {
 	constructor(
 		@InjectRepository(Comment)
 		private readonly commentRepository: Repository<Comment>,
-		@InjectRepository(User)
-		private readonly userRepository: Repository<User>,
-		@InjectRepository(Thread)
-		private readonly threadRepository: Repository<Thread>,
 		private readonly userService: UserService,
 		private readonly threadService: ThreadService,
 		private readonly storageService: StorageService,
@@ -151,6 +145,7 @@ export class CommentService {
 	async findAll(
 		threadId: number,
 		size: number,
+		page: number,
 	) {
 		const comments = await this.commentRepository.find(
 			{
@@ -160,6 +155,7 @@ export class CommentService {
 				order: {
 					created_at: 'DESC'
 				},
+				skip: page,
 				take: size,
 				relations:[
 					'user'
@@ -174,9 +170,7 @@ export class CommentService {
 			audio_length: comment.audio_length,
 			created_at: comment.created_at,
 			updated_at: comment.updated_at,
-			user: {
-				name: comment.user.name,
-			},
+			username: comment.user.name,
 		}));
 
 		return data

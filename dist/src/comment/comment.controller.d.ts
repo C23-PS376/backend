@@ -27,8 +27,8 @@ export declare class CommentController {
         data: {
             id: number;
             text: string;
-            audio: string;
             likes_count: string;
+            audio: string;
             audio_length: string;
         };
     }>;
@@ -41,9 +41,7 @@ export declare class CommentController {
             audio_length: string;
             created_at: string;
             updated_at: string;
-            user: {
-                name: string;
-            };
+            username: string;
         }[];
     }>;
     findOne(id: string, threadId: string): Promise<{

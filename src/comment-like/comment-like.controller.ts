@@ -5,7 +5,9 @@ import {
   UsePipes,
   Param,
   Request,
-  ValidationPipe, 
+  ValidationPipe,
+  Delete,
+  HttpCode, 
 } from '@nestjs/common';
 import { LikeCommentsService } from './comment-like.service';
 import { AuthGuard } from 'src/auth/auth.guard';
@@ -35,5 +37,15 @@ export class CommentLikeController {
         )).comment,
       },
     }
+  }
+
+  @Delete()
+  @HttpCode(204)
+  async remove(
+    @Request() req,
+    @Param('id') id: string,
+    @Param('threadId') threadId: string,
+  ){
+    await this.likeCommentsService.remove(+id, +threadId, req?.user?.id)
   }
 }

@@ -20,16 +20,16 @@ import {
   
     @ManyToOne(() => Thread, (thread) => thread.id)
     thread: Thread 
-   
-    @Column({ nullable: false, default: '' })
-    text: string
   
-    @Column({ nullable: true })
-    audio: string
+    @Column({ nullable: false, default: '' })
+    text: string  
   
     @Column({ default: 0 })
     likes_count: string  
 
+    @Column({ nullable: true })
+    audio: string
+  
     @Column({ nullable: true })
     audio_length: string
 

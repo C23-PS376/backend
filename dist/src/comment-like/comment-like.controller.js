@@ -30,6 +30,10 @@ let CommentLikeController = class CommentLikeController {
             },
         };
     }
+    async remove(req, id, threadId) {
+        var _a;
+        await this.likeCommentsService.remove(+id, +threadId, (_a = req === null || req === void 0 ? void 0 : req.user) === null || _a === void 0 ? void 0 : _a.id);
+    }
 };
 __decorate([
     (0, common_1.Post)(),
@@ -41,6 +45,16 @@ __decorate([
     __metadata("design:paramtypes", [Object, String, String]),
     __metadata("design:returntype", Promise)
 ], CommentLikeController.prototype, "create", null);
+__decorate([
+    (0, common_1.Delete)(),
+    (0, common_1.HttpCode)(204),
+    __param(0, (0, common_1.Request)()),
+    __param(1, (0, common_1.Param)('id')),
+    __param(2, (0, common_1.Param)('threadId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, String, String]),
+    __metadata("design:returntype", Promise)
+], CommentLikeController.prototype, "remove", null);
 CommentLikeController = __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Controller)('threads/:threadId/comments/:id/likes'),
