@@ -151,6 +151,7 @@ export class CommentService {
 	async findAll(
 		threadId: number,
 		size: number,
+		page: number,
 	) {
 		const comments = await this.commentRepository.find(
 			{
@@ -160,6 +161,7 @@ export class CommentService {
 				order: {
 					created_at: 'DESC'
 				},
+				skip: page,
 				take: size,
 				relations:[
 					'user'

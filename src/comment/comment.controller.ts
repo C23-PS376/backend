@@ -97,11 +97,13 @@ export class CommentController {
 	async findAll(
 		@Param('threadId') threadId: string,
 		@Query('size') size: string,
+		@Query('page') page: string,
  	) {
+		if(!page) page = '0'
 		if(!size) size = '5'
 		return {
 			statusCode: 200,
-			data: await this.commentService.findAll(+threadId, +size),
+			data: await this.commentService.findAll(+threadId, +size, +page),
 		}
 	}
 
