@@ -38,7 +38,7 @@ CommentModule = __decorate([
             jwtModule_1.jwtModule,
             multer_config_1.multerModule,
         ],
-        controllers: [comment_controller_1.CommentController],
+        controllers: [comment_controller_1.CommentController, comment_controller_1.CommentUserController],
         providers: [
             comment_service_1.CommentService,
             storage_service_1.StorageService,

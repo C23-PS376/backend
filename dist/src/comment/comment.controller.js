@@ -11,19 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CommentController = void 0;
+exports.CommentUserController = exports.CommentController = void 0;
 const common_1 = require("@nestjs/common");
 const comment_service_1 = require("./comment.service");
 const auth_guard_1 = require("../auth/auth.guard");
@@ -53,18 +42,26 @@ let CommentController = class CommentController {
     }
     async update(req, threadId, id, updateCommentDto, files) {
         var _a, _b;
-        const _c = await this.commentService.update(+id, +threadId, Object.assign(Object.assign({}, updateCommentDto), { audio: (_a = files === null || files === void 0 ? void 0 : files.audio) === null || _a === void 0 ? void 0 : _a[0] }), (_b = req === null || req === void 0 ? void 0 : req.user) === null || _b === void 0 ? void 0 : _b.id), { user, thread, created_at, updated_at } = _c, data = __rest(_c, ["user", "thread", "created_at", "updated_at"]);
+        const data = await this.commentService.update(+id, +threadId, Object.assign(Object.assign({}, updateCommentDto), { audio: (_a = files === null || files === void 0 ? void 0 : files.audio) === null || _a === void 0 ? void 0 : _a[0] }), (_b = req === null || req === void 0 ? void 0 : req.user) === null || _b === void 0 ? void 0 : _b.id);
         return {
             statusCode: 200,
-            data,
+            data: {
+                id: data.id,
+                text: data.text,
+                audio: data.audio,
+                audio_length: data.audio ? Number(data.audio_length) : undefined,
+                updated_at: data.updated_at,
+            },
         };
     }
-    async findAll(threadId, size) {
+    async findAll(threadId, page, size) {
+        if (!page)
+            page = '0';
         if (!size)
             size = '5';
         return {
             statusCode: 200,
-            data: await this.commentService.findAll(+threadId, +size),
+            data: await this.commentService.findAll(+threadId, +size, +page),
         };
     }
     async findOne(id, threadId) {
@@ -92,7 +89,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], CommentController.prototype, "create", null);
 __decorate([
-    (0, common_1.Post)(':id'),
+    (0, common_1.Patch)(':id'),
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileFieldsInterceptor)([{ name: 'audio' }])),
@@ -108,9 +105,10 @@ __decorate([
 __decorate([
     (0, common_1.Get)(),
     __param(0, (0, common_1.Param)('threadId')),
-    __param(1, (0, common_1.Query)('size')),
+    __param(1, (0, common_1.Query)('page')),
+    __param(2, (0, common_1.Query)('size')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:paramtypes", [String, String, String]),
     __metadata("design:returntype", Promise)
 ], CommentController.prototype, "findAll", null);
 __decorate([
@@ -138,4 +136,33 @@ CommentController = __decorate([
         thread_service_1.ThreadService])
 ], CommentController);
 exports.CommentController = CommentController;
+let CommentUserController = class CommentUserController {
+    constructor(commentService) {
+        this.commentService = commentService;
+    }
+    async findAllByUser(userId, page, size) {
+        if (!page)
+            page = '0';
+        if (!size)
+            size = '5';
+        return {
+            statusCode: 200,
+            data: await this.commentService.findAllByUserId(+userId, +size, +page),
+        };
+    }
+};
+__decorate([
+    (0, common_1.Get)(':id/comments'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Query)('page')),
+    __param(2, (0, common_1.Query)('size')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String, String]),
+    __metadata("design:returntype", Promise)
+], CommentUserController.prototype, "findAllByUser", null);
+CommentUserController = __decorate([
+    (0, common_1.Controller)('users'),
+    __metadata("design:paramtypes", [comment_service_1.CommentService])
+], CommentUserController);
+exports.CommentUserController = CommentUserController;
 //# sourceMappingURL=comment.controller.js.map
