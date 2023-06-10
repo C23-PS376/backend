@@ -32,13 +32,13 @@ export declare class CommentController {
             audio_length: string;
         };
     }>;
-    findAll(threadId: string, size: string): Promise<{
+    findAll(threadId: string, page: string, size: string): Promise<{
         statusCode: number;
         data: {
             id: number;
             text: string;
             audio: string;
-            audio_length: string;
+            audio_length: number;
             created_at: string;
             updated_at: string;
             username: string;
@@ -49,4 +49,20 @@ export declare class CommentController {
         data: import("./entities/comment.entity").Comment;
     }>;
     remove(id: string, threadId: string, req: any): Promise<void>;
+}
+export declare class CommentUserController {
+    private readonly commentService;
+    constructor(commentService: CommentService);
+    findAllByUser(userId: string, page: string, size: string): Promise<{
+        statusCode: number;
+        data: {
+            id: number;
+            text: string;
+            audio: string;
+            audio_length: string;
+            created_at: string;
+            updated_at: string;
+            thread_id: number;
+        }[];
+    }>;
 }

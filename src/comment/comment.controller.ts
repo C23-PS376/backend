@@ -129,3 +129,23 @@ export class CommentController {
 		await this.commentService.remove(+id, +threadId, req?.user?.id)
 	}
 }
+
+@Controller('users')
+export class CommentUserController {
+  constructor(private readonly commentService: CommentService) {}
+
+  @Get(':id/comments')
+  async findAllByUser(
+		@Param('id') userId: string,
+		@Query('page') page: string,
+		@Query('size') size: string,
+		) {
+		if(!page) page = '0'
+		if(!size) size = '5'
+
+    return {
+      statusCode: 200,
+      data: await this.commentService.findAllByUserId(+userId, +size, +page),
+    };
+  }
+}

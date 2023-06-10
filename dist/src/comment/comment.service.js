@@ -121,7 +121,7 @@ let CommentService = class CommentService {
             throw new common_1.HttpException("Comment doesn't exists", 400);
         return comment;
     }
-    async findAll(threadId, size) {
+    async findAll(threadId, size, page) {
         const comments = await this.commentRepository.find({
             where: {
                 thread: { id: threadId }
@@ -129,9 +129,36 @@ let CommentService = class CommentService {
             order: {
                 created_at: 'DESC'
             },
+            skip: page,
             take: size,
             relations: [
-                'user'
+                'user',
+            ]
+        });
+        const data = comments.map(comment => ({
+            id: comment.id,
+            text: comment.text,
+            audio: comment.audio,
+            audio_length: +comment.audio_length,
+            created_at: comment.created_at,
+            updated_at: comment.updated_at,
+            username: comment.user.name,
+        }));
+        return data;
+    }
+    async findAllByUserId(userId, size, page) {
+        const comments = await this.commentRepository.find({
+            where: {
+                user: { id: userId }
+            },
+            order: {
+                created_at: 'DESC'
+            },
+            skip: page,
+            take: size,
+            relations: [
+                'user',
+                'thread'
             ]
         });
         const data = comments.map(comment => ({
@@ -141,7 +168,7 @@ let CommentService = class CommentService {
             audio_length: comment.audio_length,
             created_at: comment.created_at,
             updated_at: comment.updated_at,
-            username: comment.user.name,
+            thread_id: comment.thread.id,
         }));
         return data;
     }

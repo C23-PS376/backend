@@ -23,7 +23,7 @@ var __rest = (this && this.__rest) || function (s, e) {
     return t;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CommentController = void 0;
+exports.CommentUserController = exports.CommentController = void 0;
 const common_1 = require("@nestjs/common");
 const comment_service_1 = require("./comment.service");
 const auth_guard_1 = require("../auth/auth.guard");
@@ -59,12 +59,14 @@ let CommentController = class CommentController {
             data,
         };
     }
-    async findAll(threadId, size) {
+    async findAll(threadId, page, size) {
+        if (!page)
+            page = '0';
         if (!size)
             size = '5';
         return {
             statusCode: 200,
-            data: await this.commentService.findAll(+threadId, +size),
+            data: await this.commentService.findAll(+threadId, +size, +page),
         };
     }
     async findOne(id, threadId) {
@@ -108,9 +110,10 @@ __decorate([
 __decorate([
     (0, common_1.Get)(),
     __param(0, (0, common_1.Param)('threadId')),
-    __param(1, (0, common_1.Query)('size')),
+    __param(1, (0, common_1.Query)('page')),
+    __param(2, (0, common_1.Query)('size')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:paramtypes", [String, String, String]),
     __metadata("design:returntype", Promise)
 ], CommentController.prototype, "findAll", null);
 __decorate([
@@ -138,4 +141,33 @@ CommentController = __decorate([
         thread_service_1.ThreadService])
 ], CommentController);
 exports.CommentController = CommentController;
+let CommentUserController = class CommentUserController {
+    constructor(commentService) {
+        this.commentService = commentService;
+    }
+    async findAllByUser(userId, page, size) {
+        if (!page)
+            page = '0';
+        if (!size)
+            size = '5';
+        return {
+            statusCode: 200,
+            data: await this.commentService.findAllByUserId(+userId, +size, +page),
+        };
+    }
+};
+__decorate([
+    (0, common_1.Get)(':id/comments'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Query)('page')),
+    __param(2, (0, common_1.Query)('size')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String, String]),
+    __metadata("design:returntype", Promise)
+], CommentUserController.prototype, "findAllByUser", null);
+CommentUserController = __decorate([
+    (0, common_1.Controller)('users'),
+    __metadata("design:paramtypes", [comment_service_1.CommentService])
+], CommentUserController);
+exports.CommentUserController = CommentUserController;
 //# sourceMappingURL=comment.controller.js.map

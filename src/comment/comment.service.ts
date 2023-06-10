@@ -158,7 +158,7 @@ export class CommentService {
 				skip: page,
 				take: size,
 				relations:[
-					'user'
+					'user',
 				]
 			}
 		);
@@ -167,13 +167,49 @@ export class CommentService {
 			id: comment.id,
 			text: comment.text,
 			audio: comment.audio,
-			audio_length: comment.audio_length,
+			audio_length: +comment.audio_length,
 			created_at: comment.created_at,
 			updated_at: comment.updated_at,
 			username: comment.user.name,
 		}));
 
 		return data
+	}
+
+	async findAllByUserId(
+		userId: number,
+		size: number,
+		page: number,
+		) {
+		const comments = await this.commentRepository.find(
+			{
+				where: {
+					user: {id: userId}
+				},
+				order: {
+					created_at: 'DESC'
+				},
+				skip: page,
+				take: size,
+				relations: [
+					'user',
+					'thread'
+				]
+			}
+		)
+
+		const data = comments.map(comment => ({
+			id: comment.id,
+			text: comment.text,
+			audio: comment.audio,
+			audio_length: comment.audio_length,
+			created_at: comment.created_at,
+			updated_at: comment.updated_at,
+			thread_id: comment.thread.id,
+		}));
+
+		return data
+
 	}
 
 	getAudioDuration(audioBuffer: Buffer) {
