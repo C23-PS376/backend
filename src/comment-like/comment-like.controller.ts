@@ -20,14 +20,14 @@ export class CommentLikeController {
   @Post()
   @UsePipes(new ValidationPipe())
   async create(
-    @Request req,
+    @Request() req,
     @Param('threadId') threadId: string,
     @Param('id') id: string,
   ) {
     return {
       statusCode: 201,
       data: {
-        thread_id: threadId,
+        thread_id: +threadId,
         comment_id: (await this.likeCommentsService.create(
           +id,
           +threadId,

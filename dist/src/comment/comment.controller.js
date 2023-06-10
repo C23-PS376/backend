@@ -133,7 +133,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], CommentController.prototype, "remove", null);
 CommentController = __decorate([
-    (0, common_1.Controller)('threads/:threadId/comment'),
+    (0, common_1.Controller)('threads/:threadId/comments'),
     __metadata("design:paramtypes", [comment_service_1.CommentService,
         thread_service_1.ThreadService])
 ], CommentController);

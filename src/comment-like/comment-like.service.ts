@@ -17,7 +17,10 @@ export class LikeCommentsService {
   ) {}
 
   async create(commentId: number, threadId: number, userId: number) {
-    const comment = await this.commentRepository.findOneBy({ id: +commentId })
+    const comment = await this.commentRepository.findOneBy({ 
+      id: +commentId,
+      thread: {id: +threadId} 
+    })
     if (!comment) throw new HttpException("Comment didn't exists", 400)
     if(
       await this.likeCommentsRepository.findOneBy(
@@ -33,7 +36,7 @@ export class LikeCommentsService {
     const likeComment = new LikeComment()
     Object.assign(likeComment, {
       user: userId,
-      comment: +threadId
+      comment: +commentId
     })
     await this.commentRepository.save(comment)
     return this.likeCommentsRepository.save(likeComment)

@@ -21,7 +21,7 @@ import { CreateCommentDto } from './dto/create-comment.dto';
 import { ThreadService } from '../thread/thread.service';
 import { UpdateCommentDto } from './dto/update-comment.dto';
 
-@Controller('threads/:threadId/comment')
+@Controller('threads/:threadId/comments')
 export class CommentController {
 	constructor(
 		private readonly commentService: CommentService,

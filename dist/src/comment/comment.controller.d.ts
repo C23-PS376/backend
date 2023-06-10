@@ -28,6 +28,7 @@ export declare class CommentController {
             id: number;
             text: string;
             audio: string;
+            likes_count: string;
             audio_length: string;
         };
     }>;
