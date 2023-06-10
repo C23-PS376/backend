@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { CommentController } from './comment.controller';
+import { CommentController, CommentUserController } from './comment.controller';
 import { CommentService } from './comment.service';
 import { Comment } from './entities/comment.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -28,7 +28,7 @@ import { Badge } from 'src/badge/entities/badge.entity';
     multerModule,
   ],
 
-  controllers: [CommentController],
+  controllers: [CommentController, CommentUserController],
   providers: [
     CommentService,
     StorageService, 

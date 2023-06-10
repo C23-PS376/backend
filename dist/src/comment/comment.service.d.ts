@@ -16,14 +16,23 @@ export declare class CommentService {
     update(commentId: number, threadId: number, updateCommentDto: UpdateCommentDto, userId: number): Promise<Comment>;
     remove(id: number, threadId: number, userId: number): Promise<import("typeorm").DeleteResult>;
     findOneById(commentId: number, threadId: number): Promise<Comment>;
-    findAll(threadId: number, size: number): Promise<{
+    findAll(threadId: number, size: number, page: number): Promise<{
         id: number;
         text: string;
         audio: string;
-        audio_length: string;
+        audio_length: number;
         created_at: string;
         updated_at: string;
         username: string;
+    }[]>;
+    findAllByUserId(userId: number, size: number, page: number): Promise<{
+        id: number;
+        text: string;
+        audio: string;
+        audio_length: number;
+        created_at: string;
+        updated_at: string;
+        thread_id: number;
     }[]>;
     getAudioDuration(audioBuffer: Buffer): Promise<unknown>;
 }

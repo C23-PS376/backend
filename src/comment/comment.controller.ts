@@ -13,6 +13,7 @@ import {
 	Delete,
 	UploadedFiles,
 	Query,
+	Patch,
 } from '@nestjs/common';
 import { CommentService } from './comment.service';
 import { AuthGuard } from 'src/auth/auth.guard';
@@ -61,7 +62,7 @@ export class CommentController {
 		}
 	}
 
-	@Post(':id')
+	@Patch(':id')
 	@UsePipes(new ValidationPipe())
 	@UseGuards(AuthGuard)
 	@UseInterceptors(
@@ -76,8 +77,7 @@ export class CommentController {
 		files: { audio?: Express.Multer.File[]},
 	) {
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		const { user, thread, created_at, updated_at, ...data } = 
-			await this.commentService.update(
+		const data = await this.commentService.update(
 				+id,
 				+threadId,
 				{
@@ -89,7 +89,13 @@ export class CommentController {
 
 		return{
 			statusCode: 200,
-			data,
+			data: {
+				id: data.id,
+				text: data.text,
+				audio: data.audio,
+				audio_length: data.audio ? Number(data.audio_length) : undefined,
+				updated_at: data.updated_at,
+			},
 		};
 	}
 
@@ -128,4 +134,24 @@ export class CommentController {
 	){
 		await this.commentService.remove(+id, +threadId, req?.user?.id)
 	}
+}
+
+@Controller('users')
+export class CommentUserController {
+  constructor(private readonly commentService: CommentService) {}
+
+  @Get(':id/comments')
+  async findAllByUser(
+		@Param('id') userId: string,
+		@Query('page') page: string,
+		@Query('size') size: string,
+		) {
+		if(!page) page = '0'
+		if(!size) size = '5'
+
+    return {
+      statusCode: 200,
+      data: await this.commentService.findAllByUserId(+userId, +size, +page),
+    };
+  }
 }
