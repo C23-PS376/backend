@@ -36,13 +36,13 @@ __decorate([
     __metadata("design:type", String)
 ], Comment.prototype, "text", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", String)
-], Comment.prototype, "audio", void 0);
-__decorate([
     (0, typeorm_1.Column)({ default: 0 }),
     __metadata("design:type", String)
 ], Comment.prototype, "likes_count", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], Comment.prototype, "audio", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)

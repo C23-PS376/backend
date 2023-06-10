@@ -9,4 +9,5 @@ export declare class CommentLikeController {
             comment_id: import("../comment/entities/comment.entity").Comment;
         };
     }>;
+    remove(req: any, id: string, threadId: string): Promise<void>;
 }

@@ -8,4 +8,5 @@ export declare class LikeCommentsService {
     private readonly threadRepository;
     constructor(likeCommentsRepository: Repository<LikeComment>, commentRepository: Repository<Comment>, threadRepository: Repository<Thread>);
     create(commentId: number, threadId: number, userId: number): Promise<LikeComment>;
+    remove(commentId: number, threadId: number, userId: number): Promise<import("typeorm").DeleteResult>;
 }

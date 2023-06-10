@@ -41,4 +41,32 @@ export class LikeCommentsService {
     await this.commentRepository.save(comment)
     return this.likeCommentsRepository.save(likeComment)
   }
+
+  async remove(
+    commentId: number,
+    threadId: number,
+    userId: number,
+  ) {
+    const comment = await this.commentRepository.findOneBy({
+      id: +commentId,
+      thread: {id: +threadId},
+    })
+
+    if(!comment) throw new HttpException("Comment didn't exists", 400)
+    if(
+      !(await this.likeCommentsRepository.findOneBy({
+        comment: {id: commentId},
+        user: { id: userId },
+      }))
+    )
+    throw new HttpException("Not liked yet", 400)
+
+    comment.likes_count = (+comment.likes_count -1 ).toString()
+    await this.commentRepository.save(comment)
+
+    return await this.likeCommentsRepository.delete({
+      comment: { id: commentId },
+      user: { id: userId },
+    })
+  }
 }
