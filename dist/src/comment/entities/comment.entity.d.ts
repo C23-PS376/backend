@@ -6,6 +6,7 @@ export declare class Comment {
     thread: Thread;
     text: string;
     audio: string;
+    likes_count: string;
     audio_length: string;
     created_at: string;
     updated_at: string;

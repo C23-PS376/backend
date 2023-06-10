@@ -27,6 +27,9 @@ import {
     @Column({ nullable: true })
     audio: string
   
+    @Column({ default: 0 })
+    likes_count: string  
+
     @Column({ nullable: true })
     audio_length: string
 
