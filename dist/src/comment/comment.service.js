@@ -165,7 +165,7 @@ let CommentService = class CommentService {
             id: comment.id,
             text: comment.text,
             audio: comment.audio,
-            audio_length: comment.audio_length,
+            audio_length: +comment.audio_length,
             created_at: comment.created_at,
             updated_at: comment.updated_at,
             thread_id: comment.thread.id,

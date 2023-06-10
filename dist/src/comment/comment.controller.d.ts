@@ -27,9 +27,9 @@ export declare class CommentController {
         data: {
             id: number;
             text: string;
-            likes_count: string;
             audio: string;
-            audio_length: string;
+            audio_length: number;
+            updated_at: string;
         };
     }>;
     findAll(threadId: string, page: string, size: string): Promise<{
@@ -59,7 +59,7 @@ export declare class CommentUserController {
             id: number;
             text: string;
             audio: string;
-            audio_length: string;
+            audio_length: number;
             created_at: string;
             updated_at: string;
             thread_id: number;

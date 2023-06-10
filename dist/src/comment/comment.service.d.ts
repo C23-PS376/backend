@@ -29,7 +29,7 @@ export declare class CommentService {
         id: number;
         text: string;
         audio: string;
-        audio_length: string;
+        audio_length: number;
         created_at: string;
         updated_at: string;
         thread_id: number;
