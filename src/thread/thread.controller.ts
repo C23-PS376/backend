@@ -26,6 +26,7 @@ import { UpdateThreadDto } from './dto/update-thread.dto'
 export class ThreadController {
   constructor(private readonly threadService: ThreadService) {}
 
+  @HttpCode(200)
   @Post()
   @UsePipes(new ValidationPipe())
   @UseGuards(AuthGuard)
@@ -47,7 +48,7 @@ export class ThreadController {
       req?.user?.id,
     )
     return {
-      statusCode: 201,
+      statusCode: 200,
       data: {
         id: data.id,
         title: data.title,
