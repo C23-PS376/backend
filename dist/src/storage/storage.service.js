@@ -18,10 +18,6 @@ let StorageService = class StorageService {
         this.configService = configService;
         this.storage = new storage_1.Storage({
             projectId: this.configService.get('PROJECT_ID'),
-            credentials: {
-                client_email: this.configService.get('CLIENT_EMAIL'),
-                private_key: this.configService.get('PRIVATE_KEY'),
-            },
         });
         this.bucket = this.configService.get('STORAGE_MEDIA_BUCKET');
     }

@@ -27,7 +27,7 @@ let ThreadController = class ThreadController {
         var _a, _b, _c;
         const data = await this.threadService.create(Object.assign(Object.assign({}, createThreadDto), { image: (_a = files === null || files === void 0 ? void 0 : files.image) === null || _a === void 0 ? void 0 : _a[0], audio: (_b = files === null || files === void 0 ? void 0 : files.audio) === null || _b === void 0 ? void 0 : _b[0] }), (_c = req === null || req === void 0 ? void 0 : req.user) === null || _c === void 0 ? void 0 : _c.id);
         return {
-            statusCode: 201,
+            statusCode: 200,
             data: {
                 id: data.id,
                 title: data.title,
@@ -79,6 +79,7 @@ let ThreadController = class ThreadController {
     }
 };
 __decorate([
+    (0, common_1.HttpCode)(200),
     (0, common_1.Post)(),
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
