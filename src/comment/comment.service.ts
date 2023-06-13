@@ -12,6 +12,7 @@ import { ThreadService } from 'src/thread/thread.service';
 import * as fs from 'fs'
 import * as tmp from 'tmp'
 import getAudioDurationInSeconds from 'get-audio-duration';
+import { HttpService } from '@nestjs/axios';
 
 
 @Injectable()
@@ -26,6 +27,7 @@ export class CommentService {
 		private readonly userService: UserService,
 		private readonly threadService: ThreadService,
 		private readonly storageService: StorageService,
+		private readonly httpService: HttpService,
 	) {}
 
 	async create(
@@ -34,10 +36,13 @@ export class CommentService {
 		threadId: string,
 	): Promise<Comment> {
 		// console.log("hasil: ", createCommentDto);
+		const existUser = await this.userService.findOneById(+userId)
+		const thread = await this.threadService.findOneById(+threadId)
+		if (!thread) throw new HttpException("Thread doesn't exists", 400)
+		if (!existUser) throw new HttpException("User doesn't exists", 400)
+		
 		const comment= new Comment()
 		const { audio, ...createdData } = createCommentDto
-
-		if (!this.threadService.findOneById(+threadId)) throw new HttpException("Thread doesn't exists", 400)
 
 		const newAudioPath = audio
 			? await this.storageService.save('comments/audio-', audio)
@@ -54,10 +59,10 @@ export class CommentService {
 			...createdData,
 		})
 
-		const user = await this.userService.findOneById(+userId)
-		const thread = await this.threadService.findOneById(+threadId)
-		user.comments_count = (+user.threads_count + 1 ).toString()
+		existUser.comments_count = (+existUser.threads_count + 1 ).toString()
 		thread.comments_count = (+thread.comments_count + 1 ).toString()
+		await this.threadRepository.save(thread)
+		await this.threadRepository.save(existUser)
 
 		return await this.commentRepository.save(comment)
 	}
