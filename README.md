@@ -751,9 +751,9 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 </details>
 
 <details>
-<summary>POST /threads/{threadId}/comment</summary>
+<summary>POST /threads/{thread_id}/comments</summary>
 
-### POST /threads/:threadId/comment
+### POST /threads/:thread_id/comments
 
 #### Header
 | Name         	| Type    	| Default 	| Required 	| Value                            	|
@@ -763,23 +763,25 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 
 #### Params
 
-| Name     | Type    | Default | Required | Description              |
-| -------- | ------- | ------- | -------- | ------------------------ |
-| threadId | Integer |         | Yes      | Thread ID of the comment |
-| text     | String  |         | Yes      | Message                  |
-| audio    | File    |         | No       | Audio of the comment                         |
+| Name      | Type    | Default | Required | Description              |
+| --------- | ------- | ------- | -------- | ------------------------ |
+| thread_id | Integer |         | Yes      | Thread ID of the comment |
+| text      | String  |         | Yes      | Message                  |
+| audio     | File    |         |          | Audio of the comment     |
 
 #### Successful response
 > Successfully created new thread  (201)
 > ```JSON
 > {
->   "statusCode": 201,
+> 	  "statusCode": 201,
 >   "data": [
 >     {
->       "id": ,
->       "threadId": "xxx",
+>       "id":  xx,
+>       "thread_id": xxx,
 >       "text": "xxx",
 >       "audio": "xxx",
+>       "audio_length": xx,
+>       "created_at": "xxx"
 >     }
 >   ]
 > }
@@ -816,6 +818,422 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > ```
 
 </details>
+ 
+<details>
+<summary>GET /threads/{thread_id}/comments/:comment_id</summary>
+
+### GET /threads/:thread_id/comments/:comment_id
+
+#### Header
+
+| Name          | Type   | Default | Required | Value                             |
+| ------------- | ------ | ------- | -------- | --------------------------------- |
+| Authorization | Bearer |         | Yes      | Auth token from register or login |
+
+
+#### Params
+
+| Name      | Type    | Default | Required | Description               |
+| --------- | ------- | ------- | -------- | ------------------------- |
+| thread_id  | Integer |         | Yes      | Thread ID of the comment  |
+| commentId | String  |         | Yes      | Comment ID of the comment |
+
+#### Successful response
+> Successfully created new thread  (200)
+> ```JSON
+> {
+>   "statusCode": 200,
+>   "data": {
+>     {
+>       "id": x,
+>       "text": "xxx",
+>       "likes_count": x,
+>       "audio": "xxx",
+>       "audio_length": xxx,
+>       "created_at": "xxx",
+>       "updated_at": "xxx",
+>     }
+> }
+> ```
+
+##### Failed response
+> Invalid Token (401)
+> ```JSON
+> {
+>   "statusCode": 401,
+>   "message": "Unauthorized"
+> }
+> ```
+
+#### Comment didn't exist
+> Bad Request (400)
+> ```JSON
+	{
+		"statusCode": 400,
+		"message": "Comment doesn't exists"
+	}
+> ```
+
+</details>
+
+<details>
+<summary>GET /threads/{thread_id}/comments</summary>
+
+### GET /threads/:thread_id/comments
+### Get list of comments within threads
+
+#### Param 
+
+| Name    | Type   | In    | Default | Required | Description                      | 
+| ------- | ------ | ----- | ------- | -------- | -------------------------------- |
+| page    | string | Query | 0       | No       | The index of page of list thread |
+| size    | string | Query | 5       | No       | Max thread in one page           |
+
+#### Response
+##### Successful response
+>```JSON
+>{
+>	"statusCode": 200,
+>	"data": [
+>		{
+>			"id": xx,
+>			"text": "xxx",
+>			"audio": "xxx",
+>			"audio_length": xxx,
+>			"created_at": "xxx",
+>			"updated_at": "xxx",
+>			"username": "xxx",
+>		},
+>		{
+>			"id": xx,
+>			"text": "xxx",
+>			"audio": "xxx",
+>			"audio_length": xxx,
+>			"created_at": "xxx",
+>			"updated_at": "xxx",
+>			"username": "xxx",
+>		},
+>		{
+>			"id": xx,
+>			"text": "xxx",
+>			"audio": "xxx",
+>			"audio_length": xxx,
+>			"created_at": "xxx",
+>			"updated_at": "xxx",
+>			"username": "xxx",
+>		},
+>		{ ... }
+>	]
+>}
+>
+>```
+</details>
+
+<details>
+<summary>GET /threads/{thread_id}/comments</summary>
+
+### GET /threads/:thread_id/comments
+### Get list of comments within threads
+
+#### Param 
+
+| Name      | Type    | In    | Default | Required | Description                      |
+| --------- | ------- | ----- | ------- | -------- | -------------------------------- |
+| page      | string  | Query | 0       | No       | The index of page of list thread |
+| size      | string  | Query | 5       | No       | Max thread in one page           |
+| thread_id | Integer | Url   |         | Yes      | The Id of the thead                  |
+
+#### Response
+##### Successful response
+>```JSON
+>{
+>	"statusCode": 200,
+>	"data": [
+>		{
+>			"id": xx,
+>			"text": "xxx",
+>			"audio": "xxx",
+>			"audio_length": xxx,
+>			"created_at": "xxx",
+>			"updated_at": "xxx",
+>			"username": "xxx",
+>		},
+>		{
+>			"id": xx,
+>			"text": "xxx",
+>			"audio": "xxx",
+>			"audio_length": xxx,
+>			"created_at": "xxx",
+>			"updated_at": "xxx",
+>			"username": "xxx",
+>		},
+>		{
+>			"id": xx,
+>			"text": "xxx",
+>			"audio": "xxx",
+>			"audio_length": xxx,
+>			"created_at": "xxx",
+>			"updated_at": "xxx",
+>			"username": "xxx",
+>		},
+>		{ ... }
+>	]
+>}
+>
+>```
+</details>
+
+<details>
+<summary>GET /users/{user_id}/comments</summary>
+
+### GET /threads/:user_id/comments
+### Get list of comments that the user has
+
+#### Param 
+
+| Name   | Type    | In    | Default | Required | Description                      |
+| ------ | ------- | ----- | ------- | -------- | -------------------------------- |
+| page   | string  | Query | 0       | No       | The index of page of list thread |
+| size   | string  | Query | 5       | No       | Max thread in one page           |
+| userId | Integer | Url   |         | Yes      | The Id of the user               | 
+
+#### Response
+##### Successful response
+>```JSON
+>{
+>	"statusCode": 200,
+>	"data": [
+>		{
+>			"id": xx,
+>			"text": "xxx",
+>			"audio": "xxx",
+>			"audio_length": xxx,
+>			"created_at": "xxx",
+>			"updated_at": "xxx",
+>			"thread_id": xx,
+>		},
+>		{
+>			"id": xx,
+>			"text": "xxx",
+>			"audio": "xxx",
+>			"audio_length": xxx,
+>			"created_at": "xxx",
+>			"updated_at": "xxx",
+>			"thread_id": xx,
+>		},
+>		{
+>			"id": xx,
+>			"text": "xxx",
+>			"audio": "xxx",
+>			"audio_length": xxx,
+>			"created_at": "xxx",
+>			"updated_at": "xxx",
+>			"thread_id": xx,
+>		},
+>		{ ... }
+>	]
+>}
+>
+>```
+</details>
+
+<details>
+<summary>PATCH /threads/{thread_id}/comments/{comment_id}</summary>
+
+### PATCH /threads/{thread_id}/comments/{comment_id}
+
+#### Header
+
+| Name         	| Type    	| Default 	| Required 	| Value                            	|
+|--------------	| --------- | ---------	|----------	|---------------------------------	|
+| Authorization | Bearer  	|         	| Yes      	| Auth token from register or login |
+
+#### Params
+
+| Name       | Type    | In  | Default | Required | Description           |
+| ---------- | ------- | --- | ------- | -------- | --------------------- |
+| thread_id  | Integer | Url |         | Yes      | The ID of thread      |
+| comment_id | Integer | Url |         | Yes      | The Id of the comment | 
+
+#### Body
+
+| Key         | Type   | Default | Required | Description           |
+| ----------- | ------ | ------- | -------- | --------------------- |
+| text        | String |         | No       | Text of the comment   | 
+| audio       | File   |         | No       | Audio of thread       |
+
+#### Response
+##### Successful response
+
+> Successfully updated the thread  (200)
+> ```JSON
+> {
+>   "statusCode": 201,
+>   "data": {
+>     "id": xx,
+>     "text": "xxx",
+>     "audio": "xxx",
+>     "audio_length": xx,
+>     "updated_at": "123",
+>   }
+> }
+> ```
+
+> audio_length is provided in seconds
+
+##### Failed response
+
+> Thread doesn't exists (400)
+> ```JSON
+> {
+>     "statusCode": 400,
+>     "message": "Comment doesn't exists"
+> }
+> ```
+
+> Topic doesn't exists (400)
+> ```JSON
+> {
+>   "statusCode": 400,
+>   "message": "Thread doesn't exists"
+> }
+> ```
+</details>
+
+<details>
+<summary>DELETE /threads/{thread_id}/comments/{comment_id}</summary>
+
+### DELETE /threads/{thread_id}/comments/{comment_id}
+
+#### Header
+
+| Name         	| Type    	| Default 	| Required 	| Value                            	|
+|--------------	| --------- | ---------	|----------	|---------------------------------	|
+| Authorization | Bearer  	|         	| Yes      	| Auth token from register or login |
+
+#### Params
+
+| Name       | Type    | In  | Default | Required | Description       |
+| ---------- | ------- | --- | ------- | -------- | ----------------- |
+| thread_id  | Integer | Uri |         | Yes      | The ID of thread  |
+| comment_id | Integer | Url |         | Yes      | The Id of comment | 
+
+#### Response
+##### Successful response
+> Successfully delete the thread  (204)
+##### Failed response
+
+> Id from the token does not match with the creator of thread  (403)
+> ```JSON
+> {
+>   "statusCode": 403,
+>   "message": "Forbidden"
+> }
+> ```
+
+> Thread doesn't exists (400)
+> ```JSON
+> {
+>     "statusCode": 400,
+>     "message": "Comment doesn't exists"
+> }
+> ```
+
+
+</details>
+
+<details>
+<summary>POST /threads/{thread_id}/comments/{comment_id}/likes</summary>
+
+### POST /threads/{thread_id}/comments/{comment_id}/likes
+
+#### Header
+
+| Name         	| Type    	| Default 	| Required 	| Value                            	|
+|--------------	| --------- | ---------	|----------	|---------------------------------	|
+| Authorization | Bearer  	|         	| Yes      	| Auth token from register or login |
+
+#### Params
+
+| Name       | Type    | In  | Default | Required | Description           |
+| ---------- | ------- | --- | ------- | -------- | --------------------- |
+| thread_id  | Integer | Uri |         | Yes      | The ID of thread      |
+| comment_id | Integer | Uri |         | Yes      | The Id of the comment | 
+
+#### Response
+##### Successful response
+> Successfully like the thread (201)
+```JSON
+{
+  "statusCode": 201,
+  "data": {
+    "thread_id": 1,
+    "comment_id": 
+  }
+}
+```
+##### Failed response
+
+> Comment doesn't exists (400)
+> ```JSON
+> {
+>   "statusCode": 400,
+>   "message": "Comment doesn't exists"
+> }
+> ```
+
+> Already liked the Comment (400)
+> ```JSON
+> {
+>   "statusCode": 400,
+>   "message": "Already liked"
+> }
+> ```
+
+</details>
+
+<details>
+<summary>DELETE /threads/{thread_id}/comments/{comment_id}/likes</summary>
+
+### DELETE /threads/{thread_id}/comments/{comment_id}/likes
+
+#### Header
+
+| Name         	| Type    	| Default 	| Required 	| Value                            	|
+|--------------	| --------- | ---------	|----------	|---------------------------------	|
+| Authorization | Bearer  	|         	| Yes      	| Auth token from register or login |
+
+#### Params
+
+| Name       | Type    | In  | Default | Required | Description           |
+| ---------- | ------- | --- | ------- | -------- | --------------------- |
+| thread_id  | Integer | Uri |         | Yes      | The ID of thread      |
+| comment_id | Integer | Uri |         | Yes      | The ID of the comment | 
+
+#### Response
+##### Successful response
+> Successfully unlike the thread  (204)
+##### Failed response
+
+> Comment doesn't exists (400)
+> ```JSON
+> {
+>   "statusCode": 400,
+>   "message": "Comment doesn't exists"
+> }
+> ```
+
+> Comment didn't liked yet (400)
+> ```JSON
+> {
+>   "statusCode": 400,
+>   "message": "Not liked yet"
+> }
+> ```
+
+</details>
+
+
 
 ## Infrastructure Documentation
 

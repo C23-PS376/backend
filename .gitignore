@@ -35,6 +35,3 @@ lerna-debug.log*
 
 # Environment Variables
 .env
-
-# Storage Service
-src/storage/
