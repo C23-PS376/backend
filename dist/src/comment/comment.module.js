@@ -20,8 +20,8 @@ const thread_entity_1 = require("../thread/entities/thread.entity");
 const user_entity_1 = require("../user/entities/user.entity");
 const user_service_1 = require("../user/user.service");
 const topics_service_1 = require("../topics/topics.service");
-const topic_entity_1 = require("../topics/entities/topic.entity");
 const badge_service_1 = require("../badge/badge.service");
+const topic_entity_1 = require("../topics/entities/topic.entity");
 const badge_entity_1 = require("../badge/entities/badge.entity");
 let CommentModule = class CommentModule {
 };
@@ -31,20 +31,20 @@ CommentModule = __decorate([
             typeorm_1.TypeOrmModule.forFeature([
                 comment_entity_1.Comment,
                 thread_entity_1.Thread,
-                topic_entity_1.Topic,
                 user_entity_1.User,
-                badge_entity_1.Badge,
+                topic_entity_1.Topic,
+                badge_entity_1.Badge
             ]),
             jwtModule_1.jwtModule,
-            multer_config_1.multerModule,
+            multer_config_1.multerModule
         ],
         controllers: [comment_controller_1.CommentController, comment_controller_1.CommentUserController],
         providers: [
             comment_service_1.CommentService,
             storage_service_1.StorageService,
-            topics_service_1.TopicsService,
             thread_service_1.ThreadService,
             user_service_1.UserService,
+            topics_service_1.TopicsService,
             badge_service_1.BadgeService,
         ],
     })

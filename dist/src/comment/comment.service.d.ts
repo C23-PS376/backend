@@ -6,12 +6,16 @@ import { Comment } from './entities/comment.entity';
 import { UpdateCommentDto } from './dto/update-comment.dto';
 import { UserService } from 'src/user/user.service';
 import { ThreadService } from 'src/thread/thread.service';
+import { Thread } from 'src/thread/entities/thread.entity';
+import { User } from 'src/user/entities/user.entity';
 export declare class CommentService {
     private readonly commentRepository;
+    private readonly threadRepository;
+    private readonly userRepository;
     private readonly userService;
     private readonly threadService;
     private readonly storageService;
-    constructor(commentRepository: Repository<Comment>, userService: UserService, threadService: ThreadService, storageService: StorageService);
+    constructor(commentRepository: Repository<Comment>, threadRepository: Repository<Thread>, userRepository: Repository<User>, userService: UserService, threadService: ThreadService, storageService: StorageService);
     create(createCommentDto: CreateCommentDto, userId: string, threadId: string): Promise<Comment>;
     update(commentId: number, threadId: number, updateCommentDto: UpdateCommentDto, userId: number): Promise<Comment>;
     remove(id: number, threadId: number, userId: number): Promise<import("typeorm").DeleteResult>;
