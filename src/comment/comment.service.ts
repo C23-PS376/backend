@@ -10,6 +10,8 @@ import { ThreadService } from 'src/thread/thread.service';
 import * as fs from 'fs'
 import * as tmp from 'tmp'
 import getAudioDurationInSeconds from 'get-audio-duration';
+import { Thread } from 'src/thread/entities/thread.entity';
+import { User } from 'src/user/entities/user.entity';
 
 
 @Injectable()
@@ -17,6 +19,10 @@ export class CommentService {
 	constructor(
 		@InjectRepository(Comment)
 		private readonly commentRepository: Repository<Comment>,
+		@InjectRepository(Thread)
+		private readonly threadRepository: Repository<Thread>,
+		@InjectRepository(User)
+		private readonly userRepository: Repository<User>,
 		private readonly userService: UserService,
 		private readonly threadService: ThreadService,
 		private readonly storageService: StorageService,
@@ -28,10 +34,17 @@ export class CommentService {
 		threadId: string,
 	): Promise<Comment> {
 		// console.log("hasil: ", createCommentDto);
+		const existUser = await this.userService.findOneById(+userId)
+		const existThread = await this.threadService.findOneById(+threadId)
+		existUser.comments_count = (+existUser.comments_count + 1 ).toString()
+		existThread.comments_count = (+existThread.comments_count + 1 ).toString()
+		
+		if (!existThread) throw new HttpException("Thread doesn't exists", 400)
+		if (!existUser) throw new HttpException("User doesn't exists", 400)
+
 		const comment= new Comment()
 		const { audio, ...createdData } = createCommentDto
 
-		if (!this.threadService.findOneById(+threadId)) throw new HttpException("Thread doesn't exists", 400)
 
 		const newAudioPath = audio
 			? await this.storageService.save('comments/audio-', audio)
@@ -48,10 +61,8 @@ export class CommentService {
 			...createdData,
 		})
 
-		const user = await this.userService.findOneById(+userId)
-		const thread = await this.threadService.findOneById(+threadId)
-		user.comments_count = (+user.threads_count + 1 ).toString()
-		thread.comments_count = (+thread.comments_count + 1 ).toString()
+		await this.userRepository.save(existUser)
+		await this.threadRepository.save(existThread)
 
 		return await this.commentRepository.save(comment)
 	}

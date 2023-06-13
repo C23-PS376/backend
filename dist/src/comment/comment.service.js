@@ -34,18 +34,28 @@ const thread_service_1 = require("../thread/thread.service");
 const fs = require("fs");
 const tmp = require("tmp");
 const get_audio_duration_1 = require("get-audio-duration");
+const thread_entity_1 = require("../thread/entities/thread.entity");
+const user_entity_1 = require("../user/entities/user.entity");
 let CommentService = class CommentService {
-    constructor(commentRepository, userService, threadService, storageService) {
+    constructor(commentRepository, threadRepository, userRepository, userService, threadService, storageService) {
         this.commentRepository = commentRepository;
+        this.threadRepository = threadRepository;
+        this.userRepository = userRepository;
         this.userService = userService;
         this.threadService = threadService;
         this.storageService = storageService;
     }
     async create(createCommentDto, userId, threadId) {
+        const existUser = await this.userService.findOneById(+userId);
+        const existThread = await this.threadService.findOneById(+threadId);
+        existUser.comments_count = (+existUser.comments_count + 1).toString();
+        existThread.comments_count = (+existThread.comments_count + 1).toString();
+        if (!existThread)
+            throw new common_1.HttpException("Thread doesn't exists", 400);
+        if (!existUser)
+            throw new common_1.HttpException("User doesn't exists", 400);
         const comment = new comment_entity_1.Comment();
         const { audio } = createCommentDto, createdData = __rest(createCommentDto, ["audio"]);
-        if (!this.threadService.findOneById(+threadId))
-            throw new common_1.HttpException("Thread doesn't exists", 400);
         const newAudioPath = audio
             ? await this.storageService.save('comments/audio-', audio)
             : undefined;
@@ -53,10 +63,8 @@ let CommentService = class CommentService {
             ? await this.getAudioDuration(audio.buffer)
             : undefined;
         Object.assign(comment, Object.assign({ user: userId, thread: threadId, audio: newAudioPath, audio_length: newAudioLength }, createdData));
-        const user = await this.userService.findOneById(+userId);
-        const thread = await this.threadService.findOneById(+threadId);
-        user.comments_count = (+user.threads_count + 1).toString();
-        thread.comments_count = (+thread.comments_count + 1).toString();
+        await this.userRepository.save(existUser);
+        await this.threadRepository.save(existThread);
         return await this.commentRepository.save(comment);
     }
     async update(commentId, threadId, updateCommentDto, userId) {
@@ -192,7 +200,11 @@ let CommentService = class CommentService {
 CommentService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(comment_entity_1.Comment)),
+    __param(1, (0, typeorm_1.InjectRepository)(thread_entity_1.Thread)),
+    __param(2, (0, typeorm_1.InjectRepository)(user_entity_1.User)),
     __metadata("design:paramtypes", [typeorm_2.Repository,
+        typeorm_2.Repository,
+        typeorm_2.Repository,
         user_service_1.UserService,
         thread_service_1.ThreadService,
         storage_service_1.StorageService])
