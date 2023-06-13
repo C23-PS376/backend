@@ -1237,4 +1237,4 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 
 ## Infrastructure Documentation
 
-![Speak Sure Cloud Architecture](img/Service\ APIs\ and\ backend.png)
+![Speak Sure Cloud Architecture](img/Service%20APIs%20and%20backend.png)
