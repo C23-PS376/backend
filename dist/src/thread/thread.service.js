@@ -36,14 +36,16 @@ const topics_service_1 = require("../topics/topics.service");
 const user_service_1 = require("../user/user.service");
 const user_entity_1 = require("../user/entities/user.entity");
 const axios_1 = require("@nestjs/axios");
+const config_1 = require("@nestjs/config");
 let ThreadService = class ThreadService {
-    constructor(threadRepository, userRepository, storageService, topicService, userService, httpService) {
+    constructor(threadRepository, userRepository, storageService, topicService, userService, httpService, configService) {
         this.threadRepository = threadRepository;
         this.userRepository = userRepository;
         this.storageService = storageService;
         this.topicService = topicService;
         this.userService = userService;
         this.httpService = httpService;
+        this.configService = configService;
     }
     async create(createUserDto, userId) {
         const thread = new thread_entity_1.Thread();
@@ -181,7 +183,7 @@ let ThreadService = class ThreadService {
         });
     }
     async checkToxic(text) {
-        const url = 'https://mlapi-dzjerbarfq-uc.a.run.app/predict_text';
+        const url = this.configService.get('ML_API_URL');
         const payload = JSON.stringify({ text });
         const config = {
             headers: { 'Content-Type': 'application/json' },
@@ -208,7 +210,8 @@ ThreadService = __decorate([
         storage_service_1.StorageService,
         topics_service_1.TopicsService,
         user_service_1.UserService,
-        axios_1.HttpService])
+        axios_1.HttpService,
+        config_1.ConfigService])
 ], ThreadService);
 exports.ThreadService = ThreadService;
 //# sourceMappingURL=thread.service.js.map

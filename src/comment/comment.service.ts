@@ -13,6 +13,7 @@ import getAudioDurationInSeconds from 'get-audio-duration';
 import { Thread } from 'src/thread/entities/thread.entity';
 import { User } from 'src/user/entities/user.entity';
 import { HttpService } from '@nestjs/axios';
+import { ConfigService } from '@nestjs/config';
 
 
 @Injectable()
@@ -28,6 +29,7 @@ export class CommentService {
 		private readonly threadService: ThreadService,
 		private readonly storageService: StorageService,
 		private readonly httpService: HttpService,
+		private readonly configService: ConfigService,
 	) {}
 
 	async create(
@@ -240,8 +242,7 @@ export class CommentService {
 	}
 
 	async checkToxic(text: string) {
-		const url = 'https://mlapi-dzjerbarfq-uc.a.run.app/predict_text'
-		// const url = 'http://127.0.0.1:8081/predict_text'
+		const url = this.configService.get<string>('ML_API_URL')
 		const payload = JSON.stringify({ text });
     const config = {
       headers: { 'Content-Type': 'application/json' },

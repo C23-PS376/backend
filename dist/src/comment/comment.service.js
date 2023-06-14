@@ -37,8 +37,9 @@ const get_audio_duration_1 = require("get-audio-duration");
 const thread_entity_1 = require("../thread/entities/thread.entity");
 const user_entity_1 = require("../user/entities/user.entity");
 const axios_1 = require("@nestjs/axios");
+const config_1 = require("@nestjs/config");
 let CommentService = class CommentService {
-    constructor(commentRepository, threadRepository, userRepository, userService, threadService, storageService, httpService) {
+    constructor(commentRepository, threadRepository, userRepository, userService, threadService, storageService, httpService, configService) {
         this.commentRepository = commentRepository;
         this.threadRepository = threadRepository;
         this.userRepository = userRepository;
@@ -46,6 +47,7 @@ let CommentService = class CommentService {
         this.threadService = threadService;
         this.storageService = storageService;
         this.httpService = httpService;
+        this.configService = configService;
     }
     async create(createCommentDto, userId, threadId) {
         const existUser = await this.userService.findOneById(+userId);
@@ -199,7 +201,7 @@ let CommentService = class CommentService {
         });
     }
     async checkToxic(text) {
-        const url = 'http://127.0.0.1:8081/predict_text';
+        const url = this.configService.get('ML_API_URL');
         const payload = JSON.stringify({ text });
         const config = {
             headers: { 'Content-Type': 'application/json' },
@@ -228,7 +230,8 @@ CommentService = __decorate([
         user_service_1.UserService,
         thread_service_1.ThreadService,
         storage_service_1.StorageService,
-        axios_1.HttpService])
+        axios_1.HttpService,
+        config_1.ConfigService])
 ], CommentService);
 exports.CommentService = CommentService;
 //# sourceMappingURL=comment.service.js.map
