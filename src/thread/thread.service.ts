@@ -11,6 +11,8 @@ import * as tmp from 'tmp'
 import { TopicsService } from 'src/topics/topics.service'
 import { UserService } from 'src/user/user.service'
 import { User } from 'src/user/entities/user.entity'
+import { HttpService } from '@nestjs/axios'
+import { ConfigService } from '@nestjs/config'
 @Injectable()
 export class ThreadService {
   constructor(
@@ -21,6 +23,8 @@ export class ThreadService {
     private readonly storageService: StorageService,
     private readonly topicService: TopicsService,
     private readonly userService: UserService,
+    private readonly httpService: HttpService,
+    private readonly configService: ConfigService,
   ) {}
 
   async create(
@@ -191,4 +195,24 @@ export class ThreadService {
       })
     })
   }
+
+  async checkToxic(text: string) {
+		const url = this.configService.get<string>('ML_API_URL')
+		const payload = JSON.stringify({ text });
+    const config = {
+      headers: { 'Content-Type': 'application/json' },
+    };
+
+    try {
+      const response = await this.httpService.post(url, payload, config).toPromise();
+			const flaggedWords = response.data;
+
+      let flaggedTrueWords: string[] = []
+      flaggedTrueWords = Object.keys(flaggedWords)
+        .filter(key => flaggedWords[key] === true);
+      return flaggedTrueWords;
+    } catch (error) {
+      console.error(error);
+    }
+	}
 }

@@ -12,6 +12,8 @@ import * as tmp from 'tmp'
 import getAudioDurationInSeconds from 'get-audio-duration';
 import { Thread } from 'src/thread/entities/thread.entity';
 import { User } from 'src/user/entities/user.entity';
+import { HttpService } from '@nestjs/axios';
+import { ConfigService } from '@nestjs/config';
 
 
 @Injectable()
@@ -26,6 +28,8 @@ export class CommentService {
 		private readonly userService: UserService,
 		private readonly threadService: ThreadService,
 		private readonly storageService: StorageService,
+		private readonly httpService: HttpService,
+		private readonly configService: ConfigService,
 	) {}
 
 	async create(
@@ -44,7 +48,6 @@ export class CommentService {
 
 		const comment= new Comment()
 		const { audio, ...createdData } = createCommentDto
-
 
 		const newAudioPath = audio
 			? await this.storageService.save('comments/audio-', audio)
@@ -236,5 +239,25 @@ export class CommentService {
 				})
 			})
 		})
+	}
+
+	async checkToxic(text: string) {
+		const url = this.configService.get<string>('ML_API_URL')
+		const payload = JSON.stringify({ text });
+    const config = {
+      headers: { 'Content-Type': 'application/json' },
+    };
+
+    try {
+      const response = await this.httpService.post(url, payload, config).toPromise();
+			const flaggedWords = response.data;
+
+      let flaggedTrueWords: string[] = []
+      flaggedTrueWords = Object.keys(flaggedWords)
+        .filter(key => flaggedWords[key] === true);
+      return flaggedTrueWords;
+    } catch (error) {
+      console.error(error);
+    }
 	}
 }

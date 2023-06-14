@@ -7,17 +7,22 @@ import { StorageService } from 'src/storage/storage.service';
 import { TopicsService } from 'src/topics/topics.service';
 import { UserService } from 'src/user/user.service';
 import { User } from 'src/user/entities/user.entity';
+import { HttpService } from '@nestjs/axios';
+import { ConfigService } from '@nestjs/config';
 export declare class ThreadService {
     private readonly threadRepository;
     private readonly userRepository;
     private readonly storageService;
     private readonly topicService;
     private readonly userService;
-    constructor(threadRepository: Repository<Thread>, userRepository: Repository<User>, storageService: StorageService, topicService: TopicsService, userService: UserService);
+    private readonly httpService;
+    private readonly configService;
+    constructor(threadRepository: Repository<Thread>, userRepository: Repository<User>, storageService: StorageService, topicService: TopicsService, userService: UserService, httpService: HttpService, configService: ConfigService);
     create(createUserDto: CreateThreadDto, userId: string): Promise<Thread>;
     findAll(page: string, size: string, keyword: string, topic: number): Promise<Thread[]>;
     findOneById(id: number): Promise<Thread>;
     update(threadId: number, updateThreadDto: UpdateThreadDto, userId: number): Promise<Thread>;
     remove(id: number, userId: number): Promise<import("typeorm").DeleteResult>;
     getAudioDuration(audioBuffer: Buffer): Promise<unknown>;
+    checkToxic(text: string): Promise<string[]>;
 }
