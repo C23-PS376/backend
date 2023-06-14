@@ -331,6 +331,16 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > }
 > ```
 
+> Title or Description contains flag word (400)
+> ```JSON
+>	{
+>	    "statusCode": 400,
+>	    "message": "Text contains flagged words toxic, obscene, insult"
+>	}
+> ``` 
+\* The message could be : 
+        labels = ['toxic', 'severe toxic', 'obscene', 'threat', 'insult', 'identity hate']
+
 </details>
 
 <details>
@@ -396,6 +406,16 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 >   "message": "The topic doesn't exists"
 > }
 > ```
+
+> Title or Description contains flag word (400)
+> ```JSON
+>	{
+>	    "statusCode": 400,
+>	    "message": "Text contains flagged words toxic, obscene, insult"
+>	}
+> ``` 
+\* The message could be : 
+        labels = ['toxic', 'severe toxic', 'obscene', 'threat', 'insult', 'identity hate']
 
 </details>
 
@@ -807,8 +827,6 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > }
 > ```
 
-> Thread doesn't exists -> Stuck :\
-
 > Incompatible Files (422)
 > ```JSON
 > {
@@ -816,6 +834,32 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 >   "message": "audio is not a valid document. Accepted file format [mp3,wav,mpeg]"
 > }
 > ```
+
+> Thread doesn't exist(400)
+> ```JSON
+> {
+>   "statusCode": 400,
+>   "message": "Thread doesn't exists"
+> }
+> ```
+
+> Use doesn't exist(400)
+> ```JSON
+> {
+>   "statusCode": 400,
+>   "message": "User doesn't exists"
+> }
+> ```
+
+> Text contains flag word (400)
+> ```JSON
+>	{
+>	    "statusCode": 400,
+>	    "message": "Text contains flagged words toxic, obscene, insult"
+>	}
+> ``` 
+\* The message could be : 
+        labels = ['toxic', 'severe toxic', 'obscene', 'threat', 'insult', 'identity hate']
 
 </details>
  
@@ -876,58 +920,6 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 
 </details>
 
-<details>
-<summary>GET /threads/{thread_id}/comments</summary>
-
-### GET /threads/:thread_id/comments
-### Get list of comments within threads
-
-#### Param 
-
-| Name    | Type   | In    | Default | Required | Description                      | 
-| ------- | ------ | ----- | ------- | -------- | -------------------------------- |
-| page    | string | Query | 0       | No       | The index of page of list thread |
-| size    | string | Query | 5       | No       | Max thread in one page           |
-
-#### Response
-##### Successful response
->```JSON
->{
->	"statusCode": 200,
->	"data": [
->		{
->			"id": xx,
->			"text": "xxx",
->			"audio": "xxx",
->			"audio_length": xxx,
->			"created_at": "xxx",
->			"updated_at": "xxx",
->			"username": "xxx",
->		},
->		{
->			"id": xx,
->			"text": "xxx",
->			"audio": "xxx",
->			"audio_length": xxx,
->			"created_at": "xxx",
->			"updated_at": "xxx",
->			"username": "xxx",
->		},
->		{
->			"id": xx,
->			"text": "xxx",
->			"audio": "xxx",
->			"audio_length": xxx,
->			"created_at": "xxx",
->			"updated_at": "xxx",
->			"username": "xxx",
->		},
->		{ ... }
->	]
->}
->
->```
-</details>
 
 <details>
 <summary>GET /threads/{thread_id}/comments</summary>
@@ -981,6 +973,20 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 >}
 >
 >```
+\*The data of thread's comment could be empty, but still returns `statusCode: 200`
+
+
+##### Failed response
+>Thread doesn't exists(400) 
+>```JSON
+>{
+>	"statusCode": 400,
+>	"message": "Thread doesn't exists"
+>}
+>```
+
+
+
 </details>
 
 <details>
@@ -1035,6 +1041,7 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 >}
 >
 >```
+\*The data of user's comment could be empty, but still returns `statusCode: 200`
 </details>
 
 <details>
@@ -1050,10 +1057,10 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 
 #### Params
 
-| Name       | Type    | In  | Default | Required | Description           |
-| ---------- | ------- | --- | ------- | -------- | --------------------- |
-| thread_id  | Integer | Url |         | Yes      | The ID of thread      |
-| comment_id | Integer | Url |         | Yes      | The Id of the comment | 
+| Name       | Type    | Default | Required | Description           |
+| ---------- | ------- | ------- | -------- | --------------------- |
+| thread_id  | Integer |         | Yes      | The ID of thread      |
+| comment_id | Integer |         | Yes      | The Id of the comment |
 
 #### Body
 
@@ -1065,7 +1072,7 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 #### Response
 ##### Successful response
 
-> Successfully updated the thread  (200)
+> Successfully updated the comment  (200)
 > ```JSON
 > {
 >   "statusCode": 201,
@@ -1083,7 +1090,7 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 
 ##### Failed response
 
-> Thread doesn't exists (400)
+> Comment doesn't exists (400)
 > ```JSON
 > {
 >     "statusCode": 400,
@@ -1091,13 +1098,24 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > }
 > ```
 
-> Topic doesn't exists (400)
+> Thread doesn't exists (400)
 > ```JSON
 > {
 >   "statusCode": 400,
 >   "message": "Thread doesn't exists"
 > }
 > ```
+
+> Text contains flag word (400)
+> ```JSON
+>	{
+>	    "statusCode": 400,
+>	    "message": "Text contains flagged words toxic, obscene, insult"
+>	}
+> ``` 
+\* The message could be : 
+	labels = ['toxic', 'severe toxic', 'obscene', 'threat', 'insult', 'identity hate']
+
 </details>
 
 <details>
@@ -1113,10 +1131,10 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 
 #### Params
 
-| Name       | Type    | In  | Default | Required | Description       |
-| ---------- | ------- | --- | ------- | -------- | ----------------- |
-| thread_id  | Integer | Uri |         | Yes      | The ID of thread  |
-| comment_id | Integer | Url |         | Yes      | The Id of comment | 
+| Name       | Type    | Default | Required | Description       |
+| ---------- | ------- | ------- | -------- | ----------------- |
+| thread_id  | Integer |         | Yes      | The ID of thread  |
+| comment_id | Integer |         | Yes      | The ID of comment | 
 
 #### Response
 ##### Successful response
@@ -1131,7 +1149,7 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > }
 > ```
 
-> Thread doesn't exists (400)
+> Comment doesn't exists (400)
 > ```JSON
 > {
 >     "statusCode": 400,
@@ -1155,10 +1173,10 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 
 #### Params
 
-| Name       | Type    | In  | Default | Required | Description           |
-| ---------- | ------- | --- | ------- | -------- | --------------------- |
-| thread_id  | Integer | Uri |         | Yes      | The ID of thread      |
-| comment_id | Integer | Uri |         | Yes      | The Id of the comment | 
+| Name       | Type    | Default | Required | Description           |
+| ---------- | ------- | ------- | -------- | --------------------- |
+| thread_id  | Integer |         | Yes      | The ID of thread      |
+| comment_id | Integer |         | Yes      | The Id of the comment | 
 
 #### Response
 ##### Successful response
