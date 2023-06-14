@@ -35,13 +35,15 @@ const tmp = require("tmp");
 const topics_service_1 = require("../topics/topics.service");
 const user_service_1 = require("../user/user.service");
 const user_entity_1 = require("../user/entities/user.entity");
+const axios_1 = require("@nestjs/axios");
 let ThreadService = class ThreadService {
-    constructor(threadRepository, userRepository, storageService, topicService, userService) {
+    constructor(threadRepository, userRepository, storageService, topicService, userService, httpService) {
         this.threadRepository = threadRepository;
         this.userRepository = userRepository;
         this.storageService = storageService;
         this.topicService = topicService;
         this.userService = userService;
+        this.httpService = httpService;
     }
     async create(createUserDto, userId) {
         const thread = new thread_entity_1.Thread();
@@ -178,6 +180,24 @@ let ThreadService = class ThreadService {
             });
         });
     }
+    async checkToxic(text) {
+        const url = 'https://mlapi-dzjerbarfq-uc.a.run.app/predict_text';
+        const payload = JSON.stringify({ text });
+        const config = {
+            headers: { 'Content-Type': 'application/json' },
+        };
+        try {
+            const response = await this.httpService.post(url, payload, config).toPromise();
+            const flaggedWords = response.data;
+            let flaggedTrueWords = [];
+            flaggedTrueWords = Object.keys(flaggedWords)
+                .filter(key => flaggedWords[key] === true);
+            return flaggedTrueWords;
+        }
+        catch (error) {
+            console.error(error);
+        }
+    }
 };
 ThreadService = __decorate([
     (0, common_1.Injectable)(),
@@ -187,7 +207,8 @@ ThreadService = __decorate([
         typeorm_1.Repository,
         storage_service_1.StorageService,
         topics_service_1.TopicsService,
-        user_service_1.UserService])
+        user_service_1.UserService,
+        axios_1.HttpService])
 ], ThreadService);
 exports.ThreadService = ThreadService;
 //# sourceMappingURL=thread.service.js.map

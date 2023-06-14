@@ -27,6 +27,14 @@ let CommentController = class CommentController {
     }
     async create(req, threadId, createCommentDto, files) {
         var _a, _b;
+        const flaggedWords = await this.commentService.checkToxic(createCommentDto.text);
+        if (flaggedWords.length > 0) {
+            const message = `Text contains words that are ${flaggedWords.join(', ')}`;
+            throw new common_1.BadRequestException({
+                statusCode: 400,
+                message
+            });
+        }
         const comment = await this.commentService.create(Object.assign(Object.assign({}, createCommentDto), { audio: (_a = files === null || files === void 0 ? void 0 : files.audio) === null || _a === void 0 ? void 0 : _a[0] }), (_b = req === null || req === void 0 ? void 0 : req.user) === null || _b === void 0 ? void 0 : _b.id, threadId);
         return {
             statusCode: 201,
@@ -42,6 +50,14 @@ let CommentController = class CommentController {
     }
     async update(req, threadId, id, updateCommentDto, files) {
         var _a, _b;
+        const flaggedWords = await this.commentService.checkToxic(updateCommentDto.text);
+        if (flaggedWords.length > 0) {
+            const message = `Text contains flagged words ${flaggedWords.join(', ')}`;
+            throw new common_1.BadRequestException({
+                statusCode: 400,
+                message
+            });
+        }
         const data = await this.commentService.update(+id, +threadId, Object.assign(Object.assign({}, updateCommentDto), { audio: (_a = files === null || files === void 0 ? void 0 : files.audio) === null || _a === void 0 ? void 0 : _a[0] }), (_b = req === null || req === void 0 ? void 0 : req.user) === null || _b === void 0 ? void 0 : _b.id);
         return {
             statusCode: 200,
@@ -73,6 +89,9 @@ let CommentController = class CommentController {
     async remove(id, threadId, req) {
         var _a;
         await this.commentService.remove(+id, +threadId, (_a = req === null || req === void 0 ? void 0 : req.user) === null || _a === void 0 ? void 0 : _a.id);
+    }
+    async toxic(req, text) {
+        return await this.commentService.checkToxic(text.text);
     }
 };
 __decorate([
@@ -130,6 +149,14 @@ __decorate([
     __metadata("design:paramtypes", [String, String, Object]),
     __metadata("design:returntype", Promise)
 ], CommentController.prototype, "remove", null);
+__decorate([
+    (0, common_1.Post)('test'),
+    __param(0, (0, common_1.Request)()),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, create_comment_dto_1.CreateCommentDto]),
+    __metadata("design:returntype", Promise)
+], CommentController.prototype, "toxic", null);
 CommentController = __decorate([
     (0, common_1.Controller)('threads/:threadId/comments'),
     __metadata("design:paramtypes", [comment_service_1.CommentService,

@@ -25,6 +25,19 @@ let ThreadController = class ThreadController {
     }
     async create(req, createThreadDto, files) {
         var _a, _b, _c;
+        const flaggedWords = [];
+        if (createThreadDto.title) {
+            const flaggedTitleWords = await this.threadService.checkToxic(createThreadDto.title);
+            flaggedWords.push(...flaggedTitleWords);
+        }
+        if (createThreadDto.description) {
+            const flaggedDescriptionWords = await this.threadService.checkToxic(createThreadDto.description);
+            flaggedWords.push(...flaggedDescriptionWords);
+        }
+        if (flaggedWords.length > 0) {
+            const message = `Text contains words that are ${flaggedWords.join(', ')}`;
+            throw new common_1.BadRequestException({ statusCode: 400, message });
+        }
         const data = await this.threadService.create(Object.assign(Object.assign({}, createThreadDto), { image: (_a = files === null || files === void 0 ? void 0 : files.image) === null || _a === void 0 ? void 0 : _a[0], audio: (_b = files === null || files === void 0 ? void 0 : files.audio) === null || _b === void 0 ? void 0 : _b[0] }), (_c = req === null || req === void 0 ? void 0 : req.user) === null || _c === void 0 ? void 0 : _c.id);
         return {
             statusCode: 200,
@@ -58,6 +71,19 @@ let ThreadController = class ThreadController {
     }
     async update(id, updateThreadDto, req, files) {
         var _a, _b, _c;
+        const flaggedWords = [];
+        if (updateThreadDto.title) {
+            const flaggedTitleWords = await this.threadService.checkToxic(updateThreadDto.title);
+            flaggedWords.push(...flaggedTitleWords);
+        }
+        if (updateThreadDto.description) {
+            const flaggedDescriptionWords = await this.threadService.checkToxic(updateThreadDto.description);
+            flaggedWords.push(...flaggedDescriptionWords);
+        }
+        if (flaggedWords.length > 0) {
+            const message = `Text contains words that are ${flaggedWords.join(', ')}`;
+            throw new common_1.BadRequestException({ statusCode: 400, message });
+        }
         const data = await this.threadService.update(+id, Object.assign(Object.assign({}, updateThreadDto), { image: (_a = files === null || files === void 0 ? void 0 : files.image) === null || _a === void 0 ? void 0 : _a[0], audio: (_b = files === null || files === void 0 ? void 0 : files.audio) === null || _b === void 0 ? void 0 : _b[0] }), (_c = req === null || req === void 0 ? void 0 : req.user) === null || _c === void 0 ? void 0 : _c.id);
         return {
             statusCode: 200,

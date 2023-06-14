@@ -14,6 +14,7 @@ import { TopicsService } from 'src/topics/topics.service';
 import { BadgeService } from 'src/badge/badge.service';
 import { Topic } from 'src/topics/entities/topic.entity';
 import { Badge } from 'src/badge/entities/badge.entity';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
   imports: [
@@ -27,7 +28,8 @@ import { Badge } from 'src/badge/entities/badge.entity';
       ]
     ), 
     jwtModule, 
-    multerModule
+    multerModule,
+    HttpModule,
   ],
 
   controllers: [CommentController, CommentUserController],

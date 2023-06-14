@@ -23,6 +23,7 @@ const topics_service_1 = require("../topics/topics.service");
 const badge_service_1 = require("../badge/badge.service");
 const topic_entity_1 = require("../topics/entities/topic.entity");
 const badge_entity_1 = require("../badge/entities/badge.entity");
+const axios_1 = require("@nestjs/axios");
 let CommentModule = class CommentModule {
 };
 CommentModule = __decorate([
@@ -36,7 +37,8 @@ CommentModule = __decorate([
                 badge_entity_1.Badge
             ]),
             jwtModule_1.jwtModule,
-            multer_config_1.multerModule
+            multer_config_1.multerModule,
+            axios_1.HttpModule,
         ],
         controllers: [comment_controller_1.CommentController, comment_controller_1.CommentUserController],
         providers: [

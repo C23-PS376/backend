@@ -14,6 +14,7 @@ import {
 	UploadedFiles,
 	Query,
 	Patch,
+	BadRequestException,
 } from '@nestjs/common';
 import { CommentService } from './comment.service';
 import { AuthGuard } from 'src/auth/auth.guard';
@@ -42,6 +43,15 @@ export class CommentController {
 		@UploadedFiles()
 		files: { audio?: Express.Multer.File[]},
 	) {
+		const flaggedWords = await this.commentService.checkToxic(createCommentDto.text)
+		if(flaggedWords.length>0){
+			const message = `Text contains words that are ${flaggedWords.join(', ')}`
+			throw new BadRequestException({
+				statusCode: 400,
+				message
+			})
+		}
+
 		const comment = await this.commentService.create({
 			...createCommentDto,
 			audio: files?.audio?.[0],
@@ -76,6 +86,14 @@ export class CommentController {
 		@UploadedFiles()
 		files: { audio?: Express.Multer.File[]},
 	) {
+		const flaggedWords = await this.commentService.checkToxic(updateCommentDto.text)
+		if(flaggedWords.length>0){
+			const message = `Text contains flagged words ${flaggedWords.join(', ')}`
+			throw new BadRequestException({
+				statusCode: 400,
+				message
+			})
+		}
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const data = await this.commentService.update(
 				+id,
@@ -133,6 +151,14 @@ export class CommentController {
 		@Request() req,
 	){
 		await this.commentService.remove(+id, +threadId, req?.user?.id)
+	}
+
+	@Post('test')
+	async toxic(
+		@Request() req,
+		@Body() text: CreateCommentDto,
+	) {
+		return await this.commentService.checkToxic(text.text);
 	}
 }
 

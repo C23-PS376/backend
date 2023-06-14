@@ -36,14 +36,16 @@ const tmp = require("tmp");
 const get_audio_duration_1 = require("get-audio-duration");
 const thread_entity_1 = require("../thread/entities/thread.entity");
 const user_entity_1 = require("../user/entities/user.entity");
+const axios_1 = require("@nestjs/axios");
 let CommentService = class CommentService {
-    constructor(commentRepository, threadRepository, userRepository, userService, threadService, storageService) {
+    constructor(commentRepository, threadRepository, userRepository, userService, threadService, storageService, httpService) {
         this.commentRepository = commentRepository;
         this.threadRepository = threadRepository;
         this.userRepository = userRepository;
         this.userService = userService;
         this.threadService = threadService;
         this.storageService = storageService;
+        this.httpService = httpService;
     }
     async create(createCommentDto, userId, threadId) {
         const existUser = await this.userService.findOneById(+userId);
@@ -196,6 +198,24 @@ let CommentService = class CommentService {
             });
         });
     }
+    async checkToxic(text) {
+        const url = 'http://127.0.0.1:8081/predict_text';
+        const payload = JSON.stringify({ text });
+        const config = {
+            headers: { 'Content-Type': 'application/json' },
+        };
+        try {
+            const response = await this.httpService.post(url, payload, config).toPromise();
+            const flaggedWords = response.data;
+            let flaggedTrueWords = [];
+            flaggedTrueWords = Object.keys(flaggedWords)
+                .filter(key => flaggedWords[key] === true);
+            return flaggedTrueWords;
+        }
+        catch (error) {
+            console.error(error);
+        }
+    }
 };
 CommentService = __decorate([
     (0, common_1.Injectable)(),
@@ -207,7 +227,8 @@ CommentService = __decorate([
         typeorm_2.Repository,
         user_service_1.UserService,
         thread_service_1.ThreadService,
-        storage_service_1.StorageService])
+        storage_service_1.StorageService,
+        axios_1.HttpService])
 ], CommentService);
 exports.CommentService = CommentService;
 //# sourceMappingURL=comment.service.js.map

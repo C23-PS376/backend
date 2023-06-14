@@ -12,8 +12,9 @@ import { User } from 'src/user/entities/user.entity'
 import { UserService } from 'src/user/user.service'
 import { BadgeService } from 'src/badge/badge.service'
 import { Badge } from 'src/badge/entities/badge.entity'
+import { HttpModule } from '@nestjs/axios'
 @Module({
-  imports: [TypeOrmModule.forFeature([Thread, Topic, User, Badge]), jwtModule, multerModule],
+  imports: [TypeOrmModule.forFeature([Thread, Topic, User, Badge]), jwtModule, multerModule, HttpModule],
   controllers: [ThreadController],
   providers: [ThreadService, StorageService, TopicsService, UserService, BadgeService],
 })

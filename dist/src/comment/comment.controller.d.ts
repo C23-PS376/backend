@@ -49,6 +49,7 @@ export declare class CommentController {
         data: import("./entities/comment.entity").Comment;
     }>;
     remove(id: string, threadId: string, req: any): Promise<void>;
+    toxic(req: any, text: CreateCommentDto): Promise<string[]>;
 }
 export declare class CommentUserController {
     private readonly commentService;

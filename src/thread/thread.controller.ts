@@ -14,6 +14,7 @@ import {
   UseGuards,
   HttpCode,
   Query,
+  BadRequestException,
 } from '@nestjs/common'
 import { FileFieldsInterceptor } from '@nestjs/platform-express'
 
@@ -39,6 +40,20 @@ export class ThreadController {
     @UploadedFiles()
     files: { image?: Express.Multer.File[]; audio?: Express.Multer.File[] },
   ) {
+    const flaggedWords: string[] = [];
+    if (createThreadDto.title) {
+      const flaggedTitleWords = await this.threadService.checkToxic(createThreadDto.title);
+      flaggedWords.push(...flaggedTitleWords);
+    }
+    if (createThreadDto.description) {
+      const flaggedDescriptionWords = await this.threadService.checkToxic(createThreadDto.description);
+      flaggedWords.push(...flaggedDescriptionWords);
+    }
+    if (flaggedWords.length > 0) {
+      const message = `Text contains words that are ${flaggedWords.join(', ')}`;
+      throw new BadRequestException({ statusCode: 400, message });
+    }
+
     const data = await this.threadService.create(
       {
         ...createThreadDto,
@@ -98,6 +113,19 @@ export class ThreadController {
     @UploadedFiles()
     files: { image?: Express.Multer.File[]; audio?: Express.Multer.File[] },
   ) {
+    const flaggedWords: string[] = [];
+    if (updateThreadDto.title) {
+      const flaggedTitleWords = await this.threadService.checkToxic(updateThreadDto.title);
+      flaggedWords.push(...flaggedTitleWords);
+    }
+    if (updateThreadDto.description) {
+      const flaggedDescriptionWords = await this.threadService.checkToxic(updateThreadDto.description);
+      flaggedWords.push(...flaggedDescriptionWords);
+    }
+    if (flaggedWords.length > 0) {
+      const message = `Text contains words that are ${flaggedWords.join(', ')}`;
+      throw new BadRequestException({ statusCode: 400, message });
+    }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const data = await this.threadService.update(
       +id,
