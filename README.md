@@ -1469,6 +1469,7 @@ npm install
   - `STORAGE_MEDIA_BUCKET`: Specify the name of the storage bucket where media files will be stored.
   - `ML_API_URL`: Provide the URL or endpoint for your machine learning API.
 
+
 - ### Machine Learning API
   Before you run this service, please ensure that the Machine Learning API for this project is running and the variable `ML_API_URL` is set.
 
