@@ -9,14 +9,17 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 ### POST /auth/register
 
 #### Body
-| Key         	| Type    	| Default 	| Required 	| Description                     	|
-|--------------	|---------	| ---------	|----------	|---------------------------------	|
-| name        	| String  	|         	| Yes      	| Name of the user                  |
-| email       	| String    |          	| Yes      	| User email                       	|
-| password     	| String  	|          	| Yes       | User password                   	|
+
+| Key      | Type   | Default | Required | Description      |
+| -------- | ------ | ------- | -------- | ---------------- |
+| name     | String |         | Yes      | Name of the user |
+| email    | String |         | Yes      | User email       |
+| password | String |         | Yes      | User password    |
 
 #### Successful response
+
 > Register successfully (201)
+>
 > ```JSON
 > {
 >   "statusCode": 201,
@@ -30,7 +33,9 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > ```
 
 #### Failed response
+
 > Required field didn't filled properly (400)
+>
 > ```JSON
 > {
 >   "statusCode": 400,
@@ -43,6 +48,7 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > ```
 
 > Email already exists (400)
+>
 > ```JSON
 > {
 >   "statusCode": 400,
@@ -58,13 +64,16 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 ### POST /auth/login
 
 #### Body
-| Key         	| Type    	| Default 	| Required 	| Description                     	|
-|--------------	|---------	| ---------	|----------	|---------------------------------	|
-| email       	| String    |          	| Yes      	| User email                        |
-| password     	| String  	|          	| Yes       | User password                  	  |
+
+| Key      | Type   | Default | Required | Description   |
+| -------- | ------ | ------- | -------- | ------------- |
+| email    | String |         | Yes      | User email    |
+| password | String |         | Yes      | User password |
 
 #### Successful response
+
 > Login successfully (200)
+>
 > ```JSON
 > {
 >   "statusCode": 200,
@@ -78,7 +87,9 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > ```
 
 #### Failed response
+
 > Wrong Username / Password (400)
+>
 > ```JSON
 > {
 >   "statusCode": 401,
@@ -87,6 +98,7 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > ```
 
 > Required field didn't filled properly (400)
+>
 > ```JSON
 > {
 >   "statusCode": 400,
@@ -106,29 +118,34 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 ### PATCH /user/{user_id}
 
 #### Header
-| Name         	| Type    	| Default 	| Required 	| Value                            	|
-|--------------	| --------- | ---------	|----------	|---------------------------------	|
-| Authorization | Bearer  	|         	| Yes      	| Auth token from register or login |
 
+| Name          | Type   | Default | Required | Value                             |
+| ------------- | ------ | ------- | -------- | --------------------------------- |
+| Authorization | Bearer |         | Yes      | Auth token from register or login |
 
 #### Params
-| Name         	| Type    	| In      	| Default 	| Required 	| Description                     	|
-|--------------	| --------- |---------	| ---------	|----------	|---------------------------------	|
-| user_id       | Integer  	| Uri     	|         	| Yes      	| The ID of user                    |
+
+| Name    | Type    | In  | Default | Required | Description    |
+| ------- | ------- | --- | ------- | -------- | -------------- |
+| user_id | Integer | Uri |         | Yes      | The ID of user |
 
 #### Body
-| Name         	| Type    	| Default 	| Required 	| Description                     	|
-|--------------	| --------- | ---------	|----------	|---------------------------------	|
-| name        	| String  	|          	| No        | Name of user                      |
-| email        	| String  	|          	| No        | Email of user                     |
-| password     	| String  	|          	| No        | Password of user                  |
-| image        	| File    	|          	| No        | Profile picture of user           |
-| audio        	| File    	|          	| No        | Profile audio of user             |
-| badge        	| Number   	|          	| No        | Id of the badge                   |
+
+| Name     | Type   | Default | Required | Description             |
+| -------- | ------ | ------- | -------- | ----------------------- |
+| name     | String |         | No       | Name of user            |
+| email    | String |         | No       | Email of user           |
+| password | String |         | No       | Password of user        |
+| image    | File   |         | No       | Profile picture of user |
+| audio    | File   |         | No       | Profile audio of user   |
+| badge    | Number |         | No       | Id of the badge         |
 
 #### Response
+
 ##### Successful response
-> Successfully change user data  (200)
+
+> Successfully change user data (200)
+>
 > ```JSON
 > {
 >   "statusCode": 200,
@@ -148,8 +165,11 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 >   ]
 > }
 > ```
+
 ##### Failed response
-> Id from token does not match user_id  (403)
+
+> Id from token does not match user_id (403)
+>
 > ```JSON
 > {
 >   "statusCode": 403,
@@ -165,19 +185,23 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 ### GET /user/{user_id}
 
 #### Header
-| Name         	| Type    	| Default 	| Required 	| Value                            	|
-|--------------	| --------- | ---------	|----------	|---------------------------------	|
-| Authorization | Bearer  	|         	| Yes      	| Auth token from register or login |
 
+| Name          | Type   | Default | Required | Value                             |
+| ------------- | ------ | ------- | -------- | --------------------------------- |
+| Authorization | Bearer |         | Yes      | Auth token from register or login |
 
 #### Params
-| Name         	| Type    	| In      	| Default 	| Required 	| Description                     	|
-|--------------	| --------- |---------	| ---------	|----------	|---------------------------------	|
-| user_id       | Integer  	| Uri     	|         	| Yes      	| The ID of user                    |
+
+| Name    | Type    | In  | Default | Required | Description    |
+| ------- | ------- | --- | ------- | -------- | -------------- |
+| user_id | Integer | Uri |         | Yes      | The ID of user |
 
 #### Response
+
 ##### Successful response
+
 > Successfully get user data (200)
+>
 > ```JSON
 > {
 >   "statusCode": 200,
@@ -201,8 +225,11 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 >   }
 > }
 > ```
+
 ##### Failed response
-> Id from token does not match user_id  (403)
+
+> Id from token does not match user_id (403)
+>
 > ```JSON
 > {
 >   "statusCode": 403,
@@ -218,21 +245,27 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 ### DELETE /user/{user_id}
 
 #### Header
-| Name         	| Type    	| Default 	| Required 	| Value                            	|
-|--------------	| --------- | ---------	|----------	|---------------------------------	|
-| Authorization | Bearer  	|         	| Yes      	| Auth token from register or login |
 
+| Name          | Type   | Default | Required | Value                             |
+| ------------- | ------ | ------- | -------- | --------------------------------- |
+| Authorization | Bearer |         | Yes      | Auth token from register or login |
 
 #### Params
-| Name         	| Type    	| In      	| Default 	| Required 	| Description                     	|
-|--------------	| --------- |---------	| ---------	|----------	|---------------------------------	|
-| user_id       | Integer  	| Uri     	|         	| Yes      	| The ID of user                    |
+
+| Name    | Type    | In  | Default | Required | Description    |
+| ------- | ------- | --- | ------- | -------- | -------------- |
+| user_id | Integer | Uri |         | Yes      | The ID of user |
 
 #### Response
+
 ##### Successful response
-> Successfully delete the user  (204)
+
+> Successfully delete the user (204)
+
 ##### Failed response
-> Id of token does not match user_id  (403)
+
+> Id of token does not match user_id (403)
+>
 > ```JSON
 > {
 >   "statusCode": 403,
@@ -241,6 +274,7 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > ```
 
 > User doesn't exists (400)
+>
 > ```JSON
 > {
 >     "statusCode": 400,
@@ -256,27 +290,30 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 ### POST /threads
 
 #### Header
-| Name         	| Type    	| Default 	| Required 	| Value                            	|
-|--------------	| --------- | ---------	|----------	|---------------------------------	|
-| Authorization | Bearer  	|         	| Yes      	| Auth token from register or login |
 
+| Name          | Type   | Default | Required | Value                             |
+| ------------- | ------ | ------- | -------- | --------------------------------- |
+| Authorization | Bearer |         | Yes      | Auth token from register or login |
 
 #### Body
-| Key         	| Type    	| Default 	| Required 	| Description                     	|
-|--------------	|---------	| ---------	|----------	|---------------------------------	|
-| title        	| String  	|         	| Yes      	| Name of thread                    |
-| description 	| String    |          	| Yes      	| Description of thread             |
-| topic        	| String  	|          	| Yes       | Topic of thread                   |
-| image        	| File    	|          	| No        | Image of thread                   |
-| audio        	| File    	|          	| No        | Audio of thread                   |
+
+| Key         | Type   | Default | Required | Description           |
+| ----------- | ------ | ------- | -------- | --------------------- |
+| title       | String |         | Yes      | Name of thread        |
+| description | String |         | Yes      | Description of thread |
+| topic       | String |         | Yes      | Topic of thread       |
+| image       | File   |         | No       | Image of thread       |
+| audio       | File   |         | No       | Audio of thread       |
 
 #### Response
+
 ##### Successful response
 
-> Successfully created new thread  (201)
+> Successfully created new thread (200)
+>
 > ```JSON
 > {
->   "statusCode": 201,
+>   "statusCode": 200,
 >   "data": [
 >     {
 >       "id": ,
@@ -294,7 +331,9 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > audio_length is provided in seconds
 
 ##### Failed response
+
 > Invalid Token (401)
+>
 > ```JSON
 > {
 >   "statusCode": 401,
@@ -303,6 +342,7 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > ```
 
 > Required field didn't filled properly (400)
+>
 > ```JSON
 > {
 >   "statusCode": 400,
@@ -316,6 +356,7 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > ```
 
 > Topic doesn't exists (400)
+>
 > ```JSON
 > {
 >   "statusCode": 400,
@@ -324,6 +365,7 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > ```
 
 > Incompatible Files (422)
+>
 > ```JSON
 > {
 >   "statusCode": 422,
@@ -332,6 +374,7 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > ```
 
 > Title or Description contains flag word (400)
+<<<<<<< HEAD
 > ```JSON
 >	{
 >	    "statusCode": 400,
@@ -339,6 +382,18 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 >	}
 > ``` 
 \* The message could be : 
+=======
+>
+> ```JSON
+> 	{
+> 	    "statusCode": 400,
+> 	    "message": "Text contains flagged words toxic, obscene, insult"
+> 	}
+> ```
+>
+> \* The message could be :
+
+>>>>>>> c48c20c (add How-to-Install and fix minor changes in documentation)
         labels = ['toxic', 'severe toxic', 'obscene', 'threat', 'insult', 'identity hate']
 
 </details>
@@ -349,28 +404,33 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 ### PATCH /threads/{thread_id}
 
 #### Header
-| Name         	| Type    	| Default 	| Required 	| Value                            	|
-|--------------	| --------- | ---------	|----------	|---------------------------------	|
-| Authorization | Bearer  	|         	| Yes      	| Auth token from register or login |
+
+| Name          | Type   | Default | Required | Value                             |
+| ------------- | ------ | ------- | -------- | --------------------------------- |
+| Authorization | Bearer |         | Yes      | Auth token from register or login |
 
 #### Params
-| Name         	| Type    	| In      	| Default 	| Required 	| Description                     	|
-|--------------	| --------- |---------	| ---------	|----------	|---------------------------------	|
-| thread_id     | Integer  	| Uri     	|         	| Yes      	| The ID of thread                  |
+
+| Name      | Type    | In  | Default | Required | Description      |
+| --------- | ------- | --- | ------- | -------- | ---------------- |
+| thread_id | Integer | Uri |         | Yes      | The ID of thread |
 
 #### Body
-| Key         	| Type    	| Default 	| Required 	| Description                     	|
-|--------------	|---------	| ---------	|----------	|---------------------------------	|
-| title        	| String  	|         	| No      	| Name of thread                    |
-| description 	| String    |          	| No      	| Description of thread             |
-| topic        	| String  	|          	| No        | Topic of thread                   |
-| image        	| File    	|          	| No        | Image of thread                   |
-| audio        	| File    	|          	| No        | Audio of thread                   |
+
+| Key         | Type   | Default | Required | Description           |
+| ----------- | ------ | ------- | -------- | --------------------- |
+| title       | String |         | No       | Name of thread        |
+| description | String |         | No       | Description of thread |
+| topic       | String |         | No       | Topic of thread       |
+| image       | File   |         | No       | Image of thread       |
+| audio       | File   |         | No       | Audio of thread       |
 
 #### Response
+
 ##### Successful response
 
-> Successfully updated the thread  (200)
+> Successfully updated the thread (200)
+>
 > ```JSON
 > {
 >   "statusCode": 201,
@@ -392,6 +452,7 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 ##### Failed response
 
 > Thread doesn't exists (400)
+>
 > ```JSON
 > {
 >     "statusCode": 400,
@@ -400,6 +461,7 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > ```
 
 > Topic doesn't exists (400)
+>
 > ```JSON
 > {
 >   "statusCode": 400,
@@ -408,6 +470,7 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > ```
 
 > Title or Description contains flag word (400)
+<<<<<<< HEAD
 > ```JSON
 >	{
 >	    "statusCode": 400,
@@ -415,6 +478,18 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 >	}
 > ``` 
 \* The message could be : 
+=======
+>
+> ```JSON
+> 	{
+> 	    "statusCode": 400,
+> 	    "message": "Text contains flagged words toxic, obscene, insult"
+> 	}
+> ```
+>
+> \* The message could be :
+
+>>>>>>> c48c20c (add How-to-Install and fix minor changes in documentation)
         labels = ['toxic', 'severe toxic', 'obscene', 'threat', 'insult', 'identity hate']
 
 </details>
@@ -425,17 +500,20 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 ### GET /threads
 
 #### Params
-| Name         	| Type    	| In      	| Default 	| Required 	| Description                     	|
-|--------------	| --------- |---------	| ---------	|----------	|---------------------------------	|
-| page          | string   	| Query   	| 0        	| No      	| The index of page of list thread  |
-| size          | string   	| Query   	| 5        	| No      	| Max thread in one page            |
-| keyword       | string   	| Query   	|         	| No      	| Keyword for search the thread     |
-| topic         | string   	| Query   	|           | No      	| The topic of the thread           |
+
+| Name    | Type   | In    | Default | Required | Description                      |
+| ------- | ------ | ----- | ------- | -------- | -------------------------------- |
+| page    | string | Query | 0       | No       | The index of page of list thread |
+| size    | string | Query | 5       | No       | Max thread in one page           |
+| keyword | string | Query |         | No       | Keyword for search the thread    |
+| topic   | string | Query |         | No       | The topic of the thread          |
 
 #### Response
+
 ##### Successful response
 
-> Successfully get the thread  (200)
+> Successfully get the thread (200)
+>
 > ```JSON
 > {
 >   "statusCode": 200,
@@ -474,14 +552,17 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 ### GET /threads
 
 #### Params
-| Name         	| Type    	| In      	| Default 	| Required 	| Description                     	|
-|--------------	| --------- |---------	| ---------	|----------	|---------------------------------	|
-| thread_id     | string   	| Uri     	|         	| Yes      	| The id of the thread              |
+
+| Name      | Type   | In  | Default | Required | Description          |
+| --------- | ------ | --- | ------- | -------- | -------------------- |
+| thread_id | string | Uri |         | Yes      | The id of the thread |
+
 #### Response
 
 ##### Successful response
 
-> Successfully get the thread  (200)
+> Successfully get the thread (200)
+>
 > ```JSON
 > {
 > "statusCode": 200,
@@ -510,6 +591,7 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 ##### Failed response
 
 > Thread doesn't exists (400)
+>
 > ```JSON
 > {
 >   "statusCode": 400,
@@ -525,21 +607,27 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 ### DELETE /threads/{thread_id}
 
 #### Header
-| Name         	| Type    	| Default 	| Required 	| Value                            	|
-|--------------	| --------- | ---------	|----------	|---------------------------------	|
-| Authorization | Bearer  	|         	| Yes      	| Auth token from register or login |
+
+| Name          | Type   | Default | Required | Value                             |
+| ------------- | ------ | ------- | -------- | --------------------------------- |
+| Authorization | Bearer |         | Yes      | Auth token from register or login |
 
 #### Params
-| Name         	| Type    	| In      	| Default 	| Required 	| Description                     	|
-|--------------	| --------- |---------	| ---------	|----------	|---------------------------------	|
-| thread_id     | Integer  	| Uri     	|         	| Yes      	| The ID of thread                  |
+
+| Name      | Type    | In  | Default | Required | Description      |
+| --------- | ------- | --- | ------- | -------- | ---------------- |
+| thread_id | Integer | Uri |         | Yes      | The ID of thread |
 
 #### Response
+
 ##### Successful response
-> Successfully delete the thread  (204)
+
+> Successfully delete the thread (204)
+
 ##### Failed response
 
-> Id from the token does not match with the creator of thread  (403)
+> Id from the token does not match with the creator of thread (403)
+>
 > ```JSON
 > {
 >   "statusCode": 403,
@@ -548,13 +636,13 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > ```
 
 > Thread doesn't exists (400)
+>
 > ```JSON
 > {
 >     "statusCode": 400,
 >     "message": "Thread doesn't exists"
 > }
 > ```
-
 
 </details>
 
@@ -564,18 +652,23 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 ### POST /threads/{thread_id}/likes
 
 #### Header
-| Name         	| Type    	| Default 	| Required 	| Value                            	|
-|--------------	| --------- | ---------	|----------	|---------------------------------	|
-| Authorization | Bearer  	|         	| Yes      	| Auth token from register or login |
+
+| Name          | Type   | Default | Required | Value                             |
+| ------------- | ------ | ------- | -------- | --------------------------------- |
+| Authorization | Bearer |         | Yes      | Auth token from register or login |
 
 #### Params
-| Name         	| Type    	| In      	| Default 	| Required 	| Description                     	|
-|--------------	| --------- |---------	| ---------	|----------	|---------------------------------	|
-| thread_id     | Integer  	| Uri     	|         	| Yes      	| The ID of thread                  |
+
+| Name      | Type    | In  | Default | Required | Description      |
+| --------- | ------- | --- | ------- | -------- | ---------------- |
+| thread_id | Integer | Uri |         | Yes      | The ID of thread |
 
 #### Response
+
 ##### Successful response
+
 > Successfully like the thread (201)
+
 ```JSON
 {
   "statusCode": 201,
@@ -584,9 +677,11 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
   }
 }
 ```
+
 ##### Failed response
 
 > Thread doesn't exists (400)
+>
 > ```JSON
 > {
 >   "statusCode": 400,
@@ -595,6 +690,7 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > ```
 
 > Already liked the Thread (400)
+>
 > ```JSON
 > {
 >   "statusCode": 400,
@@ -610,21 +706,27 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 ### DELETE /threads/{thread_id}/likes
 
 #### Header
-| Name         	| Type    	| Default 	| Required 	| Value                            	|
-|--------------	| --------- | ---------	|----------	|---------------------------------	|
-| Authorization | Bearer  	|         	| Yes      	| Auth token from register or login |
+
+| Name          | Type   | Default | Required | Value                             |
+| ------------- | ------ | ------- | -------- | --------------------------------- |
+| Authorization | Bearer |         | Yes      | Auth token from register or login |
 
 #### Params
-| Name         	| Type    	| In      	| Default 	| Required 	| Description                     	|
-|--------------	| --------- |---------	| ---------	|----------	|---------------------------------	|
-| thread_id     | Integer  	| Uri     	|         	| Yes      	| The ID of thread                  |
+
+| Name      | Type    | In  | Default | Required | Description      |
+| --------- | ------- | --- | ------- | -------- | ---------------- |
+| thread_id | Integer | Uri |         | Yes      | The ID of thread |
 
 #### Response
+
 ##### Successful response
-> Successfully unlike the thread  (204)
+
+> Successfully unlike the thread (204)
+
 ##### Failed response
 
 > Thread doesn't exists (400)
+>
 > ```JSON
 > {
 >   "statusCode": 400,
@@ -633,6 +735,7 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > ```
 
 > Thread didn't liked yet (400)
+>
 > ```JSON
 > {
 >   "statusCode": 400,
@@ -647,13 +750,22 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 
 ### POST /topics
 
+#### Header
+
+| Name          | Type   | Default | Required | Value                             |
+| ------------- | ------ | ------- | -------- | --------------------------------- |
+| Authorization | Bearer |         | Yes      | Auth token from register or login |
+
 #### Body
-| Key         	| Type    	| Default 	| Required 	| Description                     	|
-|--------------	|---------	| ---------	|----------	|---------------------------------	|
-| name        	| String  	|         	| Yes      	| Name of the topic                  |
+
+| Key  | Type   | Default | Required | Description       |
+| ---- | ------ | ------- | -------- | ----------------- |
+| name | String |         | Yes      | Name of the topic |
 
 #### Successful response
+
 > Topic created successfully (201)
+>
 > ```JSON
 > {
 >   "statusCode": 201,
@@ -665,7 +777,9 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > ```
 
 #### Failed response
+
 > Required field didn't filled properly (400)
+>
 > ```JSON
 > {
 >   "statusCode": 400,
@@ -677,6 +791,7 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > ```
 
 > Topic already exists (400)
+>
 > ```JSON
 > {
 >   "statusCode": 400,
@@ -691,29 +806,42 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 
 ### PATCH /topics/{topic_id}
 
+#### Header
+
+| Name          | Type   | Default | Required | Value                             |
+| ------------- | ------ | ------- | -------- | --------------------------------- |
+| Authorization | Bearer |         | Yes      | Auth token from register or login |
+
 #### Params
-| Name         	| Type    	| In      	| Default 	| Required 	| Description                     	|
-|--------------	| --------- |---------	| ---------	|----------	|---------------------------------	|
-| topic_id      | Integer  	| Uri     	|         	| Yes      	| The ID of topic                   |
+
+| Name     | Type    | In  | Default | Required | Description     |
+| -------- | ------- | --- | ------- | -------- | --------------- |
+| topic_id | Integer | Uri |         | Yes      | The ID of topic |
+
 #### Body
-| Key         	| Type    	| Default 	| Required 	| Description                     	|
-|--------------	|---------	| ---------	|----------	|---------------------------------	|
-| name        	| String  	|         	| No      	| Name of the topic                 |
+
+| Key  | Type   | Default | Required | Description       |
+| ---- | ------ | ------- | -------- | ----------------- |
+| name | String |         | No       | Name of the topic |
 
 #### Successful response
+
 > Topic updated successfully (200)
+>
 > ```JSON
 > {
 >   "statusCode": 200,
 >   "data": {
->     "name": "xxx",
->     "id": 1
+> 	"id": 1,
+>     "name": "xxx"
 >   }
 > }
 > ```
 
 #### Failed response
+
 > Topic doesn't exists (400)
+>
 > ```JSON
 > {
 >   "statusCode": 400,
@@ -723,22 +851,34 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 
 </details>
 
-
 <details>
 <summary>GET /topics</summary>
 
 ### GET /topics
 
+#### Header
+
+| Name          | Type   | Default | Required | Value                             |
+| ------------- | ------ | ------- | -------- | --------------------------------- |
+| Authorization | Bearer |         | Yes      | Auth token from register or login |
+
 #### Successful response
+
 > Successfully get topic data (200)
+>
 > ```JSON
 > {
 >   "statusCode": 200,
 >   "data": [
 >      {
+>       "id": 1,
 >        "name": "xxx",
->        "id": 1
->      }
+>      },
+>      {
+>       "id": 2,
+>        "name": "xxx",
+>      },
+>      ...
 >   ]
 > }
 > ```
@@ -748,19 +888,28 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 <details>
 <summary>DELETE /topics/{topic_id}</summary>
 
-### DELETE /topics
+### DELETE /topics/{topic_id}
+
+#### Header
+
+| Name          | Type   | Default | Required | Value                             |
+| ------------- | ------ | ------- | -------- | --------------------------------- |
+| Authorization | Bearer |         | Yes      | Auth token from register or login |
 
 #### Params
-| Name         	| Type    	| In      	| Default 	| Required 	| Description                     	|
-|--------------	| --------- |---------	| ---------	|----------	|---------------------------------	|
-| topic_id      | Integer  	| Uri     	|         	| Yes      	| The ID of topic                   |
+
+| Name     | Type    | In  | Default | Required | Description     |
+| -------- | ------- | --- | ------- | -------- | --------------- |
+| topic_id | Integer | Uri |         | Yes      | The ID of topic |
 
 #### Successful response
+
 > Topic updated successfully (204)
 
 #### Failed response
 
 > Topic doesn't exists (400)
+>
 > ```JSON
 > {
 >   "statusCode": 400,
@@ -776,10 +925,10 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 ### POST /threads/:thread_id/comments
 
 #### Header
-| Name         	| Type    	| Default 	| Required 	| Value                            	|
-|--------------	| --------- | ---------	|----------	|---------------------------------	|
-| Authorization | Bearer  	|         	| Yes      	| Auth token from register or login |
 
+| Name          | Type   | Default | Required | Value                             |
+| ------------- | ------ | ------- | -------- | --------------------------------- |
+| Authorization | Bearer |         | Yes      | Auth token from register or login |
 
 #### Params
 
@@ -790,7 +939,9 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 | audio     | File    |         |          | Audio of the comment     |
 
 #### Successful response
-> Successfully created new thread  (201)
+
+> Successfully created new thread (201)
+>
 > ```JSON
 > {
 > 	  "statusCode": 201,
@@ -808,7 +959,9 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > ```
 
 ##### Failed response
+
 > Invalid Token (401)
+>
 > ```JSON
 > {
 >   "statusCode": 401,
@@ -817,6 +970,7 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > ```
 
 > Required field didn't filled properly (400)
+>
 > ```JSON
 > {
 >   "statusCode": 400,
@@ -828,6 +982,7 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > ```
 
 > Incompatible Files (422)
+>
 > ```JSON
 > {
 >   "statusCode": 422,
@@ -836,6 +991,10 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > ```
 
 > Thread doesn't exist(400)
+<<<<<<< HEAD
+=======
+>
+>>>>>>> c48c20c (add How-to-Install and fix minor changes in documentation)
 > ```JSON
 > {
 >   "statusCode": 400,
@@ -844,6 +1003,10 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > ```
 
 > Use doesn't exist(400)
+<<<<<<< HEAD
+=======
+>
+>>>>>>> c48c20c (add How-to-Install and fix minor changes in documentation)
 > ```JSON
 > {
 >   "statusCode": 400,
@@ -852,6 +1015,7 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > ```
 
 > Text contains flag word (400)
+<<<<<<< HEAD
 > ```JSON
 >	{
 >	    "statusCode": 400,
@@ -859,6 +1023,18 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 >	}
 > ``` 
 \* The message could be : 
+=======
+>
+> ```JSON
+> 	{
+> 	    "statusCode": 400,
+> 	    "message": "Text contains flagged words toxic, obscene, insult"
+> 	}
+> ```
+>
+> \* The message could be :
+
+>>>>>>> c48c20c (add How-to-Install and fix minor changes in documentation)
         labels = ['toxic', 'severe toxic', 'obscene', 'threat', 'insult', 'identity hate']
 
 </details>
@@ -874,16 +1050,17 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 | ------------- | ------ | ------- | -------- | --------------------------------- |
 | Authorization | Bearer |         | Yes      | Auth token from register or login |
 
-
 #### Params
 
 | Name      | Type    | Default | Required | Description               |
 | --------- | ------- | ------- | -------- | ------------------------- |
-| thread_id  | Integer |         | Yes      | Thread ID of the comment  |
+| thread_id | Integer |         | Yes      | Thread ID of the comment  |
 | commentId | String  |         | Yes      | Comment ID of the comment |
 
 #### Successful response
-> Successfully created new thread  (200)
+
+> Successfully created new thread (200)
+>
 > ```JSON
 > {
 >   "statusCode": 200,
@@ -901,7 +1078,9 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > ```
 
 ##### Failed response
+
 > Invalid Token (401)
+>
 > ```JSON
 > {
 >   "statusCode": 401,
@@ -910,68 +1089,89 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > ```
 
 #### Comment didn't exist
+
 > Bad Request (400)
+>
 > ```JSON
-	{
-		"statusCode": 400,
-		"message": "Comment doesn't exists"
-	}
+>
+> ```
+
+    {
+    	"statusCode": 400,
+    	"message": "Comment doesn't exists"
+    }
+
+> ```
+>
 > ```
 
 </details>
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> c48c20c (add How-to-Install and fix minor changes in documentation)
 <details>
 <summary>GET /threads/{thread_id}/comments</summary>
 
 ### GET /threads/:thread_id/comments
+<<<<<<< HEAD
 ### Get list of comments within threads
 
 #### Param 
+=======
+
+#### Get list of comments within threads
+
+#### Param
+>>>>>>> c48c20c (add How-to-Install and fix minor changes in documentation)
 
 | Name      | Type    | In    | Default | Required | Description                      |
 | --------- | ------- | ----- | ------- | -------- | -------------------------------- |
 | page      | string  | Query | 0       | No       | The index of page of list thread |
 | size      | string  | Query | 5       | No       | Max thread in one page           |
-| thread_id | Integer | Url   |         | Yes      | The Id of the thead                  |
+| thread_id | Integer | Url   |         | Yes      | The Id of the thead              |
 
 #### Response
+
 ##### Successful response
->```JSON
->{
->	"statusCode": 200,
->	"data": [
->		{
->			"id": xx,
->			"text": "xxx",
->			"audio": "xxx",
->			"audio_length": xxx,
->			"created_at": "xxx",
->			"updated_at": "xxx",
->			"username": "xxx",
->		},
->		{
->			"id": xx,
->			"text": "xxx",
->			"audio": "xxx",
->			"audio_length": xxx,
->			"created_at": "xxx",
->			"updated_at": "xxx",
->			"username": "xxx",
->		},
->		{
->			"id": xx,
->			"text": "xxx",
->			"audio": "xxx",
->			"audio_length": xxx,
->			"created_at": "xxx",
->			"updated_at": "xxx",
->			"username": "xxx",
->		},
->		{ ... }
->	]
->}
+
+> ```JSON
+> {
+> 	"statusCode": 200,
+> 	"data": [
+> 		{
+> 			"id": xx,
+> 			"text": "xxx",
+> 			"audio": "xxx",
+> 			"audio_length": xxx,
+> 			"created_at": "xxx",
+> 			"updated_at": "xxx",
+> 			"username": "xxx",
+> 		},
+> 		{
+> 			"id": xx,
+> 			"text": "xxx",
+> 			"audio": "xxx",
+> 			"audio_length": xxx,
+> 			"created_at": "xxx",
+> 			"updated_at": "xxx",
+> 			"username": "xxx",
+> 		},
+> 		{
+> 			"id": xx,
+> 			"text": "xxx",
+> 			"audio": "xxx",
+> 			"audio_length": xxx,
+> 			"created_at": "xxx",
+> 			"updated_at": "xxx",
+> 			"username": "xxx",
+> 		},
+> 		{ ... }
+> 	]
+> }
 >
+<<<<<<< HEAD
 >```
 \*The data of thread's comment could be empty, but still returns `statusCode: 200`
 
@@ -986,6 +1186,22 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 >```
 
 
+=======
+> ```
+>
+> \*The data of thread's comment could be empty, but still returns `statusCode: 200`
+
+##### Failed response
+
+> Thread doesn't exists(400)
+>
+> ```JSON
+> {
+> 	"statusCode": 400,
+> 	"message": "Thread doesn't exists"
+> }
+> ```
+>>>>>>> c48c20c (add How-to-Install and fix minor changes in documentation)
 
 </details>
 
@@ -993,55 +1209,65 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 <summary>GET /users/{user_id}/comments</summary>
 
 ### GET /threads/:user_id/comments
-### Get list of comments that the user has
 
-#### Param 
+#### Get list of comments that the user has
+
+#### Param
 
 | Name   | Type    | In    | Default | Required | Description                      |
 | ------ | ------- | ----- | ------- | -------- | -------------------------------- |
 | page   | string  | Query | 0       | No       | The index of page of list thread |
 | size   | string  | Query | 5       | No       | Max thread in one page           |
-| userId | Integer | Url   |         | Yes      | The Id of the user               | 
+| userId | Integer | Url   |         | Yes      | The Id of the user               |
 
 #### Response
+
 ##### Successful response
->```JSON
->{
->	"statusCode": 200,
->	"data": [
->		{
->			"id": xx,
->			"text": "xxx",
->			"audio": "xxx",
->			"audio_length": xxx,
->			"created_at": "xxx",
->			"updated_at": "xxx",
->			"thread_id": xx,
->		},
->		{
->			"id": xx,
->			"text": "xxx",
->			"audio": "xxx",
->			"audio_length": xxx,
->			"created_at": "xxx",
->			"updated_at": "xxx",
->			"thread_id": xx,
->		},
->		{
->			"id": xx,
->			"text": "xxx",
->			"audio": "xxx",
->			"audio_length": xxx,
->			"created_at": "xxx",
->			"updated_at": "xxx",
->			"thread_id": xx,
->		},
->		{ ... }
->	]
->}
+
+> ```JSON
+> {
+> 	"statusCode": 200,
+> 	"data": [
+> 		{
+> 			"id": xx,
+> 			"text": "xxx",
+> 			"audio": "xxx",
+> 			"audio_length": xxx,
+> 			"created_at": "xxx",
+> 			"updated_at": "xxx",
+> 			"thread_id": xx,
+> 		},
+> 		{
+> 			"id": xx,
+> 			"text": "xxx",
+> 			"audio": "xxx",
+> 			"audio_length": xxx,
+> 			"created_at": "xxx",
+> 			"updated_at": "xxx",
+> 			"thread_id": xx,
+> 		},
+> 		{
+> 			"id": xx,
+> 			"text": "xxx",
+> 			"audio": "xxx",
+> 			"audio_length": xxx,
+> 			"created_at": "xxx",
+> 			"updated_at": "xxx",
+> 			"thread_id": xx,
+> 		},
+> 		{ ... }
+> 	]
+> }
 >
+<<<<<<< HEAD
 >```
 \*The data of user's comment could be empty, but still returns `statusCode: 200`
+=======
+> ```
+>
+> \*The data of user's comment could be empty, but still returns `statusCode: 200`
+
+>>>>>>> c48c20c (add How-to-Install and fix minor changes in documentation)
 </details>
 
 <details>
@@ -1051,9 +1277,9 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 
 #### Header
 
-| Name         	| Type    	| Default 	| Required 	| Value                            	|
-|--------------	| --------- | ---------	|----------	|---------------------------------	|
-| Authorization | Bearer  	|         	| Yes      	| Auth token from register or login |
+| Name          | Type   | Default | Required | Value                             |
+| ------------- | ------ | ------- | -------- | --------------------------------- |
+| Authorization | Bearer |         | Yes      | Auth token from register or login |
 
 #### Params
 
@@ -1064,15 +1290,21 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 
 #### Body
 
-| Key         | Type   | Default | Required | Description           |
-| ----------- | ------ | ------- | -------- | --------------------- |
-| text        | String |         | No       | Text of the comment   | 
-| audio       | File   |         | No       | Audio of thread       |
+| Key   | Type   | Default | Required | Description         |
+| ----- | ------ | ------- | -------- | ------------------- |
+| text  | String |         | No       | Text of the comment |
+| audio | File   |         | No       | Audio of thread     |
 
 #### Response
+
 ##### Successful response
 
+<<<<<<< HEAD
 > Successfully updated the comment  (200)
+=======
+> Successfully updated the comment (200)
+>
+>>>>>>> c48c20c (add How-to-Install and fix minor changes in documentation)
 > ```JSON
 > {
 >   "statusCode": 201,
@@ -1091,6 +1323,10 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 ##### Failed response
 
 > Comment doesn't exists (400)
+<<<<<<< HEAD
+=======
+>
+>>>>>>> c48c20c (add How-to-Install and fix minor changes in documentation)
 > ```JSON
 > {
 >     "statusCode": 400,
@@ -1099,6 +1335,10 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > ```
 
 > Thread doesn't exists (400)
+<<<<<<< HEAD
+=======
+>
+>>>>>>> c48c20c (add How-to-Install and fix minor changes in documentation)
 > ```JSON
 > {
 >   "statusCode": 400,
@@ -1107,6 +1347,7 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > ```
 
 > Text contains flag word (400)
+<<<<<<< HEAD
 > ```JSON
 >	{
 >	    "statusCode": 400,
@@ -1115,6 +1356,19 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > ``` 
 \* The message could be : 
 	labels = ['toxic', 'severe toxic', 'obscene', 'threat', 'insult', 'identity hate']
+=======
+>
+> ```JSON
+> 	{
+> 	    "statusCode": 400,
+> 	    "message": "Text contains flagged words toxic, obscene, insult"
+> 	}
+> ```
+>
+> \* The message could be :
+
+    labels = ['toxic', 'severe toxic', 'obscene', 'threat', 'insult', 'identity hate']
+>>>>>>> c48c20c (add How-to-Install and fix minor changes in documentation)
 
 </details>
 
@@ -1125,23 +1379,31 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 
 #### Header
 
-| Name         	| Type    	| Default 	| Required 	| Value                            	|
-|--------------	| --------- | ---------	|----------	|---------------------------------	|
-| Authorization | Bearer  	|         	| Yes      	| Auth token from register or login |
+| Name          | Type   | Default | Required | Value                             |
+| ------------- | ------ | ------- | -------- | --------------------------------- |
+| Authorization | Bearer |         | Yes      | Auth token from register or login |
 
 #### Params
 
 | Name       | Type    | Default | Required | Description       |
 | ---------- | ------- | ------- | -------- | ----------------- |
 | thread_id  | Integer |         | Yes      | The ID of thread  |
+<<<<<<< HEAD
 | comment_id | Integer |         | Yes      | The ID of comment | 
+=======
+| comment_id | Integer |         | Yes      | The ID of comment |
+>>>>>>> c48c20c (add How-to-Install and fix minor changes in documentation)
 
 #### Response
+
 ##### Successful response
-> Successfully delete the thread  (204)
+
+> Successfully delete the thread (204)
+
 ##### Failed response
 
-> Id from the token does not match with the creator of thread  (403)
+> Id from the token does not match with the creator of thread (403)
+>
 > ```JSON
 > {
 >   "statusCode": 403,
@@ -1150,13 +1412,16 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > ```
 
 > Comment doesn't exists (400)
+<<<<<<< HEAD
+=======
+>
+>>>>>>> c48c20c (add How-to-Install and fix minor changes in documentation)
 > ```JSON
 > {
 >     "statusCode": 400,
 >     "message": "Comment doesn't exists"
 > }
 > ```
-
 
 </details>
 
@@ -1167,32 +1432,41 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 
 #### Header
 
-| Name         	| Type    	| Default 	| Required 	| Value                            	|
-|--------------	| --------- | ---------	|----------	|---------------------------------	|
-| Authorization | Bearer  	|         	| Yes      	| Auth token from register or login |
+| Name          | Type   | Default | Required | Value                             |
+| ------------- | ------ | ------- | -------- | --------------------------------- |
+| Authorization | Bearer |         | Yes      | Auth token from register or login |
 
 #### Params
 
 | Name       | Type    | Default | Required | Description           |
 | ---------- | ------- | ------- | -------- | --------------------- |
 | thread_id  | Integer |         | Yes      | The ID of thread      |
+<<<<<<< HEAD
 | comment_id | Integer |         | Yes      | The Id of the comment | 
+=======
+| comment_id | Integer |         | Yes      | The Id of the comment |
+>>>>>>> c48c20c (add How-to-Install and fix minor changes in documentation)
 
 #### Response
+
 ##### Successful response
+
 > Successfully like the thread (201)
+
 ```JSON
 {
   "statusCode": 201,
   "data": {
     "thread_id": 1,
-    "comment_id": 
+    "comment_id":
   }
 }
 ```
+
 ##### Failed response
 
 > Comment doesn't exists (400)
+>
 > ```JSON
 > {
 >   "statusCode": 400,
@@ -1201,6 +1475,7 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > ```
 
 > Already liked the Comment (400)
+>
 > ```JSON
 > {
 >   "statusCode": 400,
@@ -1217,23 +1492,27 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 
 #### Header
 
-| Name         	| Type    	| Default 	| Required 	| Value                            	|
-|--------------	| --------- | ---------	|----------	|---------------------------------	|
-| Authorization | Bearer  	|         	| Yes      	| Auth token from register or login |
+| Name          | Type   | Default | Required | Value                             |
+| ------------- | ------ | ------- | -------- | --------------------------------- |
+| Authorization | Bearer |         | Yes      | Auth token from register or login |
 
 #### Params
 
 | Name       | Type    | In  | Default | Required | Description           |
 | ---------- | ------- | --- | ------- | -------- | --------------------- |
 | thread_id  | Integer | Uri |         | Yes      | The ID of thread      |
-| comment_id | Integer | Uri |         | Yes      | The ID of the comment | 
+| comment_id | Integer | Uri |         | Yes      | The ID of the comment |
 
 #### Response
+
 ##### Successful response
-> Successfully unlike the thread  (204)
+
+> Successfully unlike the thread (204)
+
 ##### Failed response
 
 > Comment doesn't exists (400)
+>
 > ```JSON
 > {
 >   "statusCode": 400,
@@ -1242,6 +1521,7 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > ```
 
 > Comment didn't liked yet (400)
+>
 > ```JSON
 > {
 >   "statusCode": 400,
@@ -1251,8 +1531,65 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 
 </details>
 
-
-
 ## Infrastructure Documentation
 
 ![Speak Sure Cloud Architecture](img/Cloud_Architecture.png)
+
+## Installation
+
+Ensure `npm` is installed on your system globally.
+
+```
+git clone https://github.com/C23-PS376/backend.git
+cd backend
+npm install
+```
+
+## Important notice
+
+- ### Environment variables
+
+  For this, you need to rename the file `env` to `.env` and change value of the given variables based on your services.
+
+  ##### Reference:
+
+  1.  `DB_HOST`: Specify the hostname or IP address of your database server.
+  2.  `DB_PORT`: Provide the port number on which your database server is running.
+  3.  `DB_USERNAME`: Specify the username to access your database.
+  4.  `DB_PASSWORD`: Provide the password associated with the specified username.
+  5.  `DB_NAME`: Specify the name of the database you want to connect to.
+  6.  `JWT_SECRET`: Provide a secret key used for JSON Web Token (JWT) generation and verification.
+  7.  `JWT_EXP`: Specify the expiration time (in seconds) for the JWT tokens.
+
+  Additionally, there are other variables that require specific values or configuration: 8. `PROJECT_ID`: Specify the ID of your Google Cloud project. This is typically found in your project settings or dashboard. 9. `PRIVATE_KEY`: Replace `<KEY>` with the actual private key associated with the Google Cloud service account. Make sure to preserve the `\n` line breaks in the key. 10. `CLIENT_EMAIL`: Replace `<CLOUD_CLIENT_EMAIL>` with the email address of the Google Cloud service account associated with your project. 11. `STORAGE_MEDIA_BUCKET`: Specify the name of the storage bucket where media files will be stored. 12. `ML_API_URL`: Provide the URL or endpoint for your machine learning API.
+
+- ### Machine Learning API
+  Before you run this service, please ensure that the Machine Learning API for this project is running and the variable `ML_API_URL` is set.
+
+## How to run
+
+In your terminal, your current directory have to be the `backend` directory
+
+- `npm run start:dev`
+  The default runtime environment in NestJS with auto-reload for code changes, detailed logging, and additional development-friendly features
+- `npm run start:prod`
+  Optimized runtime environment in NestJS for running applications in production, with minimal logging, no auto-reload, and performance-focused configurations
+- `npm run start:debug`
+  A runtime environment in NestJS with enhanced error messages, auto-reload for code changes, and debugging tools for easier troubleshooting
+
+## Known Issues
+
+- If you're on Linux and encountered :
+
+```
+> speak-sure-backend@0.0.1 start:dev
+> nest start --watch
+
+ Error  EACCES: permission denied, rmdir '.../backend/dist/config'
+```
+
+You need to run the command with `root` permission
+
+## References
+
+- NestJS Documentation https://docs.nestjs.com/
