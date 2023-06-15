@@ -374,15 +374,6 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > ```
 
 > Title or Description contains flag word (400)
-<<<<<<< HEAD
-> ```JSON
->	{
->	    "statusCode": 400,
->	    "message": "Text contains flagged words toxic, obscene, insult"
->	}
-> ``` 
-\* The message could be : 
-=======
 >
 > ```JSON
 > 	{
@@ -393,7 +384,6 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 >
 > \* The message could be :
 
->>>>>>> c48c20c (add How-to-Install and fix minor changes in documentation)
         labels = ['toxic', 'severe toxic', 'obscene', 'threat', 'insult', 'identity hate']
 
 </details>
@@ -470,15 +460,6 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > ```
 
 > Title or Description contains flag word (400)
-<<<<<<< HEAD
-> ```JSON
->	{
->	    "statusCode": 400,
->	    "message": "Text contains flagged words toxic, obscene, insult"
->	}
-> ``` 
-\* The message could be : 
-=======
 >
 > ```JSON
 > 	{
@@ -489,7 +470,6 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 >
 > \* The message could be :
 
->>>>>>> c48c20c (add How-to-Install and fix minor changes in documentation)
         labels = ['toxic', 'severe toxic', 'obscene', 'threat', 'insult', 'identity hate']
 
 </details>
@@ -991,10 +971,7 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > ```
 
 > Thread doesn't exist(400)
-<<<<<<< HEAD
-=======
 >
->>>>>>> c48c20c (add How-to-Install and fix minor changes in documentation)
 > ```JSON
 > {
 >   "statusCode": 400,
@@ -1003,10 +980,7 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > ```
 
 > Use doesn't exist(400)
-<<<<<<< HEAD
-=======
 >
->>>>>>> c48c20c (add How-to-Install and fix minor changes in documentation)
 > ```JSON
 > {
 >   "statusCode": 400,
@@ -1015,15 +989,6 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > ```
 
 > Text contains flag word (400)
-<<<<<<< HEAD
-> ```JSON
->	{
->	    "statusCode": 400,
->	    "message": "Text contains flagged words toxic, obscene, insult"
->	}
-> ``` 
-\* The message could be : 
-=======
 >
 > ```JSON
 > 	{
@@ -1034,7 +999,6 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 >
 > \* The message could be :
 
->>>>>>> c48c20c (add How-to-Install and fix minor changes in documentation)
         labels = ['toxic', 'severe toxic', 'obscene', 'threat', 'insult', 'identity hate']
 
 </details>
@@ -1107,24 +1071,14 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 
 </details>
 
-<<<<<<< HEAD
-
-=======
->>>>>>> c48c20c (add How-to-Install and fix minor changes in documentation)
 <details>
 <summary>GET /threads/{thread_id}/comments</summary>
 
 ### GET /threads/:thread_id/comments
-<<<<<<< HEAD
-### Get list of comments within threads
-
-#### Param 
-=======
 
 #### Get list of comments within threads
 
 #### Param
->>>>>>> c48c20c (add How-to-Install and fix minor changes in documentation)
 
 | Name      | Type    | In    | Default | Required | Description                      |
 | --------- | ------- | ----- | ------- | -------- | -------------------------------- |
@@ -1171,22 +1125,6 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > 	]
 > }
 >
-<<<<<<< HEAD
->```
-\*The data of thread's comment could be empty, but still returns `statusCode: 200`
-
-
-##### Failed response
->Thread doesn't exists(400) 
->```JSON
->{
->	"statusCode": 400,
->	"message": "Thread doesn't exists"
->}
->```
-
-
-=======
 > ```
 >
 > \*The data of thread's comment could be empty, but still returns `statusCode: 200`
@@ -1201,7 +1139,6 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > 	"message": "Thread doesn't exists"
 > }
 > ```
->>>>>>> c48c20c (add How-to-Install and fix minor changes in documentation)
 
 </details>
 
@@ -1259,15 +1196,10 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > 	]
 > }
 >
-<<<<<<< HEAD
->```
-\*The data of user's comment could be empty, but still returns `statusCode: 200`
-=======
 > ```
 >
 > \*The data of user's comment could be empty, but still returns `statusCode: 200`
 
->>>>>>> c48c20c (add How-to-Install and fix minor changes in documentation)
 </details>
 
 <details>
@@ -1299,12 +1231,8 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 
 ##### Successful response
 
-<<<<<<< HEAD
-> Successfully updated the comment  (200)
-=======
 > Successfully updated the comment (200)
 >
->>>>>>> c48c20c (add How-to-Install and fix minor changes in documentation)
 > ```JSON
 > {
 >   "statusCode": 201,
@@ -1323,10 +1251,7 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 ##### Failed response
 
 > Comment doesn't exists (400)
-<<<<<<< HEAD
-=======
 >
->>>>>>> c48c20c (add How-to-Install and fix minor changes in documentation)
 > ```JSON
 > {
 >     "statusCode": 400,
@@ -1335,10 +1260,7 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > ```
 
 > Thread doesn't exists (400)
-<<<<<<< HEAD
-=======
 >
->>>>>>> c48c20c (add How-to-Install and fix minor changes in documentation)
 > ```JSON
 > {
 >   "statusCode": 400,
@@ -1347,16 +1269,6 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > ```
 
 > Text contains flag word (400)
-<<<<<<< HEAD
-> ```JSON
->	{
->	    "statusCode": 400,
->	    "message": "Text contains flagged words toxic, obscene, insult"
->	}
-> ``` 
-\* The message could be : 
-	labels = ['toxic', 'severe toxic', 'obscene', 'threat', 'insult', 'identity hate']
-=======
 >
 > ```JSON
 > 	{
@@ -1368,7 +1280,6 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > \* The message could be :
 
     labels = ['toxic', 'severe toxic', 'obscene', 'threat', 'insult', 'identity hate']
->>>>>>> c48c20c (add How-to-Install and fix minor changes in documentation)
 
 </details>
 
@@ -1388,11 +1299,7 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 | Name       | Type    | Default | Required | Description       |
 | ---------- | ------- | ------- | -------- | ----------------- |
 | thread_id  | Integer |         | Yes      | The ID of thread  |
-<<<<<<< HEAD
-| comment_id | Integer |         | Yes      | The ID of comment | 
-=======
 | comment_id | Integer |         | Yes      | The ID of comment |
->>>>>>> c48c20c (add How-to-Install and fix minor changes in documentation)
 
 #### Response
 
@@ -1412,10 +1319,7 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 > ```
 
 > Comment doesn't exists (400)
-<<<<<<< HEAD
-=======
 >
->>>>>>> c48c20c (add How-to-Install and fix minor changes in documentation)
 > ```JSON
 > {
 >     "statusCode": 400,
@@ -1441,11 +1345,7 @@ url : https://speak-sure-dzjerbarfq-uc.a.run.app
 | Name       | Type    | Default | Required | Description           |
 | ---------- | ------- | ------- | -------- | --------------------- |
 | thread_id  | Integer |         | Yes      | The ID of thread      |
-<<<<<<< HEAD
-| comment_id | Integer |         | Yes      | The Id of the comment | 
-=======
 | comment_id | Integer |         | Yes      | The Id of the comment |
->>>>>>> c48c20c (add How-to-Install and fix minor changes in documentation)
 
 #### Response
 
