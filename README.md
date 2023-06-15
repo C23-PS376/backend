@@ -1453,21 +1453,21 @@ npm install
 
   ##### Reference:
 
-  1.  `DB_HOST`: Specify the hostname or IP address of your database server.
-  2.  `DB_PORT`: Provide the port number on which your database server is running.
-  3.  `DB_USERNAME`: Specify the username to access your database.
-  4.  `DB_PASSWORD`: Provide the password associated with the specified username.
-  5.  `DB_NAME`: Specify the name of the database you want to connect to.
-  6.  `JWT_SECRET`: Provide a secret key used for JSON Web Token (JWT) generation and verification.
-  7.  `JWT_EXP`: Specify the expiration time (in seconds) for the JWT tokens.
+  - `DB_HOST`: Specify the hostname or IP address of your database server.
+  - `DB_PORT`: Provide the port number on which your database server is running.
+  - `DB_USERNAME`: Specify the username to access your database.
+  - `DB_PASSWORD`: Provide the password associated with the specified username.
+  - `DB_NAME`: Specify the name of the database you want to connect to.
+  - `JWT_SECRET`: Provide a secret key used for JSON Web Token (JWT) generation and verification.
+  - `JWT_EXP`: Specify the expiration time (in seconds) for the JWT tokens.
 
   Additionally, there are other variables that require specific values or configuration:
 
-  8.  `PROJECT_ID`: Specify the ID of your Google Cloud project. This is typically found in your project settings or dashboard.
-  9.  `PRIVATE_KEY`: Replace `<KEY>` with the actual private key associated with the Google Cloud service account. Make sure to preserve the `\n` line breaks in the key.
-  10. `CLIENT_EMAIL`: Replace `<CLOUD_CLIENT_EMAIL>` with the email address of the Google Cloud service account associated with your project.
-  11. `STORAGE_MEDIA_BUCKET`: Specify the name of the storage bucket where media files will be stored.
-  12. `ML_API_URL`: Provide the URL or endpoint for your machine learning API.
+  - `PROJECT_ID`: Specify the ID of your Google Cloud project. This is typically found in your project settings or dashboard.
+  - `PRIVATE_KEY`: Replace `<KEY>` with the actual private key associated with the Google Cloud service account. Make sure to preserve the `\n` line breaks in the key.
+  - `CLIENT_EMAIL`: Replace `<CLOUD_CLIENT_EMAIL>` with the email address of the Google Cloud service account associated with your project.
+  - `STORAGE_MEDIA_BUCKET`: Specify the name of the storage bucket where media files will be stored.
+  - `ML_API_URL`: Provide the URL or endpoint for your machine learning API.
 
 - ### Machine Learning API
   Before you run this service, please ensure that the Machine Learning API for this project is running and the variable `ML_API_URL` is set.
