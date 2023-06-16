@@ -64,6 +64,7 @@ export class ThreadService {
 
   async findAll(page: string, size: string, keyword: string, topic: number) {
     const query = []
+    if (topic && (Number.isNaN(+topic) || !await this.topicService.findOne(+topic))) throw new HttpException("Topic doesn't exists", 400)
     if (keyword) query.push({title: ILike(`%${keyword}%`)}, {description: ILike(`%${keyword}%`)})
     if (topic && keyword) query.forEach((it: any) => it.topic = {id: topic} )
     if (topic && !keyword) query.push({ topic: {id: topic} })

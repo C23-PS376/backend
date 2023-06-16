@@ -69,6 +69,8 @@ let ThreadService = class ThreadService {
     }
     async findAll(page, size, keyword, topic) {
         const query = [];
+        if (topic && (Number.isNaN(+topic) || !await this.topicService.findOne(+topic)))
+            throw new common_1.HttpException("Topic doesn't exists", 400);
         if (keyword)
             query.push({ title: (0, typeorm_1.ILike)(`%${keyword}%`) }, { description: (0, typeorm_1.ILike)(`%${keyword}%`) });
         if (topic && keyword)
