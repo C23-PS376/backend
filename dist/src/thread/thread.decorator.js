@@ -4,9 +4,10 @@ exports.fileFilter = void 0;
 const common_1 = require("@nestjs/common");
 const fileFilter = (req, file, callback) => {
     const fileExtension = file.mimetype.split('/')[1];
+    console.log('testing::', fileExtension);
     const validFiles = [];
     const imageValidFiles = ['jpg', 'jpeg', 'png'];
-    const audioValidFiles = ['mp3', 'wav', 'mpeg', 'ogg'];
+    const audioValidFiles = ['mp3', 'wav', 'mpeg', 'ogg', 'mp4'];
     switch (file.fieldname) {
         case 'image':
             validFiles.push(...imageValidFiles);

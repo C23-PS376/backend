@@ -6,9 +6,10 @@ export const fileFilter = (
   callback,
 ) => {
   const fileExtension = file.mimetype.split('/')[1]
+  console.log('testing::', fileExtension)
   const validFiles = []
   const imageValidFiles = ['jpg', 'jpeg', 'png']
-  const audioValidFiles = ['mp3', 'wav', 'mpeg', 'ogg']
+  const audioValidFiles = ['mp3', 'wav', 'mpeg', 'ogg', 'mp4']
 
   switch (file.fieldname) {
     case 'image':
